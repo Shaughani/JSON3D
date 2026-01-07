@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D Radial JSON Viewer</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #111; font-family: sans-serif; }
+        canvas { display: block; }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            pointer-events: none;
+            max-width: 300px;
+        }
+        .legend-item { display: flex; align-items: center; margin-bottom: 4px; font-size: 12px;}
+        .dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+        #nav-buttons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 40px);
+            grid-template-rows: repeat(3, 40px);
+            gap: 5px;
+        }
+        .nav-btn {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .nav-btn:active { background: rgba(255,255,255,0.2); }
+        .nav-btn.empty { visibility: hidden; }
+    </style>
+</head>
+<body>
+
+<div id="info">
+    <h3>3D JSON Viewer</h3>
+    <div class="legend-item"><div class="dot" style="background:#9b59b6"></div>Object</div>
+    <div class="legend-item"><div class="dot" style="background:#e74c3c"></div>Array (Stacks Y)</div>
+    <div class="legend-item"><div class="dot" style="background:#2ecc71"></div>String</div>
+    <div class="legend-item"><div class="dot" style="background:#3498db"></div>Number</div>
+    <div class="legend-item"><div class="dot" style="background:#e67e22"></div>Boolean</div>
+    <p style="font-size: 0.8em; opacity: 0.8;">Drag to Rotate Camera • Pinch/Scroll to Zoom</p>
+</div>
+
+<div id="nav-buttons">
+    <div class="nav-btn empty"></div>
+    <div class="nav-btn" id="btn-up">↑</div>
+    <div class="nav-btn empty"></div>
+    <div class="nav-btn" id="btn-left">←</div>
+    <div class="nav-btn empty"></div>
+    <div class="nav-btn" id="btn-right">→</div>
+    <div class="nav-btn empty"></div>
+    <div class="nav-btn" id="btn-down">↓</div>
+    <div class="nav-btn empty"></div>
+</div>
+
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // --- 1. CONFIGURATION ---
+    const CONFIG = {
+        radiusStep: 20,       // Distance between generations
+        nodeSize: 3,          // Size of the spheres
+        stackHeight: 6,       // Vertical gap for array items
+        fontSize: 48,         // Canvas font size for resolution
+        colors: {
+            root: 0xffffff,
+            string: 0x2ecc71,
+            number: 0x3498db,
+            boolean: 0xe67e22,
+            object: 0x9b59b6,
+            array: 0xe74c3c,
+            null: 0x7f8c8d
+        }
+    };
+
+    // --- 2. MOCK DATA ---
+    const mockData = {
+        "project": "3D_Viewer",
+        "version": 1.0,
+        "isActive": true,
+        "settings": {
+            "theme": "dark",
+            "logging": {
+                "level": "verbose",
+                "remote": false
+            }
+        },
+        "users": [
+            { "id": 1, "name": "Alice", "roles": ["admin", "editor"] },
+            { "id": 2, "name": "Bob", "active": false },
+            { "id": 3, "name": "Charlie", "meta": { "login_count": 42 } }
+        ],
+        "matrix": [
+            [
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1]
+                ],
+                [
+                    [0, 0, 1],
+                    [1, 0, 0],
+                    [0, 1, 0]
+                ],
+                [
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [1, 0, 0]
+                ]
+            ],
+            [
+                [
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [1, 0, 0]
+                ],
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1]
+                ],
+                [
+                    [0, 0, 1],
+                    [1, 0, 0],
+                    [0, 1, 0]
+                ]
+            ]
+        ],
+        "tags": ["visualization", "threejs", "json", "webgl"]
+    };
+
+    // --- 3. SCENE SETUP ---
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x111111);
+    // Add some fog for depth
+    scene.fog = new THREE.FogExp2(0x111111, 0.002);
+
+    // Camera target state for smooth transitions (declared before camera initialization)
+    const targetCameraPos = new THREE.Vector3();
+    const targetLookAt = new THREE.Vector3();
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(40, 60, 80);
+    
+    // Initialize camera target state to current position (default view)
+    targetCameraPos.copy(camera.position);
+    targetLookAt.set(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // OrbitControls with rotation enabled
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableRotate = true;    // Enable orbiting
+    controls.enableZoom = true;       // Enable zoom (pinch/scroll)
+    controls.enablePan = true;       // Enable pan (two-finger drag)
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.touches.ONE = THREE.TOUCH.ROTATE;  // One touch = rotate
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(10, 20, 10);
+    scene.add(dirLight);
+
+    // --- 4. TEXTURE GENERATOR FOR LABELS ---
+    function createTextTexture(text, color = 'white', bgColor = null) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const padding = 20;
+        
+        // Measure text
+        ctx.font = `bold ${CONFIG.fontSize}px Arial`;
+        const metrics = ctx.measureText(text);
+        const textWidth = metrics.width;
+        
+        canvas.width = textWidth + padding * 2;
+        canvas.height = CONFIG.fontSize + padding * 2;
+
+        // Background (optional, usually transparent for sprites)
+        if (bgColor) {
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        ctx.font = `bold ${CONFIG.fontSize}px Arial`;
+        ctx.fillStyle = color;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.minFilter = THREE.LinearFilter; // Better scaling
+        return { texture, aspectRatio: canvas.width / canvas.height };
+    }
+
+    function createLabelSprite(text, yOffset, sizeScale = 1) {
+        if (!text) return null;
+        const { texture, aspectRatio } = createTextTexture(text);
+        const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+        const sprite = new THREE.Sprite(material);
+        const height = 4 * sizeScale;
+        sprite.scale.set(height * aspectRatio, height, 1);
+        sprite.position.y = yOffset;
+        return sprite;
+    }
+
+    // --- 5. PARSING & LAYOUT LOGIC ---
+
+    function getType(value) {
+        if (value === null) return 'null';
+        if (Array.isArray(value)) return 'array';
+        return typeof value;
+    }
+
+    function getColor(type) {
+        return CONFIG.colors[type] || 0xffffff;
+    }
+
+    function getLabelValue(value, type) {
+        if (type === 'array') return `[${value.length}]`;
+        if (type === 'object') return `{${Object.keys(value).length}}`;
+        return String(value);
+    }
+
+    // Global lists to store geometry for batching (lines) or individual adding
+    const nodes = [];
+    const connections = [];
+    
+    // Selection system: Node registry and selection state
+    const nodeRegistry = new Map(); // Key: "depth-angleIndex" -> { nodeGroup, depth, angleIndex, children }
+    let selectedNode = null;
+    let selectedDepth = 0;
+    let selectedAngleIndex = 0;
+    let highlightRing = null;
+    
+    // Track nodes by X/Z position to detect overlaps and adjust Y spacing
+    const nodePositions = new Map(); // Key: "x,z" -> Value: array of Y positions
+    
+    function getPositionKey(x, z, tolerance = 0.1) {
+        // Round to avoid floating point precision issues
+        const roundedX = Math.round(x / tolerance) * tolerance;
+        const roundedZ = Math.round(z / tolerance) * tolerance;
+        return `${roundedX},${roundedZ}`;
+    }
+    
+    function adjustYForOverlap(x, z, proposedY, minSpacing = CONFIG.stackHeight) {
+        const key = getPositionKey(x, z);
+        
+        if (!nodePositions.has(key)) {
+            nodePositions.set(key, []);
+        }
+        
+        const existingYs = nodePositions.get(key);
+        
+        // Check if proposed Y overlaps with any existing Y
+        const hasOverlap = existingYs.some(existingY => Math.abs(existingY - proposedY) < minSpacing);
+        
+        if (hasOverlap) {
+            // Find the next available Y position above existing nodes
+            if (existingYs.length === 0) {
+                existingYs.push(proposedY);
+                return proposedY;
+            }
+            
+            // Sort existing Y positions
+            const sortedYs = [...existingYs].sort((a, b) => a - b);
+            
+            // Find the highest Y
+            const maxY = Math.max(...sortedYs);
+            
+            // Place new node above the highest one
+            const adjustedY = maxY + minSpacing;
+            existingYs.push(adjustedY);
+            return adjustedY;
+        } else {
+            // No overlap, use proposed Y
+            existingYs.push(proposedY);
+            return proposedY;
+        }
+    }
+
+    // Recursive Layout Function
+    function processNode(key, value, parentPos, angleStart, angleEnd, depth, yLevel = 0, arrayNestingLevel = 0, parentNodeInfo = null) {
+        const type = getType(value);
+        
+        // 1. Determine Position
+        // Root is always 0,0,0
+        let pos = new THREE.Vector3(0, yLevel, 0);
+        
+        if (depth > 0) {
+            // Calculate angle in the middle of the sector
+            const angleMiddle = angleStart + (angleEnd - angleStart) / 2;
+            const radius = depth * CONFIG.radiusStep;
+            
+            // Convert polar to cartesian (XZ plane)
+            pos.x = radius * Math.cos(angleMiddle);
+            pos.z = radius * Math.sin(angleMiddle);
+            // Y is inherited + stack offset, but adjust for overlaps
+            pos.y = adjustYForOverlap(pos.x, pos.z, yLevel);
+        } else {
+            // Root node - also check for overlap (though unlikely)
+            pos.y = adjustYForOverlap(pos.x, pos.z, yLevel);
+        }
+
+        // 2. Create Node Visuals
+        const color = getColor(depth === 0 ? 'root' : type);
+        const nodeGroup = new THREE.Group();
+        nodeGroup.position.copy(pos);
+
+        // Sphere Geometry
+        const geo = new THREE.SphereGeometry(CONFIG.nodeSize, 32, 32);
+        const mat = new THREE.MeshPhongMaterial({ color: color, shininess: 100 });
+        const mesh = new THREE.Mesh(geo, mat);
+        nodeGroup.add(mesh);
+
+        // Text inside the node (Value or Count) - as sprite on front face
+        const valText = getLabelValue(value, type);
+        const valSprite = createLabelSprite(valText, 0);
+        if(valSprite) {
+            valSprite.renderOrder = 999;
+            valSprite.material.depthTest = false; // Visible through shapes
+            nodeGroup.add(valSprite);
+        }
+
+        // Key label below the node - as sprite
+        if (key !== null) {
+            const keyLabel = createLabelSprite(key, -CONFIG.nodeSize * 1.8, 0.8);
+            if(keyLabel) {
+                keyLabel.renderOrder = 998;
+                keyLabel.material.depthTest = false; // Visible through shapes
+                nodeGroup.add(keyLabel);
+            }
+        }
+
+        scene.add(nodeGroup);
+        
+        // Register node for selection system
+        const angleMiddle = depth > 0 ? angleStart + (angleEnd - angleStart) / 2 : 0;
+        const nodeInfo = {
+            nodeGroup,
+            depth,
+            angleMiddle,
+            angleIndex: 0, // Will be calculated after all nodes at this depth are registered
+            children: [],
+            parent: parentNodeInfo
+        };
+        
+        // Link to parent
+        if (parentNodeInfo) {
+            parentNodeInfo.children.push(nodeInfo);
+        }
+        
+        // Calculate angle index: count how many nodes exist at this depth with smaller angles
+        let angleIndex = 0;
+        for (const [key, info] of nodeRegistry.entries()) {
+            if (info.depth === depth && info.angleMiddle < angleMiddle) {
+                angleIndex++;
+            }
+        }
+        nodeInfo.angleIndex = angleIndex;
+        nodeRegistry.set(`${depth}-${angleIndex}`, nodeInfo);
+        
+        // Record connection if parent exists
+        if (parentPos) {
+            connections.push(parentPos, pos);
+        }
+
+        // 3. Handle Children
+        if (type === 'object') {
+            const keys = Object.keys(value);
+            const count = keys.length;
+            if (count > 0) {
+                const sectorSize = (angleEnd - angleStart) / count;
+                keys.forEach((k, i) => {
+                    const childStart = angleStart + (i * sectorSize);
+                    const childEnd = childStart + sectorSize;
+                    // Objects reset array nesting level (they're not part of array nesting chain)
+                    processNode(k, value[k], pos, childStart, childEnd, depth + 1, yLevel, 0, nodeInfo);
+                });
+            }
+        } 
+        else if (type === 'array') {
+            // ARRAY LOGIC: Alternating dimensions pattern
+            // Even nesting levels (0, 2, 4...): Stack on Y-axis
+            // Odd nesting levels (1, 3, 5...): Fan out radially on XZ plane
+            const count = value.length;
+            if (count > 0) {
+                const isEvenLevel = (arrayNestingLevel % 2) === 0;
+                const nextNestingLevel = arrayNestingLevel + 1;
+                
+                value.forEach((item, i) => {
+                    if (isEvenLevel) {
+                        // Even levels: Stack on Y-axis (vertical stacking)
+                        // First item (i=0) is on same plane, then stack above
+                        const itemY = yLevel + (i * CONFIG.stackHeight);
+                        processNode(i.toString(), item, pos, angleStart, angleEnd, depth + 1, itemY, nextNestingLevel, nodeInfo);
+                    } else {
+                        // Odd levels: Fan out radially on XZ plane (like objects)
+                        const sectorSize = (angleEnd - angleStart) / count;
+                        const itemAngleStart = angleStart + (i * sectorSize);
+                        const itemAngleEnd = itemAngleStart + sectorSize;
+                        processNode(i.toString(), item, pos, itemAngleStart, itemAngleEnd, depth + 1, yLevel, nextNestingLevel, nodeInfo);
+                    }
+                });
+            }
+        }
+    }
+
+    // --- 5. SELECTION HIGHLIGHT SYSTEM ---
+    
+    function createHighlightRing() {
+        const ringGeo = new THREE.RingGeometry(CONFIG.nodeSize * 1.2, CONFIG.nodeSize * 1.4, 32);
+        const ringMat = new THREE.MeshBasicMaterial({ 
+            color: 0xffff00, 
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.9
+        });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = -Math.PI / 2; // Lay flat (horizontal)
+        ring.renderOrder = 1000;
+        return ring;
+    }
+    
+    function highlightNode(nodeInfo) {
+        // Remove previous highlight
+        if (highlightRing && highlightRing.parent) {
+            highlightRing.parent.remove(highlightRing);
+        }
+        
+        // Add new highlight
+        if (nodeInfo) {
+            highlightRing = createHighlightRing();
+            nodeInfo.nodeGroup.add(highlightRing);
+            selectedNode = nodeInfo;
+            selectedDepth = nodeInfo.depth;
+            selectedAngleIndex = nodeInfo.angleIndex;
+            
+            // Calculate camera position and look-at target
+            if (nodeInfo.depth > 0) {
+                const nodePos = new THREE.Vector3();
+                nodeInfo.nodeGroup.getWorldPosition(nodePos);
+                
+                // Get parent position (or origin if no parent)
+                const parentPos = nodeInfo.parent
+                    ? (() => {
+                        const p = new THREE.Vector3();
+                        nodeInfo.parent.nodeGroup.getWorldPosition(p);
+                        return p;
+                    })()
+                    : new THREE.Vector3(0, 0, 0);
+                
+                // Position camera 30% from parent to node (closer to parent)
+                targetCameraPos.copy(parentPos).lerp(nodePos, 0.3);
+                targetLookAt.copy(nodePos); // Look at selected node (radially outward)
+            } else {
+                // Root node: default view
+                targetCameraPos.set(40, 60, 80);
+                targetLookAt.set(0, 0, 0);
+            }
+        }
+    }
+    
+    function navigateUp() {
+        // Move OUTWARD (away from center, deeper) - only to actual children
+        if (!selectedNode || selectedNode.children.length === 0) return;
+        highlightNode(selectedNode.children[0]);
+    }
+    
+    function navigateDown() {
+        // Move INWARD (toward center, shallower) - only to actual parent
+        if (!selectedNode || !selectedNode.parent) return;
+        highlightNode(selectedNode.parent);
+    }
+    
+    function navigateLeft() {
+        // Move to previous sibling (counter-clockwise)
+        if (!selectedNode || !selectedNode.parent) return;
+        
+        const siblings = selectedNode.parent.children;
+        if (siblings.length <= 1) return;
+        
+        siblings.sort((a, b) => a.angleMiddle - b.angleMiddle);
+        const currentIndex = siblings.indexOf(selectedNode);
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : siblings.length - 1;
+        highlightNode(siblings[prevIndex]);
+    }
+    
+    function navigateRight() {
+        // Move to next sibling (clockwise)
+        if (!selectedNode || !selectedNode.parent) return;
+        
+        const siblings = selectedNode.parent.children;
+        if (siblings.length <= 1) return;
+        
+        siblings.sort((a, b) => a.angleMiddle - b.angleMiddle);
+        const currentIndex = siblings.indexOf(selectedNode);
+        const nextIndex = currentIndex < siblings.length - 1 ? currentIndex + 1 : 0;
+        highlightNode(siblings[nextIndex]);
+    }
+
+    // --- 6. INITIALIZATION ---
+
+    // Initial call
+    // Root covers 0 to 2PI
+    processNode("root", mockData, null, 0, Math.PI * 2, 0, 0);
+
+    // Initialize selection with root node
+    const rootNode = nodeRegistry.get('0-0');
+    if (rootNode) {
+        highlightNode(rootNode);
+    }
+
+    // Create Lines Geometry
+    const lineGeo = new THREE.BufferGeometry().setFromPoints(connections);
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x555555, transparent: true, opacity: 0.5 });
+    const lines = new THREE.LineSegments(lineGeo, lineMat);
+    scene.add(lines);
+
+    // Helper: Grid for reference (optional, helps see the ground plane)
+    const gridHelper = new THREE.PolarGridHelper(200, 16, 8, 64, 0x444444, 0x222222);
+    gridHelper.position.y = -5; // slightly below root
+    scene.add(gridHelper);
+
+    // --- 7. ANIMATION LOOP ---
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        // Smooth camera transitions
+        camera.position.lerp(targetCameraPos, 0.1);
+        controls.target.lerp(targetLookAt, 0.1);
+        
+        controls.update();  // OrbitControls handles rotation automatically
+        renderer.render(scene, camera);
+    }
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+    
+    // Navigation input handlers
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') { e.preventDefault(); navigateUp(); }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); navigateDown(); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); navigateLeft(); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); navigateRight(); }
+    });
+    
+    document.getElementById('btn-up').addEventListener('click', navigateUp);
+    document.getElementById('btn-down').addEventListener('click', navigateDown);
+    document.getElementById('btn-left').addEventListener('click', navigateLeft);
+    document.getElementById('btn-right').addEventListener('click', navigateRight);
+
+    animate();
+
+</script>
+</body>
+</html>
