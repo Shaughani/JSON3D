@@ -1,0 +1,4566 @@
+{
+  "format": "system-atlas",
+  "metadata": {
+    "brand": "TAP",
+    "coreId": "tap_root",
+    "createdAt": "2026-08-12T00:00:00.000Z",
+    "footer": "One canonical graph · contextual placements · evidence from scraper-system GitHub",
+    "freshness": "Stage 9 architecture · source checked Aug 2026",
+    "id": "tap",
+    "metrics": [
+      {
+        "label": "GitHub repositories",
+        "value": "10"
+      },
+      {
+        "label": "production services",
+        "value": "3"
+      },
+      {
+        "label": "persistent stores",
+        "value": "5"
+      },
+      {
+        "label": "product surfaces",
+        "value": "4"
+      }
+    ],
+    "modifiedAt": "2026-08-12T19:12:50.828Z",
+    "subtitle": "scraper-system · production digital twin",
+    "title": "TAP System Atlas"
+  },
+  "nodes": {
+    "availability": {
+      "columns": [
+        [
+          "event_id",
+          "TEXT FK",
+          "events.event_id"
+        ],
+        [
+          "starts_at",
+          "TIMESTAMPTZ",
+          "inclusive window start"
+        ],
+        [
+          "ends_at",
+          "TIMESTAMPTZ",
+          "exclusive window end"
+        ],
+        [
+          "created_at",
+          "TIMESTAMPTZ",
+          "materialization time"
+        ]
+      ],
+      "endpoints": [],
+      "facts": [
+        [
+          "Key",
+          "event_id + starts_at + ends_at"
+        ],
+        [
+          "Parent",
+          "events"
+        ],
+        [
+          "Delete",
+          "cascade"
+        ],
+        [
+          "Range index",
+          "GIST tstzrange"
+        ]
+      ],
+      "group": "Postgres tables",
+      "kind": "Postgres table",
+      "sources": [
+        [
+          "016 availability model",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/016_events_availability_model.sql",
+          "table and indexes"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Created by migration 016 with referential and temporal constraints.",
+      "structure": [
+        [
+          "check",
+          "ends_at must be after starts_at"
+        ],
+        [
+          "range index",
+          "overlap and availability queries"
+        ]
+      ],
+      "subtitle": "Materialized recurring-event time windows",
+      "summary": "Expands recurring rules into concrete searchable windows without forcing product queries to evaluate recurrence logic at request time.",
+      "title": "event_availability_windows",
+      "visual": "data"
+    },
+    "browser_client": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Status",
+          "Not built"
+        ],
+        [
+          "Contract",
+          "Tasker batch/result API"
+        ],
+        [
+          "Likely reuse",
+          "task type assets"
+        ],
+        [
+          "System impact",
+          "additional worker class"
+        ]
+      ],
+      "group": "Future boundaries",
+      "kind": "Planned client",
+      "sources": [
+        [
+          "Current architecture overview",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "mentions mobile or future browser"
+        ]
+      ],
+      "status": "planned",
+      "statusReason": "Named as a future client in the current architecture overview; not represented by a built repository or runtime.",
+      "structure": [
+        [
+          "task lease",
+          "same bounded batch contract"
+        ],
+        [
+          "capture",
+          "browser DOM + media"
+        ],
+        [
+          "identity",
+          "registered client record"
+        ],
+        [
+          "result",
+          "tasker-compatible payload"
+        ]
+      ],
+      "subtitle": "Future non-mobile execution boundary",
+      "summary": "The current task flow deliberately leaves room for a browser-based scraper beside mobile devices. No dedicated production browser-client repository exists in the organization today.",
+      "title": "Browser Scraper Client",
+      "visual": "client"
+    },
+    "clients_concept": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Current client",
+          "Kotlin Android"
+        ],
+        [
+          "Persistence",
+          "Room"
+        ],
+        [
+          "Execution",
+          "WebView"
+        ],
+        [
+          "Parent",
+          "Acquisition"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture concept",
+      "sources": [
+        [
+          "mobile-client",
+          "https://github.com/scraper-system/mobile-client",
+          "primary Android client"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status follows the majority of immediate canonical children. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "Kotlin Mobile Client",
+          "durable device worker"
+        ]
+      ],
+      "subtitle": "Distributed acquisition executors",
+      "summary": "The current client concept contains the primary Kotlin Android worker. Planned and retired client implementations remain under their lifecycle concepts by design.",
+      "title": "Clients",
+      "visual": "service"
+    },
+    "deploy": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Repository",
+          "deploy"
+        ],
+        [
+          "Infrastructure apply",
+          "manual"
+        ],
+        [
+          "App deploy",
+          "per-repo on main"
+        ],
+        [
+          "Rollback",
+          "immutable releases"
+        ]
+      ],
+      "group": "Runtime & delivery",
+      "kind": "Infrastructure repo",
+      "sources": [
+        [
+          "deploy repository",
+          "https://github.com/scraper-system/deploy",
+          "production infrastructure"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Active infrastructure repository for the Hetzner production environment.",
+      "structure": [
+        [
+          "nginx",
+          "one public origin, explicit ownership"
+        ],
+        [
+          "systemd",
+          "scraper, frontend and tasker services"
+        ],
+        [
+          "Postgres/PostGIS",
+          "tap_events database"
+        ],
+        [
+          "releases/current",
+          "atomic symlink promotion"
+        ],
+        [
+          "operator scripts",
+          "copy, verify and maintenance"
+        ]
+      ],
+      "subtitle": "Infrastructure code, systemd and release orchestration",
+      "summary": "The deploy repository owns production topology rather than application code: nginx, systemd, Postgres/PostGIS, directories, data-copy tools and operator runbooks. Application repositories deploy independently.",
+      "title": "Deploy Control Plane",
+      "visual": "service"
+    },
+    "enrichments": {
+      "columns": [
+        [
+          "poi_id / provider",
+          "composite PK",
+          "provider-scoped record"
+        ],
+        [
+          "provider_place_id",
+          "TEXT",
+          "external id"
+        ],
+        [
+          "status",
+          "TEXT",
+          "refresh lifecycle"
+        ],
+        [
+          "description / visible_text",
+          "TEXT",
+          "detail and web evidence"
+        ],
+        [
+          "hours_json / open_now",
+          "JSONB / BOOL",
+          "availability"
+        ],
+        [
+          "rating / price / popularity",
+          "numeric",
+          "quality signals"
+        ],
+        [
+          "attributes / tastes / stats",
+          "JSONB",
+          "provider features"
+        ],
+        [
+          "photos_json / hero_photo_id",
+          "JSONB / TEXT",
+          "media selection"
+        ],
+        [
+          "hero_image_version",
+          "TEXT",
+          "immutable media version"
+        ],
+        [
+          "last_fetched_at / refresh_after",
+          "TIMESTAMPTZ",
+          "cache control"
+        ],
+        [
+          "last_error",
+          "TEXT",
+          "failure visibility"
+        ]
+      ],
+      "endpoints": [],
+      "facts": [
+        [
+          "Primary key",
+          "poi_id + provider"
+        ],
+        [
+          "Parent",
+          "pois"
+        ],
+        [
+          "Refresh",
+          "refresh_after"
+        ],
+        [
+          "Providers",
+          "Foursquare / web / others"
+        ]
+      ],
+      "group": "Postgres tables",
+      "kind": "Postgres table",
+      "sources": [
+        [
+          "019 enrichments",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/019_poi_enrichments_table.sql",
+          "base schema"
+        ],
+        [
+          "021 provider key",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/021_poi_enrichments_provider_primary_key.sql",
+          "multi-provider boundary"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Created in migration 019; widened to a provider-scoped primary key in 021.",
+      "structure": [
+        [
+          "cascade delete",
+          "removed with parent POI"
+        ],
+        [
+          "refresh index",
+          "due enrichment jobs"
+        ],
+        [
+          "visible text partial index",
+          "web evidence presence"
+        ]
+      ],
+      "subtitle": "Mutable provider detail, media and freshness",
+      "summary": "Provider-specific POI detail is isolated from the base record so Foursquare, Facebook and web evidence can refresh independently without overwriting source identity.",
+      "title": "poi_enrichments",
+      "visual": "data"
+    },
+    "events": {
+      "columns": [
+        [
+          "event_id",
+          "TEXT PK",
+          "canonical TAP id"
+        ],
+        [
+          "task_id",
+          "TEXT NOT NULL",
+          "ingestion lineage"
+        ],
+        [
+          "source_id",
+          "TEXT",
+          "provider namespace"
+        ],
+        [
+          "source_parent_id",
+          "TEXT",
+          "provider series identity"
+        ],
+        [
+          "source_occurrence_id",
+          "TEXT",
+          "provider occurrence identity"
+        ],
+        [
+          "original_url",
+          "TEXT",
+          "source evidence"
+        ],
+        [
+          "title / description",
+          "TEXT",
+          "display content"
+        ],
+        [
+          "subcategory",
+          "TEXT",
+          "granular model label"
+        ],
+        [
+          "category",
+          "generated TEXT",
+          "main category function"
+        ],
+        [
+          "start_time / end_time",
+          "TIMESTAMPTZ",
+          "event time"
+        ],
+        [
+          "event_type",
+          "TEXT",
+          "instant or recurring"
+        ],
+        [
+          "recurring_rule",
+          "JSONB",
+          "recurrence definition"
+        ],
+        [
+          "geometry",
+          "GEOMETRY(Point,4326)",
+          "map coordinate"
+        ],
+        [
+          "place / address",
+          "TEXT",
+          "venue context"
+        ],
+        [
+          "tickets",
+          "TEXT",
+          "ticket payload"
+        ],
+        [
+          "going / interested",
+          "INTEGER",
+          "source engagement"
+        ],
+        [
+          "host_ids",
+          "TEXT[]",
+          "organizer links"
+        ],
+        [
+          "hero_image_ref",
+          "TEXT",
+          "image source"
+        ],
+        [
+          "hero_image_version",
+          "TEXT",
+          "immutable R2 version"
+        ],
+        [
+          "tags / sub_events",
+          "JSONB",
+          "structured extensions"
+        ],
+        [
+          "parser_version",
+          "TEXT",
+          "extraction lineage"
+        ],
+        [
+          "ingested_at",
+          "TIMESTAMPTZ",
+          "database record time"
+        ]
+      ],
+      "endpoints": [],
+      "facts": [
+        [
+          "Primary key",
+          "event_id"
+        ],
+        [
+          "Geometry",
+          "Point / SRID 4326"
+        ],
+        [
+          "Identity",
+          "source + occurrence"
+        ],
+        [
+          "Category",
+          "generated from subcategory"
+        ]
+      ],
+      "group": "Postgres tables",
+      "kind": "Postgres table",
+      "sources": [
+        [
+          "001 events migration",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/001_events_table.sql",
+          "base schema"
+        ],
+        [
+          "025 source identity",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/025_events_source_identity.sql",
+          "provider identity"
+        ],
+        [
+          "026 uniqueness",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/026_events_source_identity_unique.sql",
+          "conditional unique indexes"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Created in migration 001 and evolved through migration 026.",
+      "structure": [
+        [
+          "GIST geometry",
+          "viewport and radius queries"
+        ],
+        [
+          "B-tree time / source",
+          "time and provider filtering"
+        ],
+        [
+          "unique source identity",
+          "occurrence and parent alias guards"
+        ],
+        [
+          "host_ids",
+          "denormalized organizer linkage"
+        ]
+      ],
+      "subtitle": "Canonical geospatial event record",
+      "summary": "One record per canonical event identity with provider-scoped deduplication, a WGS84 point, normalized category, availability model, host links, engagement, ticket and immutable image references.",
+      "title": "events",
+      "visual": "data"
+    },
+    "evolution": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Children",
+          "Planned and Legacy"
+        ],
+        [
+          "Future boundaries",
+          "2"
+        ],
+        [
+          "Retired components",
+          "2"
+        ],
+        [
+          "Former lens",
+          "Future & retired"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture concept",
+      "sources": [
+        [
+          "Workspace architecture",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "current and future boundaries"
+        ]
+      ],
+      "status": "planned",
+      "statusReason": "Status follows the majority of immediate children; exact ties resolve built, then planned, then legacy. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "Planned",
+          "browser execution and push wake"
+        ],
+        [
+          "Legacy",
+          "React Native client and server monorepo"
+        ]
+      ],
+      "subtitle": "Explicit future and retired history",
+      "summary": "Planned work is shown only where current or historical specifications establish a boundary. Retired components remain visible without implying production ownership.",
+      "title": "Evolution",
+      "visual": "service"
+    },
+    "external_systems": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Acquisition",
+          "Web sources, Viator, Overture"
+        ],
+        [
+          "Product",
+          "Foursquare, Stripe, Mapbox"
+        ],
+        [
+          "Media",
+          "R2"
+        ],
+        [
+          "Model",
+          "concept plus concrete parent"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture concept",
+      "sources": [
+        [
+          "Workspace architecture",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "external boundaries"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status follows the majority of immediate canonical children. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "source evidence",
+          "rendered pages"
+        ],
+        [
+          "data providers",
+          "tourism and place data"
+        ],
+        [
+          "product platforms",
+          "maps, billing and media"
+        ]
+      ],
+      "subtitle": "Providers, source evidence and delivery platforms",
+      "summary": "External sources and providers remain visible as one conceptual family while also appearing beneath the TAP component that uses them.",
+      "title": "External Systems",
+      "visual": "service"
+    },
+    "foursquare": {
+      "columns": [],
+      "endpoints": [
+        [
+          "GET /api/v1/poi/foursquare/{id}",
+          "proxy/cache"
+        ],
+        [
+          "GET /api/v1/pois/{id}/details",
+          "product detail"
+        ]
+      ],
+      "facts": [
+        [
+          "Owner",
+          "frontend-server"
+        ],
+        [
+          "API fallback",
+          "503 if unconfigured"
+        ],
+        [
+          "Match table",
+          "poi_provider_matches"
+        ],
+        [
+          "Payload table",
+          "poi_enrichments"
+        ]
+      ],
+      "group": "External systems",
+      "kind": "External provider",
+      "sources": [
+        [
+          "frontend-server",
+          "https://github.com/scraper-system/frontend-server",
+          "provider integration"
+        ],
+        [
+          "tap-pg",
+          "https://github.com/scraper-system/tap-pg",
+          "match + enrichment state"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "API routes, match state and enrichment tables are implemented; runtime availability depends on provider configuration.",
+      "structure": [],
+      "subtitle": "POI matching and mutable detail enrichment",
+      "summary": "Frontend-server resolves or proxies place details while tap-pg separates provider match decisions from refreshable enrichment payloads.",
+      "title": "Foursquare",
+      "visual": "external"
+    },
+    "frontend_server": {
+      "columns": [],
+      "endpoints": [
+        [
+          "GET /api/v1/events",
+          "filtered GeoJSON"
+        ],
+        [
+          "GET /api/v1/events/tiles/{z}/{x}/{y}",
+          "clustered map payload"
+        ],
+        [
+          "GET /api/v1/pois/{id}/details",
+          "enriched POI detail"
+        ],
+        [
+          "GET /api/v1/routing",
+          "Mapbox Directions proxy"
+        ]
+      ],
+      "facts": [
+        [
+          "Repository",
+          "frontend-server"
+        ],
+        [
+          "Production port",
+          ":9001"
+        ],
+        [
+          "Local split port",
+          ":8084"
+        ],
+        [
+          "Owned SQLite",
+          "frontend.sqlite"
+        ]
+      ],
+      "group": "Services",
+      "kind": "Go service",
+      "sources": [
+        [
+          "frontend-server repository",
+          "https://github.com/scraper-system/frontend-server",
+          "current production owner"
+        ],
+        [
+          "Current API guide",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-apis/SKILL.md",
+          "route ownership"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Production service extracted from the legacy monorepo and independently deployed since Stage 9.",
+      "structure": [
+        [
+          "frontend/api",
+          "map, product, hotel and stats routes"
+        ],
+        [
+          "event tiles",
+          "bias-aligned clustered feature payloads"
+        ],
+        [
+          "POI enrichment",
+          "Foursquare proxy, cache and refresh"
+        ],
+        [
+          "hotel admin",
+          "accounts, link editing and Stripe"
+        ],
+        [
+          "tap-pg frontend package",
+          "read/admin boundary only"
+        ]
+      ],
+      "subtitle": "Map, product, hotel and analytics APIs",
+      "summary": "The product-serving control plane. It reads events, POIs, hosts and enrichments through the frontend-safe tap-pg boundary while owning links, pageviews, hotel accounts, billing and local product state in frontend.sqlite.",
+      "title": "Frontend Server",
+      "visual": "service core"
+    },
+    "frontend_sqlite": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Owner",
+          "frontend-server"
+        ],
+        [
+          "Production path",
+          "/opt/scraper/server/frontend.sqlite"
+        ],
+        [
+          "Migration folder",
+          "frontend_migrations"
+        ],
+        [
+          "Boundary",
+          "not scraper-owned"
+        ]
+      ],
+      "group": "Operational stores",
+      "kind": "SQLite database",
+      "sources": [
+        [
+          "Architecture overview",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "database ownership"
+        ],
+        [
+          "Current API guide",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-apis/SKILL.md",
+          "analytics and hotel tables"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Owned, migrated and health-checked by frontend-server.",
+      "structure": [
+        [
+          "links",
+          "public hotel map configurations"
+        ],
+        [
+          "page_views",
+          "path and visitor analytics"
+        ],
+        [
+          "hotel_admin_accounts",
+          "bcrypt credentials and assigned path"
+        ],
+        [
+          "hotel_admin_billing",
+          "Stripe customer/subscription state"
+        ]
+      ],
+      "subtitle": "Product-local links, traffic and hotel state",
+      "summary": "Frontend-server's private product database. It keeps mutable link payloads, analytics and account/billing state close to the product API without mixing them into canonical geospatial content.",
+      "title": "frontend.sqlite",
+      "visual": "data"
+    },
+    "hetzner": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Host",
+          "Hetzner VPS"
+        ],
+        [
+          "TLS edge",
+          "nginx"
+        ],
+        [
+          "Process manager",
+          "systemd"
+        ],
+        [
+          "Database",
+          "Postgres/PostGIS"
+        ]
+      ],
+      "group": "Runtime & delivery",
+      "kind": "Hosting",
+      "sources": [
+        [
+          "deploy repository",
+          "https://github.com/scraper-system/deploy",
+          "production layout"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Current deployment README defines this as the production layout.",
+      "structure": [
+        [
+          "/opt/scraper/scraper-server/current",
+          "independent scraper release"
+        ],
+        [
+          "/opt/scraper/frontend-server/current",
+          "independent frontend release"
+        ],
+        [
+          "/opt/scraper/server/*.sqlite",
+          "persistent service data"
+        ],
+        [
+          "/opt/scraper/frontend",
+          "static web app"
+        ]
+      ],
+      "subtitle": "Single-VPS runtime with separated service releases",
+      "summary": "TAP currently runs on a Hetzner VPS with separate release directories and environment files for scraper-server and frontend-server, shared data paths for SQLite, tasker, static web files and Postgres/PostGIS.",
+      "title": "Hetzner Production",
+      "visual": "service"
+    },
+    "hosts": {
+      "columns": [
+        [
+          "id",
+          "TEXT PK",
+          "canonical host id"
+        ],
+        [
+          "name",
+          "TEXT NOT NULL",
+          "organizer name"
+        ],
+        [
+          "url",
+          "TEXT",
+          "source URL"
+        ],
+        [
+          "city_keys",
+          "TEXT[]",
+          "coverage scopes"
+        ],
+        [
+          "city_membership_updated_at",
+          "TIMESTAMPTZ",
+          "latest membership write"
+        ],
+        [
+          "city_keys_first_assigned_at",
+          "TIMESTAMPTZ",
+          "first known coverage"
+        ],
+        [
+          "last_scraped_at",
+          "TIMESTAMPTZ",
+          "successful fb_host scrape"
+        ],
+        [
+          "created_at / updated_at",
+          "TIMESTAMPTZ",
+          "record lifecycle"
+        ]
+      ],
+      "endpoints": [],
+      "facts": [
+        [
+          "Primary key",
+          "id"
+        ],
+        [
+          "Membership",
+          "city_keys[]"
+        ],
+        [
+          "Freshness",
+          "last_scraped_at"
+        ],
+        [
+          "Origin",
+          "task host organizations"
+        ]
+      ],
+      "group": "Postgres tables",
+      "kind": "Postgres table",
+      "sources": [
+        [
+          "007 hosts",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/007_hosts_table.sql",
+          "base schema"
+        ],
+        [
+          "022 membership",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/022_events_hosts_city_membership.sql",
+          "city and event links"
+        ],
+        [
+          "027 first assignment",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/027_hosts_city_keys_first_assigned_at.sql",
+          "coverage lineage"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Created in migration 007 and evolved with city membership and scrape timestamps.",
+      "structure": [
+        [
+          "GIN city_keys",
+          "coverage lookup"
+        ],
+        [
+          "host_ids on events",
+          "event-to-organizer linkage"
+        ]
+      ],
+      "subtitle": "Normalized organizer identity and city coverage",
+      "summary": "Organizer identities are upserted from extracted host organizations and carry city coverage plus scraper freshness, allowing controlled backfills and coverage reporting.",
+      "title": "hosts",
+      "visual": "data"
+    },
+    "hotel_admin": {
+      "columns": [],
+      "endpoints": [
+        [
+          "POST /api/v1/hotel-admin/login",
+          "create session"
+        ],
+        [
+          "GET /api/v1/hotel-admin/me",
+          "identity + billing capability"
+        ],
+        [
+          "PATCH /api/v1/hotel-admin/link",
+          "edit assigned map"
+        ],
+        [
+          "POST /api/v1/hotel-admin/billing/portal-session",
+          "open customer portal"
+        ]
+      ],
+      "facts": [
+        [
+          "Owner",
+          "frontend-server"
+        ],
+        [
+          "Session",
+          "hotel_admin_session cookie"
+        ],
+        [
+          "Scope",
+          "one link path / account"
+        ],
+        [
+          "Billing",
+          "Stripe subscription"
+        ]
+      ],
+      "group": "Product surfaces",
+      "kind": "Product frontend",
+      "sources": [
+        [
+          "frontend-server",
+          "https://github.com/scraper-system/frontend-server",
+          "hotel-admin handlers"
+        ],
+        [
+          "Current API guide",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-apis/SKILL.md",
+          "route and persistence evidence"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Routes, account persistence and billing workflows are implemented in frontend-server.",
+      "structure": [
+        [
+          "accounts",
+          "bcrypt credentials in frontend.sqlite"
+        ],
+        [
+          "sessions",
+          "credentialed same-origin editing"
+        ],
+        [
+          "link editor",
+          "PATCH hotel map payload"
+        ],
+        [
+          "billing",
+          "Checkout, Portal and signed webhooks"
+        ]
+      ],
+      "subtitle": "Credentialed hotel map and billing workspace",
+      "summary": "A signed-in operating surface for one public hotel link per account. It lets hotels edit their map payload while subscription state gates edit access through Stripe.",
+      "title": "Hotel Admin",
+      "visual": "product"
+    },
+    "legacy_concept": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Members",
+          "2"
+        ],
+        [
+          "Mobile predecessor",
+          "React Native"
+        ],
+        [
+          "Server predecessor",
+          "legacy monorepo"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture concept",
+      "sources": [],
+      "status": "legacy",
+      "statusReason": "Both immediate children are legacy or retired. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "React Native Client",
+          "replaced by Kotlin"
+        ],
+        [
+          "Legacy Server",
+          "replaced by extracted repositories"
+        ]
+      ],
+      "subtitle": "Retired implementations and historical ownership",
+      "summary": "Historical implementations retained for lineage, evidence and rollback context without implying current production ownership.",
+      "title": "Legacy",
+      "visual": "service"
+    },
+    "legacy_server": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Repository",
+          "server"
+        ],
+        [
+          "State",
+          "archived / legacy"
+        ],
+        [
+          "Production owner",
+          "No"
+        ],
+        [
+          "Replacement",
+          "3 extracted repos"
+        ]
+      ],
+      "group": "Future boundaries",
+      "kind": "Retired repository",
+      "sources": [
+        [
+          "legacy server",
+          "https://github.com/scraper-system/server",
+          "archived monorepo"
+        ],
+        [
+          "Workspace repo map",
+          "https://github.com/scraper-system/workspace/blob/main/code/README.md",
+          "current replacement ownership"
+        ]
+      ],
+      "status": "legacy",
+      "statusReason": "Repository README says 'do not use'; current workspace marks workflows manual-only.",
+      "structure": [
+        [
+          "scraper-server",
+          "acquisition ownership extracted"
+        ],
+        [
+          "frontend-server",
+          "product ownership extracted"
+        ],
+        [
+          "tap-pg",
+          "shared database boundary extracted"
+        ]
+      ],
+      "subtitle": "Archived history and manual rollback only",
+      "summary": "The former monorepo no longer owns production deployments. It remains available as historical source and a manual-only rollback path while scraper-server, frontend-server and tap-pg carry active ownership.",
+      "title": "Legacy Server Monorepo",
+      "visual": "service"
+    },
+    "llm": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Owner",
+          "tasker"
+        ],
+        [
+          "Provider",
+          "OpenAI API"
+        ],
+        [
+          "Input",
+          "captured HTML / evidence"
+        ],
+        [
+          "Output",
+          "structured task result"
+        ]
+      ],
+      "group": "Pipeline modules",
+      "kind": "External processing",
+      "sources": [
+        [
+          "tasker",
+          "https://github.com/scraper-system/tasker",
+          "LLM integration and lifecycle"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Implemented in tasker and used in the documented result pipeline.",
+      "structure": [
+        [
+          "system message",
+          "task-type-specific extraction contract"
+        ],
+        [
+          "structured fields",
+          "event, place, host and ticket data"
+        ],
+        [
+          "status",
+          "to_llm → from_llm / fail_llm"
+        ]
+      ],
+      "subtitle": "Captured evidence to structured event result",
+      "summary": "Tasker applies the task-provided system message to captured page evidence and enforces a structured result. Extraction status is explicit so device, model and server failures remain operationally separable.",
+      "title": "LLM Extraction",
+      "visual": "external"
+    },
+    "mapbox": {
+      "columns": [],
+      "endpoints": [
+        [
+          "GET /api/v1/client-config",
+          "clusterBias"
+        ],
+        [
+          "GET /api/v1/routing",
+          "Directions proxy"
+        ]
+      ],
+      "facts": [
+        [
+          "Browser",
+          "Mapbox GL JS"
+        ],
+        [
+          "Server",
+          "Directions proxy"
+        ],
+        [
+          "Token",
+          "injected / server env"
+        ],
+        [
+          "Cluster bias",
+          "client/server synchronized"
+        ]
+      ],
+      "group": "External systems",
+      "kind": "External platform",
+      "sources": [
+        [
+          "web-app",
+          "https://github.com/scraper-system/web-app",
+          "map client"
+        ],
+        [
+          "workspace notes",
+          "https://github.com/scraper-system/workspace/blob/main/NOTES.md",
+          "rendering and cluster alignment"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Active dependency of web-app and frontend-server routing.",
+      "structure": [],
+      "subtitle": "Globe rendering, directions and map interaction",
+      "summary": "Mapbox GL JS renders the public globe; a server-side proxy supplies directions. TAP's custom cluster drawing and invisible hit layers preserve a branded experience while accepting the WebGL integration constraints.",
+      "title": "Mapbox",
+      "visual": "external"
+    },
+    "matches": {
+      "columns": [
+        [
+          "poi_id / provider",
+          "composite PK",
+          "identity scope"
+        ],
+        [
+          "provider_place_id",
+          "TEXT",
+          "resolved provider id"
+        ],
+        [
+          "status",
+          "TEXT",
+          "match state"
+        ],
+        [
+          "confidence / method",
+          "DOUBLE / TEXT",
+          "decision evidence"
+        ],
+        [
+          "candidate_payload",
+          "JSONB",
+          "candidate trace"
+        ],
+        [
+          "matched_at / retry_after",
+          "TIMESTAMPTZ",
+          "lifecycle timing"
+        ],
+        [
+          "last_error",
+          "TEXT",
+          "failure evidence"
+        ]
+      ],
+      "endpoints": [],
+      "facts": [
+        [
+          "Primary key",
+          "poi_id + provider"
+        ],
+        [
+          "Parent",
+          "pois"
+        ],
+        [
+          "Core state",
+          "status + confidence"
+        ],
+        [
+          "Retry",
+          "retry_after"
+        ]
+      ],
+      "group": "Postgres tables",
+      "kind": "Postgres table",
+      "sources": [
+        [
+          "020 provider matches",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/020_poi_provider_matches_table.sql",
+          "schema and indexes"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Created in migration 020 with retry and provider indexes.",
+      "structure": [],
+      "subtitle": "Provider identity-resolution lifecycle",
+      "summary": "Separates the act of matching a TAP POI to an external provider from the mutable payload eventually fetched for that match.",
+      "title": "poi_provider_matches",
+      "visual": "data"
+    },
+    "mobile_kotlin": {
+      "columns": [],
+      "endpoints": [
+        [
+          "GET /v1/tasks/batch",
+          "fetch work"
+        ],
+        [
+          "POST /v1/tasks/{task_id}",
+          "return capture"
+        ],
+        [
+          "POST /api/v1/clients/register",
+          "register device"
+        ]
+      ],
+      "facts": [
+        [
+          "Repository",
+          "mobile-client"
+        ],
+        [
+          "Platform",
+          "Native Kotlin / Android"
+        ],
+        [
+          "Polling",
+          "10 seconds"
+        ],
+        [
+          "Persistence",
+          "Room"
+        ]
+      ],
+      "group": "Clients",
+      "kind": "Device client",
+      "sources": [
+        [
+          "mobile-client repository",
+          "https://github.com/scraper-system/mobile-client",
+          "primary Android client"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Primary client with active July 2026 changes and explicit replacement status over the React Native app.",
+      "structure": [
+        [
+          "producer",
+          "polls tasker and persists work"
+        ],
+        [
+          "consumer",
+          "sequential WebView execution"
+        ],
+        [
+          "resilience",
+          "backoff, circuit breaker, boot recovery"
+        ],
+        [
+          "payload",
+          "HTML, visible text, hero image, errors"
+        ]
+      ],
+      "subtitle": "Primary resilient Android scrape worker",
+      "summary": "The recommended production scraper client. A producer-consumer architecture combines Room persistence, connectivity awareness, foreground-service constraints, circuit breaking and a WebView capture engine so work survives unreliable device conditions.",
+      "title": "Kotlin Mobile Client",
+      "visual": "client"
+    },
+    "mobile_rn": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Repository",
+          "mobile-client-scraper"
+        ],
+        [
+          "Platform",
+          "React Native"
+        ],
+        [
+          "Role",
+          "predecessor"
+        ],
+        [
+          "Current use",
+          "legacy"
+        ]
+      ],
+      "group": "Clients",
+      "kind": "Legacy client",
+      "sources": [
+        [
+          "mobile-client-scraper",
+          "https://github.com/scraper-system/mobile-client-scraper",
+          "legacy implementation"
+        ],
+        [
+          "mobile-client",
+          "https://github.com/scraper-system/mobile-client",
+          "recommended replacement"
+        ]
+      ],
+      "status": "legacy",
+      "statusReason": "Explicitly documented as replaced by the native Kotlin application.",
+      "structure": [
+        [
+          "WebViewScraper",
+          "page and hero-image capture"
+        ],
+        [
+          "API service",
+          "tasker + server calls"
+        ],
+        [
+          "wake hooks",
+          "poll, push listener, deep link"
+        ]
+      ],
+      "subtitle": "Original mobile scraper predecessor",
+      "summary": "The first mobile scraper implementation established batching, WebView capture, image extraction and wake hooks. It remains useful history, but the Kotlin client is the recommended production path.",
+      "title": "React Native Client",
+      "visual": "client"
+    },
+    "nginx": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Public origin",
+          "timeandplace.me"
+        ],
+        [
+          "Scraper",
+          ":9000"
+        ],
+        [
+          "Frontend",
+          ":9001"
+        ],
+        [
+          "Tasker",
+          ":8080"
+        ]
+      ],
+      "group": "Runtime & delivery",
+      "kind": "Gateway",
+      "sources": [
+        [
+          "deploy repository",
+          "https://github.com/scraper-system/deploy",
+          "nginx and systemd definitions"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Production routing is codified in deploy/nginx-scraper.conf.",
+      "structure": [
+        [
+          "/",
+          "web-app static root"
+        ],
+        [
+          "/dashboard + scraper API",
+          "scraper-server"
+        ],
+        [
+          "general /api/v1",
+          "frontend-server"
+        ],
+        [
+          "/tasker + /v1",
+          "tasker"
+        ]
+      ],
+      "subtitle": "TLS termination and route ownership",
+      "summary": "Nginx presents one public TAP origin while preserving the Stage 9 split. Scraper-specific paths go to port 9000, general product APIs go to 9001, tasker traffic goes to 8080, and the static web app owns the root.",
+      "title": "Public Edge",
+      "visual": "service"
+    },
+    "operational_stores": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Members",
+          "4 stores"
+        ],
+        [
+          "Model",
+          "service or client private"
+        ],
+        [
+          "Canonical truth",
+          "No"
+        ],
+        [
+          "Former lens",
+          "Data fabric"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture concept",
+      "sources": [
+        [
+          "Architecture overview",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "database ownership"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status follows the majority of immediate canonical children. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "scraper.sqlite",
+          "scraper-server operations"
+        ],
+        [
+          "frontend.sqlite",
+          "product and account state"
+        ],
+        [
+          "tasks.db",
+          "broker queue"
+        ],
+        [
+          "Room",
+          "device work durability"
+        ]
+      ],
+      "subtitle": "Private persistence by failure domain",
+      "summary": "The four local stores isolate acquisition, product, broker and device state from canonical product truth. Each store also appears beneath the component that owns its lifecycle.",
+      "title": "Operational Stores",
+      "visual": "service"
+    },
+    "overture": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Target",
+          "pois"
+        ],
+        [
+          "Shape",
+          "scalars + JSONB"
+        ],
+        [
+          "Geometry",
+          "PostGIS point"
+        ],
+        [
+          "Ownership",
+          "scraper data tooling"
+        ]
+      ],
+      "group": "External systems",
+      "kind": "External dataset",
+      "sources": [
+        [
+          "POI migration",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/002_pois_table.sql",
+          "Overture-aligned columns"
+        ],
+        [
+          "deploy",
+          "https://github.com/scraper-system/deploy",
+          "operator tooling"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Overture-shaped columns and operator tooling are present in the current repositories.",
+      "structure": [],
+      "subtitle": "Base POI identity and source attributes",
+      "summary": "The POI core schema is aligned to Overture Places and deployment tooling includes operator data-copy and POI support scripts.",
+      "title": "Overture Places",
+      "visual": "external"
+    },
+    "pipeline_modules": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Task definition",
+          "Task Assets"
+        ],
+        [
+          "Capture",
+          "WebView"
+        ],
+        [
+          "Extraction",
+          "LLM"
+        ],
+        [
+          "Former lens",
+          "Scrape pipeline"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture concept",
+      "sources": [
+        [
+          "scraper-server",
+          "https://github.com/scraper-system/scraper-server",
+          "task pipeline owner"
+        ],
+        [
+          "tasker",
+          "https://github.com/scraper-system/tasker",
+          "extraction relay"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status follows the majority of immediate canonical children. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "Task Assets",
+          "pre-injection and prompts"
+        ],
+        [
+          "WebView",
+          "DOM, text and media capture"
+        ],
+        [
+          "LLM",
+          "structured extraction"
+        ]
+      ],
+      "subtitle": "Task definition, capture and extraction",
+      "summary": "The evidence-to-experience path combines runtime task assets, rendered WebView capture and structured LLM extraction. The former pipeline lens is preserved here inside the unified graph.",
+      "title": "Pipeline Modules",
+      "visual": "service"
+    },
+    "planned_concept": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Members",
+          "2"
+        ],
+        [
+          "Browser worker",
+          "Not built"
+        ],
+        [
+          "Push wake",
+          "Not built"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture concept",
+      "sources": [],
+      "status": "planned",
+      "statusReason": "Both immediate children are planned and not yet built. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "Browser Client",
+          "future non-mobile executor"
+        ],
+        [
+          "Push Wake Channel",
+          "wake-only mobile signal"
+        ]
+      ],
+      "subtitle": "Defined boundaries not yet built",
+      "summary": "Explicitly designed capabilities that are not represented by a current production implementation.",
+      "title": "Planned",
+      "visual": "service"
+    },
+    "pois": {
+      "columns": [
+        [
+          "id",
+          "TEXT PK",
+          "canonical POI id"
+        ],
+        [
+          "name / description",
+          "TEXT",
+          "display content"
+        ],
+        [
+          "category / basic_category",
+          "TEXT",
+          "classification"
+        ],
+        [
+          "source_id / foursquare_id",
+          "TEXT",
+          "provider references"
+        ],
+        [
+          "geometry",
+          "GEOMETRY(Point,4326)",
+          "map coordinate"
+        ],
+        [
+          "relation_tags",
+          "JSONB",
+          "renamed from tags"
+        ],
+        [
+          "display_priority",
+          "SMALLINT",
+          "global rank 2–5"
+        ],
+        [
+          "bbox / sources / names",
+          "JSONB",
+          "Overture payload"
+        ],
+        [
+          "categories / taxonomy",
+          "JSONB",
+          "classification payload"
+        ],
+        [
+          "websites / socials",
+          "JSONB",
+          "contact graph"
+        ],
+        [
+          "emails / phones",
+          "JSONB",
+          "contact data"
+        ],
+        [
+          "brand / addresses",
+          "JSONB",
+          "brand and location"
+        ],
+        [
+          "operating_status",
+          "TEXT",
+          "source state"
+        ],
+        [
+          "created_at / updated_at",
+          "TIMESTAMPTZ",
+          "record lifecycle"
+        ]
+      ],
+      "endpoints": [],
+      "facts": [
+        [
+          "Primary key",
+          "id"
+        ],
+        [
+          "Geometry",
+          "Point / SRID 4326"
+        ],
+        [
+          "Source model",
+          "Overture-compatible"
+        ],
+        [
+          "Priority",
+          "2–5 persisted"
+        ]
+      ],
+      "group": "Postgres tables",
+      "kind": "Postgres table",
+      "sources": [
+        [
+          "002 POI migration",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/002_pois_table.sql",
+          "base schema"
+        ],
+        [
+          "023 display priority",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/023_pois_display_priority.sql",
+          "ranking"
+        ],
+        [
+          "024 relation tags",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/024_relation_tags_visible_text.sql",
+          "evidence model"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Created in migration 002 and extended with ranking and relation tags.",
+      "structure": [
+        [
+          "GIST geometry",
+          "viewport queries"
+        ],
+        [
+          "GIN relation_tags",
+          "relation matching"
+        ],
+        [
+          "display priority",
+          "map ordering"
+        ]
+      ],
+      "subtitle": "Base place identity and map-ranking record",
+      "summary": "A canonical place core aligned with Overture Places. Base provider evidence stays here while mutable enrichment payloads and match state live in separate tables.",
+      "title": "pois",
+      "visual": "data"
+    },
+    "postgres": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Technology",
+          "PostgreSQL + PostGIS"
+        ],
+        [
+          "Connection",
+          "EVENT_DATABASE_URL"
+        ],
+        [
+          "Migration owner",
+          "scraper-server"
+        ],
+        [
+          "Consumers",
+          "scraper + frontend"
+        ]
+      ],
+      "group": "Data platform",
+      "kind": "Primary database",
+      "sources": [
+        [
+          "tap-pg migrations",
+          "https://github.com/scraper-system/tap-pg/tree/main/migrations",
+          "canonical schema history"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Production schema is applied by scraper-server from tap-pg migrations.",
+      "structure": [
+        [
+          "events",
+          "source-normalized geospatial experiences"
+        ],
+        [
+          "event_availability_windows",
+          "materialized recurring windows"
+        ],
+        [
+          "pois",
+          "Overture-compatible place core"
+        ],
+        [
+          "poi_enrichments",
+          "provider detail and media cache"
+        ],
+        [
+          "poi_provider_matches",
+          "identity resolution lifecycle"
+        ],
+        [
+          "hosts",
+          "organizer identity and city coverage"
+        ]
+      ],
+      "subtitle": "Canonical Postgres + PostGIS product data",
+      "summary": "The durable product truth: geospatial events, recurring availability, POIs, provider enrichments, identity matches and normalized hosts. GIST and GIN indexes support map, time, category and relation queries.",
+      "title": "TAP Event Database",
+      "visual": "data core"
+    },
+    "push_wake": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Status",
+          "Not built"
+        ],
+        [
+          "Transport",
+          "FCM proposed"
+        ],
+        [
+          "Payload",
+          "wake only"
+        ],
+        [
+          "Fallback",
+          "periodic polling"
+        ]
+      ],
+      "group": "Future boundaries",
+      "kind": "Planned capability",
+      "sources": [
+        [
+          "Historical specification",
+          "https://github.com/scraper-system/workspace/blob/main/PROJECT_SPECIFICATIONS.md",
+          "planned component; document marked historical"
+        ]
+      ],
+      "status": "planned",
+      "statusReason": "Specified historically but no current production FCM component or repository boundary is evidenced.",
+      "structure": [
+        [
+          "dispatcher",
+          "signal idle clients when backlog exists"
+        ],
+        [
+          "registration",
+          "client notification token"
+        ],
+        [
+          "mobile listener",
+          "wake then fetch from tasker"
+        ]
+      ],
+      "subtitle": "Wake-only signal for idle mobile workers",
+      "summary": "A wake signal can reduce reliance on periodic polling while keeping URLs and task payloads in the existing API. The original specification scoped this to notification delivery and client-token registration, not queue transport.",
+      "title": "Push Wake Channel",
+      "visual": "service"
+    },
+    "r2": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Schema",
+          "hero_image_version"
+        ],
+        [
+          "Delivery",
+          "immutable CDN URL"
+        ],
+        [
+          "Fallback",
+          "event image redirect"
+        ],
+        [
+          "Thumbnails",
+          "600px + 300px bytes"
+        ]
+      ],
+      "group": "External systems",
+      "kind": "Object storage",
+      "sources": [
+        [
+          "018 image version",
+          "https://github.com/scraper-system/tap-pg/blob/main/migrations/018_events_hero_image_version.sql",
+          "R2-backed version field"
+        ],
+        [
+          "Current API guide",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-apis/SKILL.md",
+          "image route behavior"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "R2-backed immutable event image versioning is present in the canonical schema and API contract.",
+      "structure": [],
+      "subtitle": "Versioned hero image delivery",
+      "summary": "Events can carry an immutable hero_image_version for CDN-backed media URLs while the database retains thumbnails and a legacy redirect fallback.",
+      "title": "Immutable Event Media",
+      "visual": "external"
+    },
+    "room": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Owner",
+          "mobile-client"
+        ],
+        [
+          "Technology",
+          "Android Room"
+        ],
+        [
+          "Pattern",
+          "producer / consumer"
+        ],
+        [
+          "Scope",
+          "device-local"
+        ]
+      ],
+      "group": "Operational stores",
+      "kind": "On-device database",
+      "sources": [
+        [
+          "mobile-client",
+          "https://github.com/scraper-system/mobile-client",
+          "primary client"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Part of the primary Kotlin client architecture.",
+      "structure": [
+        [
+          "queued work",
+          "durable client lease"
+        ],
+        [
+          "capture state",
+          "consumer progress"
+        ],
+        [
+          "retry metadata",
+          "backoff and circuit state"
+        ]
+      ],
+      "subtitle": "On-device work durability",
+      "summary": "Room persistence decouples task polling from WebView execution so the Kotlin client can recover across connectivity loss, process death, reboots and Android foreground-service limits.",
+      "title": "Mobile Room Store",
+      "visual": "data"
+    },
+    "scraper_dashboard": {
+      "columns": [],
+      "endpoints": [
+        [
+          "GET /api/v1/dashboard/scraper",
+          "dashboard surface"
+        ],
+        [
+          "GET /api/v1/tasks",
+          "task inventory"
+        ],
+        [
+          "GET /api/v1/taskers",
+          "worker brokers"
+        ],
+        [
+          "GET /api/v1/stats/*",
+          "operational metrics"
+        ]
+      ],
+      "facts": [
+        [
+          "Owner",
+          "scraper-server"
+        ],
+        [
+          "Production route",
+          "/dashboard"
+        ],
+        [
+          "Port",
+          ":9000"
+        ],
+        [
+          "Auth",
+          "optional HTTP Basic"
+        ]
+      ],
+      "group": "Product surfaces",
+      "kind": "Operations UI",
+      "sources": [
+        [
+          "scraper-server",
+          "https://github.com/scraper-system/scraper-server",
+          "production scraper service"
+        ],
+        [
+          "deploy routing",
+          "https://github.com/scraper-system/deploy",
+          "nginx ownership"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Embedded dashboard and supporting routes are active behind the scraper-server boundary.",
+      "structure": [
+        [
+          "tasks",
+          "queue status and manual creation"
+        ],
+        [
+          "fleet",
+          "taskers and registered clients"
+        ],
+        [
+          "coverage",
+          "cities, hosts and backfill state"
+        ],
+        [
+          "stats",
+          "event and pipeline counts over time"
+        ]
+      ],
+      "subtitle": "Pipeline, host and ingestion control room",
+      "summary": "The scraper-server dashboard exposes operational task state, taskers, clients, cities, task types, hosts, logs and ingestion statistics. It is the operator view into the acquisition half of TAP.",
+      "title": "Scraper Operations",
+      "visual": "product"
+    },
+    "scraper_server": {
+      "columns": [],
+      "endpoints": [
+        [
+          "POST /api/v1/tasks",
+          "create inferred or explicit tasks"
+        ],
+        [
+          "POST /api/v1/taskers/{id}/results",
+          "receive extraction results"
+        ],
+        [
+          "GET /api/v1/task-types",
+          "runtime extraction definitions"
+        ],
+        [
+          "GET /api/v1/cities",
+          "coverage configuration"
+        ]
+      ],
+      "facts": [
+        [
+          "Repository",
+          "scraper-server"
+        ],
+        [
+          "Production port",
+          ":9000"
+        ],
+        [
+          "Local split port",
+          ":8083"
+        ],
+        [
+          "Owned SQLite",
+          "scraper.sqlite"
+        ]
+      ],
+      "group": "Services",
+      "kind": "Go service",
+      "sources": [
+        [
+          "scraper-server repository",
+          "https://github.com/scraper-system/scraper-server",
+          "current production owner"
+        ],
+        [
+          "Workspace architecture",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "Stage 9 mental model"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Production service extracted from the legacy monorepo and independently deployed since Stage 9.",
+      "structure": [
+        [
+          "scraper/api",
+          "HTTP routes, dashboard and middleware"
+        ],
+        [
+          "taskmanager",
+          "creation, dispatch and result handling"
+        ],
+        [
+          "task type assets",
+          "pre-injection JS + LLM prompts"
+        ],
+        [
+          "background loops",
+          "host backfill, Viator, maintenance"
+        ],
+        [
+          "tap-pg scraper package",
+          "Postgres write boundary"
+        ]
+      ],
+      "subtitle": "Task creation, pipeline control and canonical ingestion",
+      "summary": "The acquisition control plane. It creates tasks from APIs, host discovery, city backfills and Viator runners; owns operational SQLite; receives extracted results; and writes canonical events and hosts through tap-pg.",
+      "title": "Scraper Server",
+      "visual": "service core"
+    },
+    "scraper_sqlite": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Owner",
+          "scraper-server"
+        ],
+        [
+          "Production path",
+          "/opt/scraper/server/scraper.sqlite"
+        ],
+        [
+          "Migration folder",
+          "scraper_migrations"
+        ],
+        [
+          "Boundary",
+          "not frontend-owned"
+        ]
+      ],
+      "group": "Operational stores",
+      "kind": "SQLite database",
+      "sources": [
+        [
+          "Architecture overview",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "database ownership"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Owned, migrated and health-checked by scraper-server.",
+      "structure": [
+        [
+          "tasks",
+          "creation, dispatch and result lifecycle"
+        ],
+        [
+          "cities",
+          "bounding boxes and coverage configuration"
+        ],
+        [
+          "task types",
+          "runtime extraction settings"
+        ],
+        [
+          "Viator caches",
+          "partner sync state"
+        ],
+        [
+          "pipeline logs",
+          "operational evidence"
+        ]
+      ],
+      "subtitle": "Operational task and acquisition state",
+      "summary": "Scraper-server's private operational database. It intentionally holds volatile pipeline and coverage state that does not belong in the public product database.",
+      "title": "scraper.sqlite",
+      "visual": "data"
+    },
+    "sources": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Primary source",
+          "Facebook"
+        ],
+        [
+          "Other mode",
+          "manual web URL"
+        ],
+        [
+          "Evidence",
+          "rendered DOM / visible text"
+        ],
+        [
+          "Acquisition",
+          "mobile WebView"
+        ]
+      ],
+      "group": "External systems",
+      "kind": "External source",
+      "sources": [
+        [
+          "scraper-server",
+          "https://github.com/scraper-system/scraper-server",
+          "task pipeline owner"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Current primary inputs to fb_event, fb_host, fb_poi, web_poi and manual flows.",
+      "structure": [
+        [
+          "event pages",
+          "structured events"
+        ],
+        [
+          "host pages",
+          "discover upcoming events"
+        ],
+        [
+          "place pages",
+          "POI evidence"
+        ]
+      ],
+      "subtitle": "Facebook, organizer, event and place pages",
+      "summary": "Rendered web pages are the evidence layer for distributed scraping. Source-specific task types control URL interpretation, pre-injection and extraction behavior.",
+      "title": "Web Sources",
+      "visual": "external"
+    },
+    "stripe": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Owner",
+          "frontend-server"
+        ],
+        [
+          "Product",
+          "hotel admin"
+        ],
+        [
+          "Source of truth",
+          "signed webhook"
+        ],
+        [
+          "Persistence",
+          "frontend.sqlite"
+        ]
+      ],
+      "group": "External systems",
+      "kind": "External provider",
+      "sources": [
+        [
+          "frontend-server",
+          "https://github.com/scraper-system/frontend-server",
+          "billing handlers"
+        ],
+        [
+          "Current API guide",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-apis/SKILL.md",
+          "billing contract"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Checkout, portal, webhook and completion routes are active in frontend-server.",
+      "structure": [],
+      "subtitle": "Hotel subscription checkout, portal and webhooks",
+      "summary": "Stripe supplies the subscription lifecycle for hotel administration. Signed webhooks are primary; a completed-checkout reconciliation path closes the gap when webhook delivery is unavailable.",
+      "title": "Stripe",
+      "visual": "external"
+    },
+    "system_acquisition": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Parent",
+          "TAP System"
+        ],
+        [
+          "Primary client",
+          "Kotlin Android"
+        ],
+        [
+          "Execution",
+          "WebView"
+        ],
+        [
+          "Evidence",
+          "DOM, text and media"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture branch",
+      "sources": [
+        [
+          "mobile-client",
+          "https://github.com/scraper-system/mobile-client",
+          "primary acquisition client"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Represents the primary Kotlin client and current web-source capture boundary. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "mobile-client",
+          "durable device worker"
+        ],
+        [
+          "Web sources",
+          "rendered event and place pages"
+        ]
+      ],
+      "subtitle": "Distributed clients and rendered source evidence",
+      "summary": "The acquisition spoke represents work leaving the service core for device execution and rendered web evidence. The complete task, capture, extraction and delivery pipeline now continues through its child concepts instead of a separate lens.",
+      "title": "Acquisition Edge",
+      "visual": "service"
+    },
+    "system_data": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Parent",
+          "TAP System"
+        ],
+        [
+          "Canonical store",
+          "Postgres/PostGIS"
+        ],
+        [
+          "Shared contract",
+          "tap-pg"
+        ],
+        [
+          "Operational stores",
+          "3 SQLite databases"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture branch",
+      "sources": [
+        [
+          "Current architecture overview",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "data-store ownership"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Represents current Postgres/PostGIS and service-owned SQLite boundaries. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "Persistence contract",
+          "tap-pg boundary"
+        ],
+        [
+          "Canonical event data",
+          "Postgres/PostGIS"
+        ],
+        [
+          "Operational state",
+          "service-owned SQLite"
+        ]
+      ],
+      "subtitle": "Canonical schema and persistence boundary",
+      "summary": "The data spoke separates the shared persistence contract from service-owned operational state. The canonical chain continues farther outward through tap-pg to Postgres. Postgres is product truth; private stores remain isolated by owner and failure domain, and every real table remains directly inspectable.",
+      "title": "Data Layer",
+      "visual": "service"
+    },
+    "system_persistence": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Parent",
+          "Data Layer"
+        ],
+        [
+          "Module",
+          "tap-pg"
+        ],
+        [
+          "Migration owner",
+          "scraper-server"
+        ],
+        [
+          "Canonical store",
+          "Postgres"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture branch",
+      "sources": [
+        [
+          "tap-pg",
+          "https://github.com/scraper-system/tap-pg",
+          "shared Postgres module"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Conceptual grouping for the tap-pg module and canonical Postgres chain. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "tap-pg",
+          "shared query and migration contract"
+        ],
+        [
+          "Postgres/PostGIS",
+          "canonical product truth"
+        ]
+      ],
+      "subtitle": "Shared database module boundary",
+      "summary": "An intermediate data-architecture branch that keeps tap-pg farther from the TAP core than the production services while preserving its shared role across scraper and frontend.",
+      "title": "Persistence Contract",
+      "visual": "service"
+    },
+    "system_products": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Parent",
+          "TAP System"
+        ],
+        [
+          "Spatial form",
+          "vertical product stack"
+        ],
+        [
+          "Surfaces",
+          "4"
+        ],
+        [
+          "Primary public UI",
+          "Events Globe"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture branch",
+      "sources": [
+        [
+          "Repository map",
+          "https://github.com/scraper-system/workspace/blob/main/code/README.md",
+          "surface ownership"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Represents the web app, hotel administration and operational dashboards. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "Events Globe",
+          "public discovery"
+        ],
+        [
+          "Hotel Admin",
+          "credentialed product control"
+        ],
+        [
+          "Scraper Operations",
+          "acquisition operations"
+        ],
+        [
+          "Tasker Console",
+          "broker operations"
+        ]
+      ],
+      "subtitle": "Public, hotel and operator experiences",
+      "summary": "The product spoke groups customer-facing and operator-facing interfaces. Product surfaces stack vertically on a shared radial anchor. The public globe, hotel workspace and two control rooms preserve the former product lens inside this unified graph.",
+      "title": "Product Layer",
+      "visual": "service"
+    },
+    "system_runtime": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Parent",
+          "TAP System"
+        ],
+        [
+          "Hosting",
+          "Hetzner VPS"
+        ],
+        [
+          "Public edge",
+          "nginx"
+        ],
+        [
+          "Process manager",
+          "systemd"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture branch",
+      "sources": [
+        [
+          "deploy repository",
+          "https://github.com/scraper-system/deploy",
+          "production topology"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Represents the live deployment topology owned by the deploy repository. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "deploy",
+          "infrastructure control"
+        ],
+        [
+          "Hetzner",
+          "production compute"
+        ],
+        [
+          "nginx",
+          "TLS and route ownership"
+        ]
+      ],
+      "subtitle": "Delivery infrastructure, hosting and public edge",
+      "summary": "The runtime spoke groups deployment control, Hetzner hosting and nginx public routing independently from application ownership. Repository boundaries remain reinforced by nginx routing, separate SQLite stores, systemd and independently promoted releases.",
+      "title": "Runtime Layer",
+      "visual": "service"
+    },
+    "system_services": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Parent",
+          "TAP System"
+        ],
+        [
+          "Spatial form",
+          "vertical service stack"
+        ],
+        [
+          "Components",
+          "3"
+        ],
+        [
+          "Hierarchy depth",
+          "1 branch / 2 components"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "Architecture branch",
+      "sources": [
+        [
+          "Current architecture overview",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "runtime components"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Represents the live scraper-server, frontend-server and tasker service layer. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "scraper-server",
+          "acquisition control plane"
+        ],
+        [
+          "frontend-server",
+          "product control plane"
+        ],
+        [
+          "tasker",
+          "device broker and extraction relay"
+        ]
+      ],
+      "subtitle": "Production control planes and task broker",
+      "summary": "The service spoke groups TAP's three peer runtime services. They occupy one radial anchor and stack vertically because they are components of the same architectural kind.",
+      "title": "Service Layer",
+      "visual": "service"
+    },
+    "tap_pg": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Repository",
+          "tap-pg"
+        ],
+        [
+          "Migrations",
+          "27 current files"
+        ],
+        [
+          "Scraper package",
+          "write / query helpers"
+        ],
+        [
+          "Frontend package",
+          "read / admin helpers"
+        ]
+      ],
+      "group": "Data platform",
+      "kind": "Go module",
+      "sources": [
+        [
+          "tap-pg repository",
+          "https://github.com/scraper-system/tap-pg",
+          "shared Postgres module"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Standalone shared repository used by both production services.",
+      "structure": [
+        [
+          "migrate",
+          "schema application; scraper-owned only"
+        ],
+        [
+          "scraper",
+          "ingestion and scraper queries"
+        ],
+        [
+          "frontend",
+          "map reads, filters and admin operations"
+        ],
+        [
+          "types",
+          "events, POIs, hosts, geometry, tiling"
+        ]
+      ],
+      "subtitle": "Shared Postgres contract with enforced service boundaries",
+      "summary": "The shared database module owns canonical migrations, types, query primitives and two deliberately separated public packages: scraper writes and frontend reads/admin. Its import rules prevent the Stage 9 split from drifting back into a monolith.",
+      "title": "tap-pg",
+      "visual": "data"
+    },
+    "tap_root": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Organization",
+          "scraper-system"
+        ],
+        [
+          "Production model",
+          "Stage 9 split"
+        ],
+        [
+          "Spatial rule",
+          "hierarchy grows outward"
+        ],
+        [
+          "Stacking rule",
+          "same kind rises vertically"
+        ]
+      ],
+      "group": "Architecture",
+      "isConcept": true,
+      "kind": "System root",
+      "sources": [
+        [
+          "Current architecture overview",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-overview/SKILL.md",
+          "living system model"
+        ],
+        [
+          "Repository map",
+          "https://github.com/scraper-system/workspace/blob/main/code/README.md",
+          "current ownership"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Conceptual root representing the live scraper-system organization and its Stage 9 production architecture. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "acquisition",
+          "scraper-server, tasker and clients"
+        ],
+        [
+          "canonical data",
+          "tap-pg and Postgres/PostGIS"
+        ],
+        [
+          "product delivery",
+          "frontend-server and web-app"
+        ],
+        [
+          "runtime",
+          "deploy, Hetzner, nginx and systemd"
+        ]
+      ],
+      "subtitle": "Event intelligence, acquisition and product delivery",
+      "summary": "The architectural root of TAP. Every lens expands outward from this point: first by responsibility, then by component hierarchy, while components of the same kind occupy a shared vertical stack.",
+      "title": "TAP System",
+      "visual": "service core"
+    },
+    "task_assets": {
+      "columns": [],
+      "endpoints": [
+        [
+          "GET /api/v1/task-types",
+          "list effective definitions"
+        ],
+        [
+          "PATCH /api/v1/task-types/{type}",
+          "operator update"
+        ]
+      ],
+      "facts": [
+        [
+          "Owner",
+          "scraper-server"
+        ],
+        [
+          "Assets",
+          "pre-injection JS + prompts"
+        ],
+        [
+          "Consumer",
+          "client and tasker"
+        ],
+        [
+          "Control",
+          "task type API"
+        ]
+      ],
+      "group": "Pipeline modules",
+      "kind": "Pipeline configuration",
+      "sources": [
+        [
+          "scraper-server",
+          "https://github.com/scraper-system/scraper-server",
+          "task type asset owner"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Owned and deployed with scraper-server; exposed through task-type APIs.",
+      "structure": [
+        [
+          "fb_event",
+          "event detail extraction"
+        ],
+        [
+          "fb_host",
+          "host upcoming-event discovery"
+        ],
+        [
+          "fb_poi / web_poi",
+          "place evidence"
+        ],
+        [
+          "manual / integrations",
+          "explicit workflows"
+        ]
+      ],
+      "subtitle": "Versioned scrape scripts and extraction prompts",
+      "summary": "Scraper-owned task definitions keep WebView behavior and LLM instructions out of device binaries. Pre-injection JavaScript and system prompts travel with work through tasker to the client and extraction stage.",
+      "title": "Task Type Assets",
+      "visual": "service"
+    },
+    "tasker": {
+      "columns": [],
+      "endpoints": [
+        [
+          "POST /v1/tasks/from-server",
+          "ingest work"
+        ],
+        [
+          "GET /v1/tasks/batch?max=&client_id=",
+          "lease device batch"
+        ],
+        [
+          "POST /v1/tasks/{task_id}",
+          "receive client payload"
+        ],
+        [
+          "DELETE /v1/tasks?status=",
+          "operator cleanup"
+        ]
+      ],
+      "facts": [
+        [
+          "Repository",
+          "tasker"
+        ],
+        [
+          "Port",
+          ":8080"
+        ],
+        [
+          "Queue cap",
+          "5,000"
+        ],
+        [
+          "Batch max",
+          "10"
+        ]
+      ],
+      "group": "Services",
+      "kind": "Go service",
+      "sources": [
+        [
+          "tasker repository",
+          "https://github.com/scraper-system/tasker",
+          "queue, LLM, handlers"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Functional production component with SQLite persistence and a documented nine-state lifecycle.",
+      "structure": [
+        [
+          "from_server",
+          "accepted from scraper-server"
+        ],
+        [
+          "to_client / from_client",
+          "leased to and returned by device"
+        ],
+        [
+          "to_llm / from_llm",
+          "structured extraction"
+        ],
+        [
+          "to_server",
+          "result relay"
+        ],
+        [
+          "fail_*",
+          "client, LLM or server failure"
+        ]
+      ],
+      "subtitle": "Mobile work broker, LLM extractor and result relay",
+      "summary": "Tasker is the narrow bridge between server-created work and passive mobile scrapers. It persists a bounded queue, allocates batches, accepts captures, runs LLM extraction and forwards normalized results back to scraper-server.",
+      "title": "Tasker",
+      "visual": "service"
+    },
+    "tasker_dashboard": {
+      "columns": [],
+      "endpoints": [
+        [
+          "GET /",
+          "dashboard HTML"
+        ],
+        [
+          "GET /v1/tasks",
+          "status-filtered task list"
+        ],
+        [
+          "GET /v1/logs",
+          "recent tasker logs"
+        ]
+      ],
+      "facts": [
+        [
+          "Owner",
+          "tasker"
+        ],
+        [
+          "Port",
+          ":8080"
+        ],
+        [
+          "Log buffer",
+          "100 entries"
+        ],
+        [
+          "Batch cap",
+          "10 tasks"
+        ]
+      ],
+      "group": "Product surfaces",
+      "kind": "Operations UI",
+      "sources": [
+        [
+          "tasker repository",
+          "https://github.com/scraper-system/tasker",
+          "broker, LLM and console"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Bundled in the Go tasker and served from its root route.",
+      "structure": [
+        [
+          "queue",
+          "from_server through to_server"
+        ],
+        [
+          "results",
+          "LLM fields and client failures"
+        ],
+        [
+          "logs",
+          "recent in-memory operational events"
+        ]
+      ],
+      "subtitle": "Device queue, extraction and relay visibility",
+      "summary": "A compact monitoring surface over the mobile work queue. It shows task lifecycle states, extracted results and recent tasker logs without becoming a second system of record.",
+      "title": "Tasker Console",
+      "visual": "product"
+    },
+    "tasker_sqlite": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Owner",
+          "tasker"
+        ],
+        [
+          "Technology",
+          "SQLite"
+        ],
+        [
+          "Capacity",
+          "5,000 queued tasks"
+        ],
+        [
+          "Canonical data",
+          "No"
+        ]
+      ],
+      "group": "Operational stores",
+      "kind": "SQLite database",
+      "sources": [
+        [
+          "tasker repository",
+          "https://github.com/scraper-system/tasker",
+          "storage implementation"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Persistent store documented and used by tasker.",
+      "structure": [
+        [
+          "tasks",
+          "payload, client evidence and extracted fields"
+        ],
+        [
+          "timestamps",
+          "each lifecycle transition"
+        ],
+        [
+          "errors",
+          "client, LLM and server relay failures"
+        ]
+      ],
+      "subtitle": "Bounded broker queue and extraction state",
+      "summary": "Tasker's recoverable local queue mirrors the mobile/LLM relay lifecycle. It is a transport and processing record, not the canonical event store.",
+      "title": "tasks.db",
+      "visual": "data"
+    },
+    "viator": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Owner",
+          "scraper-server"
+        ],
+        [
+          "Task type",
+          "api_viator_city"
+        ],
+        [
+          "URL form",
+          "viator-city://{city_key}"
+        ],
+        [
+          "Queue owner",
+          "ViatorPhaseARunner"
+        ]
+      ],
+      "group": "External systems",
+      "kind": "External integration",
+      "sources": [
+        [
+          "scraper-server",
+          "https://github.com/scraper-system/scraper-server",
+          "runtime integration"
+        ],
+        [
+          "Current API guide",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-apis/SKILL.md",
+          "non-public task creation path"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Current architecture documents Viator Phase A queueing and scraper-owned caches.",
+      "structure": [
+        [
+          "city search",
+          "partner tags and filters"
+        ],
+        [
+          "synthetic task",
+          "source_json payload"
+        ],
+        [
+          "cache",
+          "scraper.sqlite integration state"
+        ]
+      ],
+      "subtitle": "City-scoped tourism inventory sync",
+      "summary": "A scraper-server background runner queues synthetic city refresh work and ingests partner inventory without pretending Viator tasks are ordinary public URL submissions.",
+      "title": "Viator Partner API",
+      "visual": "external"
+    },
+    "web_app": {
+      "columns": [],
+      "endpoints": [
+        [
+          "GET /api/v1/events/tiles/{z}/{x}/{y}",
+          "clustered event features"
+        ],
+        [
+          "GET /api/v1/pois?view=map",
+          "map POI features"
+        ],
+        [
+          "GET /api/v1/links/{path}",
+          "hotel-specific map configuration"
+        ],
+        [
+          "POST /api/v1/analytics/pageview",
+          "traffic record"
+        ]
+      ],
+      "facts": [
+        [
+          "Repository",
+          "web-app"
+        ],
+        [
+          "Runtime",
+          "Vanilla HTML / CSS / JS"
+        ],
+        [
+          "Map engine",
+          "Mapbox GL JS"
+        ],
+        [
+          "Delivery",
+          "Static via nginx"
+        ]
+      ],
+      "group": "Product surfaces",
+      "kind": "Product frontend",
+      "sources": [
+        [
+          "web-app repository",
+          "https://github.com/scraper-system/web-app",
+          "production frontend"
+        ],
+        [
+          "API map",
+          "https://github.com/scraper-system/workspace/blob/main/.cursor/skills/scraper-system-apis/SKILL.md",
+          "current route ownership"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Built and deployed as the public static root at timeandplace.me.",
+      "structure": [
+        [
+          "api.js",
+          "events, POIs, clusters, links, pageviews"
+        ],
+        [
+          "app.js",
+          "map state, drawers, filters, routing"
+        ],
+        [
+          "cluster worker",
+          "baked PNG marker sprites"
+        ],
+        [
+          "config",
+          "Mapbox token injected at deploy"
+        ]
+      ],
+      "subtitle": "Public Mapbox event and POI experience",
+      "summary": "A static, dependency-light web application that turns TAP's event, POI, route and hotel-link APIs into an explorable globe. Cluster sprites are baked in a Web Worker and the event drawer preserves selection as the user moves through clusters.",
+      "title": "Events Globe",
+      "visual": "product"
+    },
+    "webview": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Runs in",
+          "mobile-client"
+        ],
+        [
+          "Inputs",
+          "URL + pre-injection script"
+        ],
+        [
+          "Outputs",
+          "HTML / text / image"
+        ],
+        [
+          "Failure modes",
+          "timeout / HTTP / render"
+        ]
+      ],
+      "group": "Pipeline modules",
+      "kind": "Execution module",
+      "sources": [
+        [
+          "mobile-client",
+          "https://github.com/scraper-system/mobile-client",
+          "current capture engine"
+        ],
+        [
+          "mobile-client-scraper",
+          "https://github.com/scraper-system/mobile-client-scraper",
+          "original capture behavior"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Implemented in both client generations; actively maintained in Kotlin.",
+      "structure": [
+        [
+          "pre-injection",
+          "cookie and source handling"
+        ],
+        [
+          "DOM readiness",
+          "stability wait before capture"
+        ],
+        [
+          "visible_text",
+          "evidence for web POI flows"
+        ],
+        [
+          "hero image",
+          "optional task requirement"
+        ]
+      ],
+      "subtitle": "DOM, visible text and hero media acquisition",
+      "summary": "Runs source-specific pre-injection logic, waits for page stability, captures the rendered DOM and visible evidence, extracts hero media and reports typed client failures. The source prompt and script are supplied with each task.",
+      "title": "WebView Capture Engine",
+      "visual": "client"
+    },
+    "workspace_repo": {
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Repository",
+          "workspace"
+        ],
+        [
+          "Application code",
+          "separate repositories"
+        ],
+        [
+          "Current model",
+          "Stage 9 skills"
+        ],
+        [
+          "Historical spec",
+          "explicitly superseded"
+        ]
+      ],
+      "group": "Runtime & delivery",
+      "kind": "Documentation repo",
+      "sources": [
+        [
+          "workspace repository",
+          "https://github.com/scraper-system/workspace",
+          "living operating context"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Active documentation and workspace repository.",
+      "structure": [
+        [
+          "scraper-system-overview",
+          "living topology index"
+        ],
+        [
+          "scraper-system-apis",
+          "current route ownership"
+        ],
+        [
+          "code/README",
+          "repository map"
+        ],
+        [
+          "tests and runbooks",
+          "verification context"
+        ]
+      ],
+      "subtitle": "Living architecture, skills and operator context",
+      "summary": "The workspace repository is the human operating layer: current architecture skills, project rules, tests, sales context and multi-repository bootstrap scripts. It is intentionally not an application monorepo.",
+      "title": "Workspace Knowledge",
+      "visual": "service"
+    }
+  },
+  "parentLinks": [
+    {
+      "child": "system_services",
+      "id": "system_services@tap_root",
+      "order": 0,
+      "parent": "tap_root"
+    },
+    {
+      "child": "system_products",
+      "id": "system_products@tap_root",
+      "order": 0,
+      "parent": "tap_root"
+    },
+    {
+      "child": "system_data",
+      "id": "system_data@tap_root",
+      "order": 0,
+      "parent": "tap_root"
+    },
+    {
+      "child": "system_acquisition",
+      "id": "system_acquisition@tap_root",
+      "order": 0,
+      "parent": "tap_root"
+    },
+    {
+      "child": "system_runtime",
+      "id": "system_runtime@tap_root",
+      "order": 0,
+      "parent": "tap_root"
+    },
+    {
+      "child": "external_systems",
+      "id": "external_systems@tap_root",
+      "order": 0,
+      "parent": "tap_root"
+    },
+    {
+      "child": "evolution",
+      "id": "evolution@tap_root",
+      "order": 0,
+      "parent": "tap_root"
+    },
+    {
+      "child": "system_persistence",
+      "id": "system_persistence@system_data",
+      "order": 0,
+      "parent": "system_data"
+    },
+    {
+      "child": "operational_stores",
+      "id": "operational_stores@system_data",
+      "order": 0,
+      "parent": "system_data"
+    },
+    {
+      "child": "clients_concept",
+      "id": "clients_concept@system_acquisition",
+      "order": 0,
+      "parent": "system_acquisition"
+    },
+    {
+      "child": "pipeline_modules",
+      "id": "pipeline_modules@system_acquisition",
+      "order": 0,
+      "parent": "system_acquisition"
+    },
+    {
+      "child": "planned_concept",
+      "id": "planned_concept@evolution",
+      "order": 0,
+      "parent": "evolution"
+    },
+    {
+      "child": "legacy_concept",
+      "id": "legacy_concept@evolution",
+      "order": 0,
+      "parent": "evolution"
+    },
+    {
+      "child": "scraper_server",
+      "id": "scraper_server@system_services",
+      "order": 0,
+      "parent": "system_services"
+    },
+    {
+      "child": "frontend_server",
+      "id": "frontend_server@system_services",
+      "order": 0,
+      "parent": "system_services"
+    },
+    {
+      "child": "tasker",
+      "id": "tasker@system_services",
+      "order": 0,
+      "parent": "system_services"
+    },
+    {
+      "child": "web_app",
+      "id": "web_app@frontend_server",
+      "order": 0,
+      "parent": "frontend_server"
+    },
+    {
+      "child": "web_app",
+      "id": "web_app@system_products",
+      "order": 1,
+      "parent": "system_products"
+    },
+    {
+      "child": "hotel_admin",
+      "id": "hotel_admin@frontend_server",
+      "order": 0,
+      "parent": "frontend_server"
+    },
+    {
+      "child": "hotel_admin",
+      "id": "hotel_admin@system_products",
+      "order": 1,
+      "parent": "system_products"
+    },
+    {
+      "child": "scraper_dashboard",
+      "id": "scraper_dashboard@scraper_server",
+      "order": 0,
+      "parent": "scraper_server"
+    },
+    {
+      "child": "scraper_dashboard",
+      "id": "scraper_dashboard@system_products",
+      "order": 1,
+      "parent": "system_products"
+    },
+    {
+      "child": "tasker_dashboard",
+      "id": "tasker_dashboard@tasker",
+      "order": 0,
+      "parent": "tasker"
+    },
+    {
+      "child": "tasker_dashboard",
+      "id": "tasker_dashboard@system_products",
+      "order": 1,
+      "parent": "system_products"
+    },
+    {
+      "child": "scraper_sqlite",
+      "id": "scraper_sqlite@scraper_server",
+      "order": 0,
+      "parent": "scraper_server"
+    },
+    {
+      "child": "scraper_sqlite",
+      "id": "scraper_sqlite@operational_stores",
+      "order": 1,
+      "parent": "operational_stores"
+    },
+    {
+      "child": "frontend_sqlite",
+      "id": "frontend_sqlite@frontend_server",
+      "order": 0,
+      "parent": "frontend_server"
+    },
+    {
+      "child": "frontend_sqlite",
+      "id": "frontend_sqlite@operational_stores",
+      "order": 1,
+      "parent": "operational_stores"
+    },
+    {
+      "child": "tasker_sqlite",
+      "id": "tasker_sqlite@tasker",
+      "order": 0,
+      "parent": "tasker"
+    },
+    {
+      "child": "tasker_sqlite",
+      "id": "tasker_sqlite@operational_stores",
+      "order": 1,
+      "parent": "operational_stores"
+    },
+    {
+      "child": "room",
+      "id": "room@mobile_kotlin",
+      "order": 0,
+      "parent": "mobile_kotlin"
+    },
+    {
+      "child": "room",
+      "id": "room@operational_stores",
+      "order": 1,
+      "parent": "operational_stores"
+    },
+    {
+      "child": "tap_pg",
+      "id": "tap_pg@system_persistence",
+      "order": 0,
+      "parent": "system_persistence"
+    },
+    {
+      "child": "tap_pg",
+      "id": "tap_pg@scraper_server",
+      "order": 1,
+      "parent": "scraper_server"
+    },
+    {
+      "child": "tap_pg",
+      "id": "tap_pg@frontend_server",
+      "order": 2,
+      "parent": "frontend_server"
+    },
+    {
+      "child": "postgres",
+      "id": "postgres@tap_pg",
+      "order": 0,
+      "parent": "tap_pg"
+    },
+    {
+      "child": "postgres",
+      "id": "postgres@system_data",
+      "order": 1,
+      "parent": "system_data"
+    },
+    {
+      "child": "postgres",
+      "id": "postgres@hetzner",
+      "order": 2,
+      "parent": "hetzner"
+    },
+    {
+      "child": "events",
+      "id": "events@postgres",
+      "order": 0,
+      "parent": "postgres"
+    },
+    {
+      "child": "hosts",
+      "id": "hosts@postgres",
+      "order": 0,
+      "parent": "postgres"
+    },
+    {
+      "child": "pois",
+      "id": "pois@postgres",
+      "order": 0,
+      "parent": "postgres"
+    },
+    {
+      "child": "availability",
+      "id": "availability@events",
+      "order": 0,
+      "parent": "events"
+    },
+    {
+      "child": "enrichments",
+      "id": "enrichments@pois",
+      "order": 0,
+      "parent": "pois"
+    },
+    {
+      "child": "matches",
+      "id": "matches@pois",
+      "order": 0,
+      "parent": "pois"
+    },
+    {
+      "child": "mobile_kotlin",
+      "id": "mobile_kotlin@tasker",
+      "order": 0,
+      "parent": "tasker"
+    },
+    {
+      "child": "mobile_kotlin",
+      "id": "mobile_kotlin@clients_concept",
+      "order": 1,
+      "parent": "clients_concept"
+    },
+    {
+      "child": "task_assets",
+      "id": "task_assets@scraper_server",
+      "order": 0,
+      "parent": "scraper_server"
+    },
+    {
+      "child": "task_assets",
+      "id": "task_assets@pipeline_modules",
+      "order": 1,
+      "parent": "pipeline_modules"
+    },
+    {
+      "child": "webview",
+      "id": "webview@mobile_kotlin",
+      "order": 0,
+      "parent": "mobile_kotlin"
+    },
+    {
+      "child": "webview",
+      "id": "webview@pipeline_modules",
+      "order": 1,
+      "parent": "pipeline_modules"
+    },
+    {
+      "child": "llm",
+      "id": "llm@tasker",
+      "order": 0,
+      "parent": "tasker"
+    },
+    {
+      "child": "llm",
+      "id": "llm@pipeline_modules",
+      "order": 1,
+      "parent": "pipeline_modules"
+    },
+    {
+      "child": "sources",
+      "id": "sources@mobile_kotlin",
+      "order": 0,
+      "parent": "mobile_kotlin"
+    },
+    {
+      "child": "sources",
+      "id": "sources@external_systems",
+      "order": 1,
+      "parent": "external_systems"
+    },
+    {
+      "child": "viator",
+      "id": "viator@scraper_server",
+      "order": 0,
+      "parent": "scraper_server"
+    },
+    {
+      "child": "viator",
+      "id": "viator@external_systems",
+      "order": 1,
+      "parent": "external_systems"
+    },
+    {
+      "child": "overture",
+      "id": "overture@scraper_server",
+      "order": 0,
+      "parent": "scraper_server"
+    },
+    {
+      "child": "overture",
+      "id": "overture@external_systems",
+      "order": 1,
+      "parent": "external_systems"
+    },
+    {
+      "child": "foursquare",
+      "id": "foursquare@frontend_server",
+      "order": 0,
+      "parent": "frontend_server"
+    },
+    {
+      "child": "foursquare",
+      "id": "foursquare@external_systems",
+      "order": 1,
+      "parent": "external_systems"
+    },
+    {
+      "child": "stripe",
+      "id": "stripe@frontend_server",
+      "order": 0,
+      "parent": "frontend_server"
+    },
+    {
+      "child": "stripe",
+      "id": "stripe@external_systems",
+      "order": 1,
+      "parent": "external_systems"
+    },
+    {
+      "child": "r2",
+      "id": "r2@frontend_server",
+      "order": 0,
+      "parent": "frontend_server"
+    },
+    {
+      "child": "r2",
+      "id": "r2@external_systems",
+      "order": 1,
+      "parent": "external_systems"
+    },
+    {
+      "child": "mapbox",
+      "id": "mapbox@web_app",
+      "order": 0,
+      "parent": "web_app"
+    },
+    {
+      "child": "mapbox",
+      "id": "mapbox@external_systems",
+      "order": 1,
+      "parent": "external_systems"
+    },
+    {
+      "child": "deploy",
+      "id": "deploy@system_runtime",
+      "order": 0,
+      "parent": "system_runtime"
+    },
+    {
+      "child": "hetzner",
+      "id": "hetzner@system_runtime",
+      "order": 0,
+      "parent": "system_runtime"
+    },
+    {
+      "child": "nginx",
+      "id": "nginx@hetzner",
+      "order": 0,
+      "parent": "hetzner"
+    },
+    {
+      "child": "nginx",
+      "id": "nginx@system_runtime",
+      "order": 1,
+      "parent": "system_runtime"
+    },
+    {
+      "child": "workspace_repo",
+      "id": "workspace_repo@system_runtime",
+      "order": 0,
+      "parent": "system_runtime"
+    },
+    {
+      "child": "browser_client",
+      "id": "browser_client@planned_concept",
+      "order": 0,
+      "parent": "planned_concept"
+    },
+    {
+      "child": "push_wake",
+      "id": "push_wake@planned_concept",
+      "order": 0,
+      "parent": "planned_concept"
+    },
+    {
+      "child": "mobile_rn",
+      "id": "mobile_rn@legacy_concept",
+      "order": 0,
+      "parent": "legacy_concept"
+    },
+    {
+      "child": "legacy_server",
+      "id": "legacy_server@legacy_concept",
+      "order": 0,
+      "parent": "legacy_concept"
+    }
+  ],
+  "presentation": {
+    "radiusStep": 162,
+    "stackHeight": 165
+  },
+  "primaryParentOverrides": {},
+  "relationships": [
+    {
+      "contexts": [
+        "system",
+        "products"
+      ],
+      "descriptions": [
+        "HTTPS /api",
+        "public API"
+      ],
+      "from": "web_app",
+      "id": "r0",
+      "kind": "flow",
+      "label": "HTTPS /api +1",
+      "to": "nginx"
+    },
+    {
+      "contexts": [
+        "system",
+        "products"
+      ],
+      "descriptions": [
+        "credentialed API",
+        "session API"
+      ],
+      "from": "hotel_admin",
+      "id": "r1",
+      "kind": "flow",
+      "label": "credentialed API +1",
+      "to": "nginx"
+    },
+    {
+      "contexts": [
+        "system"
+      ],
+      "descriptions": [
+        "ops routes"
+      ],
+      "from": "scraper_dashboard",
+      "id": "r2",
+      "kind": "flow",
+      "label": "ops routes",
+      "to": "nginx"
+    },
+    {
+      "contexts": [
+        "system",
+        "products"
+      ],
+      "descriptions": [
+        "local UI",
+        "queue API"
+      ],
+      "from": "tasker_dashboard",
+      "id": "r3",
+      "kind": "flow",
+      "label": "local UI +1",
+      "to": "tasker"
+    },
+    {
+      "contexts": [
+        "system",
+        "products",
+        "runtime"
+      ],
+      "descriptions": [
+        "product routes",
+        "routes",
+        "9001"
+      ],
+      "from": "nginx",
+      "id": "r4",
+      "kind": "flow",
+      "label": "product routes +2",
+      "to": "frontend_server"
+    },
+    {
+      "contexts": [
+        "system",
+        "runtime"
+      ],
+      "descriptions": [
+        "scraper routes",
+        "9000"
+      ],
+      "from": "nginx",
+      "id": "r5",
+      "kind": "flow",
+      "label": "scraper routes +1",
+      "to": "scraper_server"
+    },
+    {
+      "contexts": [
+        "system",
+        "runtime"
+      ],
+      "descriptions": [
+        "/v1",
+        "8080"
+      ],
+      "from": "nginx",
+      "id": "r6",
+      "kind": "flow",
+      "label": "/v1 +1",
+      "to": "tasker"
+    },
+    {
+      "contexts": [
+        "system",
+        "pipeline",
+        "roadmap"
+      ],
+      "descriptions": [
+        "tasks",
+        "from-server",
+        "stable contract"
+      ],
+      "from": "scraper_server",
+      "id": "r7",
+      "kind": "flow",
+      "label": "tasks +2",
+      "to": "tasker"
+    },
+    {
+      "contexts": [
+        "system",
+        "pipeline",
+        "roadmap"
+      ],
+      "descriptions": [
+        "batch / result",
+        "batch",
+        "current worker"
+      ],
+      "from": "tasker",
+      "id": "r8",
+      "kind": "flow",
+      "label": "batch / result +2",
+      "to": "mobile_kotlin"
+    },
+    {
+      "contexts": [
+        "system"
+      ],
+      "descriptions": [
+        "render"
+      ],
+      "from": "sources",
+      "id": "r9",
+      "kind": "external",
+      "label": "render",
+      "to": "mobile_kotlin"
+    },
+    {
+      "contexts": [
+        "system"
+      ],
+      "descriptions": [
+        "LLM result"
+      ],
+      "from": "tasker",
+      "id": "r10",
+      "kind": "flow",
+      "label": "LLM result",
+      "to": "scraper_server"
+    },
+    {
+      "contexts": [
+        "system",
+        "data",
+        "runtime"
+      ],
+      "descriptions": [
+        "write boundary",
+        "scraper package",
+        "imports scraper"
+      ],
+      "from": "scraper_server",
+      "id": "r11",
+      "kind": "ownership",
+      "label": "write boundary +2",
+      "to": "tap_pg"
+    },
+    {
+      "contexts": [
+        "system",
+        "data",
+        "runtime"
+      ],
+      "descriptions": [
+        "read boundary",
+        "frontend package",
+        "imports frontend"
+      ],
+      "from": "frontend_server",
+      "id": "r12",
+      "kind": "ownership",
+      "label": "read boundary +2",
+      "to": "tap_pg"
+    },
+    {
+      "contexts": [
+        "system",
+        "data",
+        "runtime"
+      ],
+      "descriptions": [
+        "SQL",
+        "migrations + queries",
+        "shared contract"
+      ],
+      "from": "tap_pg",
+      "id": "r13",
+      "kind": "flow",
+      "label": "SQL +2",
+      "to": "postgres"
+    },
+    {
+      "contexts": [
+        "system",
+        "data",
+        "runtime"
+      ],
+      "descriptions": [
+        "owns",
+        "private state"
+      ],
+      "from": "scraper_server",
+      "id": "r14",
+      "kind": "ownership",
+      "label": "owns +1",
+      "to": "scraper_sqlite"
+    },
+    {
+      "contexts": [
+        "system",
+        "data",
+        "runtime"
+      ],
+      "descriptions": [
+        "owns",
+        "private state"
+      ],
+      "from": "frontend_server",
+      "id": "r15",
+      "kind": "ownership",
+      "label": "owns +1",
+      "to": "frontend_sqlite"
+    },
+    {
+      "contexts": [
+        "system",
+        "data",
+        "runtime"
+      ],
+      "descriptions": [
+        "owns",
+        "queue state"
+      ],
+      "from": "tasker",
+      "id": "r16",
+      "kind": "ownership",
+      "label": "owns +1",
+      "to": "tasker_sqlite"
+    },
+    {
+      "contexts": [
+        "system",
+        "runtime"
+      ],
+      "descriptions": [
+        "provisions",
+        "infra apply"
+      ],
+      "from": "deploy",
+      "id": "r17",
+      "kind": "flow",
+      "label": "provisions +1",
+      "to": "hetzner"
+    },
+    {
+      "contexts": [
+        "system"
+      ],
+      "descriptions": [
+        "hosts"
+      ],
+      "from": "hetzner",
+      "id": "r18",
+      "kind": "ownership",
+      "label": "hosts",
+      "to": "nginx"
+    },
+    {
+      "contexts": [
+        "data"
+      ],
+      "descriptions": [
+        "device lease"
+      ],
+      "from": "tasker",
+      "id": "r19",
+      "kind": "external",
+      "label": "device lease",
+      "to": "room"
+    },
+    {
+      "contexts": [
+        "data"
+      ],
+      "descriptions": [
+        "contains"
+      ],
+      "from": "postgres",
+      "id": "r20",
+      "kind": "flow",
+      "label": "contains",
+      "to": "events"
+    },
+    {
+      "contexts": [
+        "data"
+      ],
+      "descriptions": [
+        "1 → many"
+      ],
+      "from": "events",
+      "id": "r21",
+      "kind": "flow",
+      "label": "1 → many",
+      "to": "availability"
+    },
+    {
+      "contexts": [
+        "data"
+      ],
+      "descriptions": [
+        "contains"
+      ],
+      "from": "postgres",
+      "id": "r22",
+      "kind": "flow",
+      "label": "contains",
+      "to": "hosts"
+    },
+    {
+      "contexts": [
+        "data"
+      ],
+      "descriptions": [
+        "host_ids[]"
+      ],
+      "from": "events",
+      "id": "r23",
+      "kind": "ownership",
+      "label": "host_ids[]",
+      "to": "hosts"
+    },
+    {
+      "contexts": [
+        "data",
+        "products"
+      ],
+      "descriptions": [
+        "contains",
+        "place core"
+      ],
+      "from": "postgres",
+      "id": "r24",
+      "kind": "flow",
+      "label": "contains +1",
+      "to": "pois"
+    },
+    {
+      "contexts": [
+        "data"
+      ],
+      "descriptions": [
+        "1 → providers"
+      ],
+      "from": "pois",
+      "id": "r25",
+      "kind": "flow",
+      "label": "1 → providers",
+      "to": "enrichments"
+    },
+    {
+      "contexts": [
+        "data"
+      ],
+      "descriptions": [
+        "1 → providers"
+      ],
+      "from": "pois",
+      "id": "r26",
+      "kind": "flow",
+      "label": "1 → providers",
+      "to": "matches"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "URL / discovery"
+      ],
+      "from": "sources",
+      "id": "r27",
+      "kind": "external",
+      "label": "URL / discovery",
+      "to": "scraper_server"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "city sync"
+      ],
+      "from": "viator",
+      "id": "r28",
+      "kind": "external",
+      "label": "city sync",
+      "to": "scraper_server"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "POI import"
+      ],
+      "from": "overture",
+      "id": "r29",
+      "kind": "external",
+      "label": "POI import",
+      "to": "scraper_server"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "defines"
+      ],
+      "from": "scraper_server",
+      "id": "r30",
+      "kind": "ownership",
+      "label": "defines",
+      "to": "task_assets"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "prompt"
+      ],
+      "from": "task_assets",
+      "id": "r31",
+      "kind": "flow",
+      "label": "prompt",
+      "to": "tasker"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "pre-injection"
+      ],
+      "from": "task_assets",
+      "id": "r32",
+      "kind": "flow",
+      "label": "pre-injection",
+      "to": "mobile_kotlin"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "persist"
+      ],
+      "from": "mobile_kotlin",
+      "id": "r33",
+      "kind": "ownership",
+      "label": "persist",
+      "to": "room"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "execute"
+      ],
+      "from": "mobile_kotlin",
+      "id": "r34",
+      "kind": "flow",
+      "label": "execute",
+      "to": "webview"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "render page"
+      ],
+      "from": "sources",
+      "id": "r35",
+      "kind": "external",
+      "label": "render page",
+      "to": "webview"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "HTML / media"
+      ],
+      "from": "webview",
+      "id": "r36",
+      "kind": "flow",
+      "label": "HTML / media",
+      "to": "tasker"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "extract"
+      ],
+      "from": "tasker",
+      "id": "r37",
+      "kind": "flow",
+      "label": "extract",
+      "to": "llm"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "structured result"
+      ],
+      "from": "llm",
+      "id": "r38",
+      "kind": "flow",
+      "label": "structured result",
+      "to": "scraper_server"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "upsert"
+      ],
+      "from": "scraper_server",
+      "id": "r39",
+      "kind": "flow",
+      "label": "upsert",
+      "to": "postgres"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "read"
+      ],
+      "from": "postgres",
+      "id": "r40",
+      "kind": "flow",
+      "label": "read",
+      "to": "frontend_server"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "GeoJSON / tiles"
+      ],
+      "from": "frontend_server",
+      "id": "r41",
+      "kind": "flow",
+      "label": "GeoJSON / tiles",
+      "to": "web_app"
+    },
+    {
+      "contexts": [
+        "pipeline",
+        "roadmap"
+      ],
+      "descriptions": [
+        "wake signal",
+        "future wake"
+      ],
+      "from": "push_wake",
+      "id": "r42",
+      "kind": "planned",
+      "label": "wake signal +1",
+      "to": "mobile_kotlin"
+    },
+    {
+      "contexts": [
+        "pipeline",
+        "roadmap"
+      ],
+      "descriptions": [
+        "future lease",
+        "future worker"
+      ],
+      "from": "tasker",
+      "id": "r43",
+      "kind": "planned",
+      "label": "future lease +1",
+      "to": "browser_client"
+    },
+    {
+      "contexts": [
+        "pipeline"
+      ],
+      "descriptions": [
+        "future capture"
+      ],
+      "from": "browser_client",
+      "id": "r44",
+      "kind": "planned",
+      "label": "future capture",
+      "to": "webview"
+    },
+    {
+      "contexts": [
+        "products"
+      ],
+      "descriptions": [
+        "GL renderer"
+      ],
+      "from": "mapbox",
+      "id": "r45",
+      "kind": "external",
+      "label": "GL renderer",
+      "to": "web_app"
+    },
+    {
+      "contexts": [
+        "products"
+      ],
+      "descriptions": [
+        "events / POIs"
+      ],
+      "from": "frontend_server",
+      "id": "r46",
+      "kind": "flow",
+      "label": "events / POIs",
+      "to": "postgres"
+    },
+    {
+      "contexts": [
+        "products"
+      ],
+      "descriptions": [
+        "enrichment"
+      ],
+      "from": "foursquare",
+      "id": "r47",
+      "kind": "external",
+      "label": "enrichment",
+      "to": "pois"
+    },
+    {
+      "contexts": [
+        "products"
+      ],
+      "descriptions": [
+        "subscription"
+      ],
+      "from": "stripe",
+      "id": "r48",
+      "kind": "external",
+      "label": "subscription",
+      "to": "hotel_admin"
+    },
+    {
+      "contexts": [
+        "products"
+      ],
+      "descriptions": [
+        "media URL"
+      ],
+      "from": "frontend_server",
+      "id": "r49",
+      "kind": "external",
+      "label": "media URL",
+      "to": "r2"
+    },
+    {
+      "contexts": [
+        "products"
+      ],
+      "descriptions": [
+        "ops API"
+      ],
+      "from": "scraper_dashboard",
+      "id": "r50",
+      "kind": "flow",
+      "label": "ops API",
+      "to": "scraper_server"
+    },
+    {
+      "contexts": [
+        "runtime"
+      ],
+      "descriptions": [
+        "history"
+      ],
+      "from": "workspace_repo",
+      "id": "r51",
+      "kind": "legacy",
+      "label": "history",
+      "to": "legacy_server"
+    },
+    {
+      "contexts": [
+        "runtime"
+      ],
+      "descriptions": [
+        "systemd + TLS"
+      ],
+      "from": "hetzner",
+      "id": "r52",
+      "kind": "flow",
+      "label": "systemd + TLS",
+      "to": "nginx"
+    },
+    {
+      "contexts": [
+        "runtime"
+      ],
+      "descriptions": [
+        "static root"
+      ],
+      "from": "nginx",
+      "id": "r53",
+      "kind": "flow",
+      "label": "static root",
+      "to": "web_app"
+    },
+    {
+      "contexts": [
+        "runtime"
+      ],
+      "descriptions": [
+        "remote client"
+      ],
+      "from": "tasker",
+      "id": "r54",
+      "kind": "external",
+      "label": "remote client",
+      "to": "mobile_kotlin"
+    },
+    {
+      "contexts": [
+        "roadmap"
+      ],
+      "descriptions": [
+        "replaced by"
+      ],
+      "from": "mobile_rn",
+      "id": "r55",
+      "kind": "legacy",
+      "label": "replaced by",
+      "to": "mobile_kotlin"
+    },
+    {
+      "contexts": [
+        "roadmap"
+      ],
+      "descriptions": [
+        "extracted"
+      ],
+      "from": "legacy_server",
+      "id": "r56",
+      "kind": "legacy",
+      "label": "extracted",
+      "to": "scraper_server"
+    },
+    {
+      "contexts": [
+        "roadmap"
+      ],
+      "descriptions": [
+        "historical spec"
+      ],
+      "from": "legacy_server",
+      "id": "r57",
+      "kind": "legacy",
+      "label": "historical spec",
+      "to": "workspace_repo"
+    }
+  ],
+  "schemaVersion": 1,
+  "view": {
+    "leftCollapsed": false,
+    "popupExpanded": false,
+    "rightCollapsed": false,
+    "selectedEntity": "scraper_server",
+    "selectedPlacement": "p:scraper_server",
+    "zoom": 1
+  }
+}
