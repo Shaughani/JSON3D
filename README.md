@@ -1,58 +1,17 @@
-# JSON3D - 3D JSON Viewer
+# TAP Architecture Atlas
 
-A mobile-first 3D JSON visualization app built with React Native, Expo, and Three.js.
+Interactive 3D architecture map of the Scraper System — a production digital twin with navigable hierarchy, inspector panels, and repository evidence links.
 
-## Features
+## Run locally
 
-- **3D Radial Layout**: Visualize JSON data in a radial 3D structure
-- **Mobile-Optimized**: Touch controls for orbit and zoom
-- **Color-Coded**: Different colors for objects, arrays, strings, numbers, and booleans
-- **Cross-Platform**: Works on iOS, Android, and Web
+Open `index.html` in a browser, or serve the folder:
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js installed
-- Expo CLI (or use `npx expo`)
-
-### Installation
-
-1. Install dependencies:
 ```bash
-npm install
+npx --yes serve .
 ```
 
-2. Start the development server:
-```bash
-npm start
-```
+Then open the URL shown (typically `http://localhost:3000`).
 
-3. Run on your device:
-   - **iOS**: Press `i` or scan QR code with Expo Go app
-   - **Android**: Press `a` or scan QR code with Expo Go app
-   - **Web**: Press `w` to open in browser
+## Archive
 
-## Controls
-
-- **Touch & Drag**: Orbit around the 3D scene
-- **Pinch**: Zoom in/out
-
-## Project Structure
-
-- `App.js` - Main app component
-- `JSON3DViewer.js` - 3D visualization component
-- `InfoPanel.js` - Legend and instructions overlay
-
-## Next Steps
-
-- Add text labels to nodes (requires font loading setup)
-- Add editing capabilities
-- Support for loading JSON files
-- Export functionality
-
-## Notes
-
-- Text rendering is currently disabled (will be added with proper font loading)
-- The app uses `expo-gl` for WebGL rendering
-- Gesture handling uses `react-native-gesture-handler`
+Earlier JSON3D experiments (Expo/React Native app and HTML prototypes v1–v3) live in [`archive/`](archive/).
