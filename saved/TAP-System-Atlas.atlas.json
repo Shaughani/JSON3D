@@ -25,7 +25,7 @@
         "value": "4"
       }
     ],
-    "modifiedAt": "2026-08-12T19:12:50.828Z",
+    "modifiedAt": "2026-08-14T14:48:18.539Z",
     "subtitle": "scraper-system · production digital twin",
     "title": "TAP System Atlas"
   },
@@ -74,6 +74,7 @@
       ],
       "group": "Postgres tables",
       "kind": "Postgres table",
+      "role": "object",
       "sources": [
         [
           "016 availability model",
@@ -121,6 +122,7 @@
       ],
       "group": "Future boundaries",
       "kind": "Planned client",
+      "role": "object",
       "sources": [
         [
           "Current architecture overview",
@@ -175,8 +177,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture concept",
+      "role": "concept",
       "sources": [
         [
           "mobile-client",
@@ -220,6 +222,7 @@
       ],
       "group": "Runtime & delivery",
       "kind": "Infrastructure repo",
+      "role": "object",
       "sources": [
         [
           "deploy repository",
@@ -335,6 +338,7 @@
       ],
       "group": "Postgres tables",
       "kind": "Postgres table",
+      "role": "object",
       "sources": [
         [
           "019 enrichments",
@@ -502,6 +506,7 @@
       ],
       "group": "Postgres tables",
       "kind": "Postgres table",
+      "role": "object",
       "sources": [
         [
           "001 events migration",
@@ -566,8 +571,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture concept",
+      "role": "concept",
       "sources": [
         [
           "Workspace architecture",
@@ -614,8 +619,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture concept",
+      "role": "concept",
       "sources": [
         [
           "Workspace architecture",
@@ -676,6 +681,7 @@
       ],
       "group": "External systems",
       "kind": "External provider",
+      "role": "object",
       "sources": [
         [
           "frontend-server",
@@ -736,6 +742,7 @@
       ],
       "group": "Services",
       "kind": "Go service",
+      "role": "object",
       "sources": [
         [
           "frontend-server repository",
@@ -800,6 +807,7 @@
       ],
       "group": "Operational stores",
       "kind": "SQLite database",
+      "role": "object",
       "sources": [
         [
           "Architecture overview",
@@ -860,6 +868,7 @@
       ],
       "group": "Runtime & delivery",
       "kind": "Hosting",
+      "role": "object",
       "sources": [
         [
           "deploy repository",
@@ -956,6 +965,7 @@
       ],
       "group": "Postgres tables",
       "kind": "Postgres table",
+      "role": "object",
       "sources": [
         [
           "007 hosts",
@@ -1030,6 +1040,7 @@
       ],
       "group": "Product surfaces",
       "kind": "Product frontend",
+      "role": "object",
       "sources": [
         [
           "frontend-server",
@@ -1085,8 +1096,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture concept",
+      "role": "concept",
       "sources": [],
       "status": "legacy",
       "statusReason": "Both immediate children are legacy or retired. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
@@ -1128,6 +1139,7 @@
       ],
       "group": "Future boundaries",
       "kind": "Retired repository",
+      "role": "object",
       "sources": [
         [
           "legacy server",
@@ -1184,6 +1196,7 @@
       ],
       "group": "Pipeline modules",
       "kind": "External processing",
+      "role": "object",
       "sources": [
         [
           "tasker",
@@ -1244,6 +1257,7 @@
       ],
       "group": "External systems",
       "kind": "External platform",
+      "role": "object",
       "sources": [
         [
           "web-app",
@@ -1323,6 +1337,7 @@
       ],
       "group": "Postgres tables",
       "kind": "Postgres table",
+      "role": "object",
       "sources": [
         [
           "020 provider matches",
@@ -1374,6 +1389,7 @@
       ],
       "group": "Clients",
       "kind": "Device client",
+      "role": "object",
       "sources": [
         [
           "mobile-client repository",
@@ -1429,6 +1445,7 @@
       ],
       "group": "Clients",
       "kind": "Legacy client",
+      "role": "object",
       "sources": [
         [
           "mobile-client-scraper",
@@ -1485,6 +1502,7 @@
       ],
       "group": "Runtime & delivery",
       "kind": "Gateway",
+      "role": "object",
       "sources": [
         [
           "deploy repository",
@@ -1539,8 +1557,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture concept",
+      "role": "concept",
       "sources": [
         [
           "Architecture overview",
@@ -1596,6 +1614,7 @@
       ],
       "group": "External systems",
       "kind": "External dataset",
+      "role": "object",
       "sources": [
         [
           "POI migration",
@@ -1638,8 +1657,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture concept",
+      "role": "concept",
       "sources": [
         [
           "scraper-server",
@@ -1691,8 +1710,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture concept",
+      "role": "concept",
       "sources": [],
       "status": "planned",
       "statusReason": "Both immediate children are planned and not yet built. Concept status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
@@ -1805,6 +1824,7 @@
       ],
       "group": "Postgres tables",
       "kind": "Postgres table",
+      "role": "object",
       "sources": [
         [
           "002 POI migration",
@@ -1866,6 +1886,7 @@
       ],
       "group": "Data platform",
       "kind": "Primary database",
+      "role": "object",
       "sources": [
         [
           "tap-pg migrations",
@@ -1929,6 +1950,7 @@
       ],
       "group": "Future boundaries",
       "kind": "Planned capability",
+      "role": "object",
       "sources": [
         [
           "Historical specification",
@@ -1980,6 +2002,7 @@
       ],
       "group": "External systems",
       "kind": "Object storage",
+      "role": "object",
       "sources": [
         [
           "018 image version",
@@ -2023,6 +2046,7 @@
       ],
       "group": "Operational stores",
       "kind": "On-device database",
+      "role": "object",
       "sources": [
         [
           "mobile-client",
@@ -2091,6 +2115,7 @@
       ],
       "group": "Product surfaces",
       "kind": "Operations UI",
+      "role": "object",
       "sources": [
         [
           "scraper-server",
@@ -2168,6 +2193,7 @@
       ],
       "group": "Services",
       "kind": "Go service",
+      "role": "object",
       "sources": [
         [
           "scraper-server repository",
@@ -2232,6 +2258,7 @@
       ],
       "group": "Operational stores",
       "kind": "SQLite database",
+      "role": "object",
       "sources": [
         [
           "Architecture overview",
@@ -2291,6 +2318,7 @@
       ],
       "group": "External systems",
       "kind": "External source",
+      "role": "object",
       "sources": [
         [
           "scraper-server",
@@ -2342,6 +2370,7 @@
       ],
       "group": "External systems",
       "kind": "External provider",
+      "role": "object",
       "sources": [
         [
           "frontend-server",
@@ -2384,8 +2413,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture branch",
+      "role": "concept",
       "sources": [
         [
           "mobile-client",
@@ -2432,8 +2461,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture branch",
+      "role": "concept",
       "sources": [
         [
           "Current architecture overview",
@@ -2484,8 +2513,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture branch",
+      "role": "concept",
       "sources": [
         [
           "tap-pg",
@@ -2532,8 +2561,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture branch",
+      "role": "concept",
       "sources": [
         [
           "Repository map",
@@ -2588,8 +2617,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture branch",
+      "role": "concept",
       "sources": [
         [
           "deploy repository",
@@ -2640,8 +2669,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "Architecture branch",
+      "role": "concept",
       "sources": [
         [
           "Current architecture overview",
@@ -2693,6 +2722,7 @@
       ],
       "group": "Data platform",
       "kind": "Go module",
+      "role": "object",
       "sources": [
         [
           "tap-pg repository",
@@ -2747,8 +2777,8 @@
         ]
       ],
       "group": "Architecture",
-      "isConcept": true,
       "kind": "System root",
+      "role": "concept",
       "sources": [
         [
           "Current architecture overview",
@@ -2818,6 +2848,7 @@
       ],
       "group": "Pipeline modules",
       "kind": "Pipeline configuration",
+      "role": "object",
       "sources": [
         [
           "scraper-server",
@@ -2890,6 +2921,7 @@
       ],
       "group": "Services",
       "kind": "Go service",
+      "role": "object",
       "sources": [
         [
           "tasker repository",
@@ -2962,6 +2994,7 @@
       ],
       "group": "Product surfaces",
       "kind": "Operations UI",
+      "role": "object",
       "sources": [
         [
           "tasker repository",
@@ -3013,6 +3046,7 @@
       ],
       "group": "Operational stores",
       "kind": "SQLite database",
+      "role": "object",
       "sources": [
         [
           "tasker repository",
@@ -3064,6 +3098,7 @@
       ],
       "group": "External systems",
       "kind": "External integration",
+      "role": "object",
       "sources": [
         [
           "scraper-server",
@@ -3137,6 +3172,7 @@
       ],
       "group": "Product surfaces",
       "kind": "Product frontend",
+      "role": "object",
       "sources": [
         [
           "web-app repository",
@@ -3197,6 +3233,7 @@
       ],
       "group": "Pipeline modules",
       "kind": "Execution module",
+      "role": "object",
       "sources": [
         [
           "mobile-client",
@@ -3257,6 +3294,7 @@
       ],
       "group": "Runtime & delivery",
       "kind": "Documentation repo",
+      "role": "object",
       "sources": [
         [
           "workspace repository",
@@ -4554,7 +4592,7 @@
       "to": "workspace_repo"
     }
   ],
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "view": {
     "leftCollapsed": false,
     "popupExpanded": false,
