@@ -1,0 +1,49 @@
+{
+  "format": "system-atlas",
+  "schemaVersion": 2,
+  "metadata": {
+    "id": "new",
+    "title": "New System Atlas",
+    "coreId": "root",
+    "brand": "NEW",
+    "subtitle": "empty atlas · add entities to begin",
+    "freshness": "Blank template",
+    "footer": "One canonical graph · contextual placements",
+    "createdAt": "2026-08-14T00:00:00.000Z",
+    "modifiedAt": "2026-08-14T00:00:00.000Z",
+    "metrics": []
+  },
+  "nodes": {
+    "root": {
+      "title": "System Root",
+      "subtitle": "Core of this atlas",
+      "kind": "System root",
+      "group": "Architecture",
+      "visual": "service core",
+      "role": "concept",
+      "status": "built",
+      "summary": "Start here. Use Add to import entities, or edit this file and Open it in the viewer.",
+      "statusReason": "Blank atlas template.",
+      "facts": [],
+      "structure": [],
+      "endpoints": [],
+      "columns": [],
+      "sources": []
+    }
+  },
+  "parentLinks": [],
+  "relationships": [],
+  "primaryParentOverrides": {},
+  "presentation": {
+    "radiusStep": 162,
+    "stackHeight": 165
+  },
+  "view": {
+    "selectedEntity": "root",
+    "selectedPlacement": "p:root",
+    "zoom": 1,
+    "leftCollapsed": false,
+    "rightCollapsed": false,
+    "popupExpanded": false
+  }
+}

@@ -1,0 +1,5711 @@
+{
+  "format": "system-atlas",
+  "metadata": {
+    "brand": "CODE",
+    "coreId": "tap_codebase",
+    "createdAt": "2026-08-18T21:48:16.670Z",
+    "footer": "Code structure only — not production runtime topology",
+    "freshness": "Mapped from code/ layout · Aug 2026",
+    "id": "tap-codebase",
+    "metrics": [
+      {
+        "label": "code entities",
+        "value": "86"
+      },
+      {
+        "label": "repos & services",
+        "value": "9"
+      },
+      {
+        "label": "code relationships",
+        "value": "26"
+      },
+      {
+        "label": "runtime tables",
+        "value": "0"
+      }
+    ],
+    "modifiedAt": "2026-08-18T21:48:20.728Z",
+    "subtitle": "repositories · packages · import boundaries",
+    "title": "TAP Codebase Atlas"
+  },
+  "nodes": {
+    "area_cursor": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Workspace",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          ".cursor/skills/",
+          "operator and dev workflows"
+        ],
+        [
+          ".cursor/rules/",
+          "workspace guardrails"
+        ],
+        [
+          ".cursor/mcp.json",
+          "MCP server wiring"
+        ]
+      ],
+      "subtitle": "Agent skills, rules, MCP",
+      "summary": "Cursor skills (deploy, scraper admin, map perf), rules, MCP server config, plans.",
+      "title": ".cursor/",
+      "type": "interface"
+    },
+    "area_tests": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Workspace",
+      "sources": [
+        [
+          "tests/frontend/README",
+          "https://github.com/scraper-system/workspace/blob/main/tests/frontend/README.md",
+          "local dev routing"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "tests/frontend/",
+          "dev-api-gateway.mjs, README"
+        ],
+        [
+          "tests/scraping/",
+          "tasker + client → Postgres E2E"
+        ]
+      ],
+      "subtitle": "Local dev gateway and E2E harnesses",
+      "summary": "dev-api-gateway.mjs mirrors nginx routing on :8082; scraping/ and frontend/ smokes.",
+      "title": "tests/",
+      "type": "interface"
+    },
+    "branch_backend": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Backend",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Go binaries — scraper, frontend API, tasker",
+      "summary": "Three peer Go services. scraper-server and frontend-server import tap-pg; tasker is standalone HTTP relay.",
+      "title": "Backend Services",
+      "type": "grouping"
+    },
+    "branch_clients": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Clients",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Device-side acquisition",
+      "summary": "Poll tasker for batches, scrape in WebView, return HTML/media. Register with scraper-server.",
+      "title": "Scrape Clients",
+      "type": "grouping"
+    },
+    "branch_infra": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Infrastructure",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Infrastructure as code",
+      "summary": "nginx, systemd, VPS scripts, env templates. Configures services — no Go imports from app repos.",
+      "title": "Deploy & Config",
+      "type": "grouping"
+    },
+    "branch_legacy": {
+      "authoredStatus": "legacy",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Legacy",
+      "sources": [],
+      "status": "legacy",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Archived — do not develop",
+      "summary": "Pre-split monorepo and retired clients kept for git archaeology only.",
+      "title": "Legacy",
+      "type": "grouping"
+    },
+    "branch_product": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Product",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "User-facing static UI",
+      "summary": "Static web clients served by nginx from deploy repo.",
+      "title": "Product Frontends",
+      "type": "grouping"
+    },
+    "branch_repos": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Codebase",
+      "sources": [
+        [
+          "code/README.md",
+          "https://github.com/scraper-system/workspace/blob/main/code/README.md",
+          "repo list"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "code/ — one git repo per directory",
+      "summary": "All production application source under code/. Each subfolder is its own GitHub repo with separate deploy.",
+      "title": "Application Repos",
+      "type": "grouping"
+    },
+    "branch_shared": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Shared",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Imported by backend services",
+      "summary": "Library-only repos. tap-pg enforces scraper vs frontend import boundaries.",
+      "title": "Shared Libraries",
+      "type": "grouping"
+    },
+    "branch_workspace": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Codebase",
+      "sources": [
+        [
+          "Workspace repo",
+          "https://github.com/scraper-system/workspace",
+          "scraper-system/workspace"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Meta repo — not application source",
+      "summary": "Cursor config, skills, Sales/, tests harness, clone/push scripts. Application code lives in code/.",
+      "title": "Workspace & Tooling",
+      "type": "grouping"
+    },
+    "concept:backend": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Backend.",
+      "title": "Backend",
+      "type": "grouping"
+    },
+    "concept:binary-entrypoint": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Binary entrypoint.",
+      "title": "Binary entrypoint",
+      "type": "grouping"
+    },
+    "concept:branch": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Branch.",
+      "title": "Branch",
+      "type": "grouping"
+    },
+    "concept:capability": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Defined system capabilities",
+      "summary": "Defined system capabilities. This node is part of the authored concept hierarchy.",
+      "title": "Capability",
+      "type": "grouping"
+    },
+    "concept:cli-group": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as CLI group.",
+      "title": "CLI group",
+      "type": "grouping"
+    },
+    "concept:clients": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Clients.",
+      "title": "Clients",
+      "type": "grouping"
+    },
+    "concept:configuration": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Pipeline and runtime configuration",
+      "summary": "Pipeline and runtime configuration. This node is part of the authored concept hierarchy.",
+      "title": "Configuration",
+      "type": "grouping"
+    },
+    "concept:contract": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Contract.",
+      "title": "Contract",
+      "type": "grouping"
+    },
+    "concept:dev-fork": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Dev fork.",
+      "title": "Dev fork",
+      "type": "grouping"
+    },
+    "concept:directory": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Directory.",
+      "title": "Directory",
+      "type": "grouping"
+    },
+    "concept:documentation-repository": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Documentation and operating knowledge",
+      "summary": "Documentation and operating knowledge. This node is part of the authored concept hierarchy.",
+      "title": "Documentation Repository",
+      "type": "grouping"
+    },
+    "concept:external-dataset": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "External datasets",
+      "summary": "External datasets. This node is part of the authored concept hierarchy.",
+      "title": "External Dataset",
+      "type": "grouping"
+    },
+    "concept:external-integration": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Connected external integrations",
+      "summary": "Connected external integrations. This node is part of the authored concept hierarchy.",
+      "title": "External Integration",
+      "type": "grouping"
+    },
+    "concept:external-platform": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "External execution platforms",
+      "summary": "External execution platforms. This node is part of the authored concept hierarchy.",
+      "title": "External Platform",
+      "type": "grouping"
+    },
+    "concept:external-processing": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "External processing capabilities",
+      "summary": "External processing capabilities. This node is part of the authored concept hierarchy.",
+      "title": "External Processing",
+      "type": "grouping"
+    },
+    "concept:external-provider": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "External data or service providers",
+      "summary": "External data or service providers. This node is part of the authored concept hierarchy.",
+      "title": "External Provider",
+      "type": "grouping"
+    },
+    "concept:external-source": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "External source evidence",
+      "summary": "External source evidence. This node is part of the authored concept hierarchy.",
+      "title": "External Source",
+      "type": "grouping"
+    },
+    "concept:gateway": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Routing and gateway services",
+      "summary": "Routing and gateway services. This node is part of the authored concept hierarchy.",
+      "title": "Gateway",
+      "type": "grouping"
+    },
+    "concept:git-repository": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Git repository.",
+      "title": "Git repository",
+      "type": "grouping"
+    },
+    "concept:go-library": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Go library.",
+      "title": "Go library",
+      "type": "grouping"
+    },
+    "concept:go-module-group": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Go module group.",
+      "title": "Go module group",
+      "type": "grouping"
+    },
+    "concept:go-package": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Go package.",
+      "title": "Go package",
+      "type": "grouping"
+    },
+    "concept:hosting": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Compute and hosting environments",
+      "summary": "Compute and hosting environments. This node is part of the authored concept hierarchy.",
+      "title": "Hosting",
+      "type": "grouping"
+    },
+    "concept:infrastructure-repository": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Infrastructure source repositories",
+      "summary": "Infrastructure source repositories. This node is part of the authored concept hierarchy.",
+      "title": "Infrastructure Repository",
+      "type": "grouping"
+    },
+    "concept:js-module": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as JS module.",
+      "title": "JS module",
+      "type": "grouping"
+    },
+    "concept:kotlin-package": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Kotlin package.",
+      "title": "Kotlin package",
+      "type": "grouping"
+    },
+    "concept:meta": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Meta.",
+      "title": "Meta",
+      "type": "grouping"
+    },
+    "concept:object-storage": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "External object storage",
+      "summary": "External object storage. This node is part of the authored concept hierarchy.",
+      "title": "Object Storage",
+      "type": "grouping"
+    },
+    "concept:operations-interface": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Operational control interfaces",
+      "summary": "Operational control interfaces. This node is part of the authored concept hierarchy.",
+      "title": "Operations Interface",
+      "type": "grouping"
+    },
+    "concept:operator-ui": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Operator UI.",
+      "title": "Operator UI",
+      "type": "grouping"
+    },
+    "concept:ops-repository": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Ops repository.",
+      "title": "Ops repository",
+      "type": "grouping"
+    },
+    "concept:package": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Package.",
+      "title": "Package",
+      "type": "grouping"
+    },
+    "concept:product": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Product.",
+      "title": "Product",
+      "type": "grouping"
+    },
+    "concept:product-interface": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Customer-facing product interfaces",
+      "summary": "Customer-facing product interfaces. This node is part of the authored concept hierarchy.",
+      "title": "Product Interface",
+      "type": "grouping"
+    },
+    "concept:repository": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Source and knowledge repositories",
+      "summary": "Source and knowledge repositories. This node is part of the authored concept hierarchy.",
+      "title": "Repository",
+      "type": "grouping"
+    },
+    "concept:shared": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Shared.",
+      "title": "Shared",
+      "type": "grouping"
+    },
+    "concept:sql-migrations": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as SQL migrations.",
+      "title": "SQL migrations",
+      "type": "grouping"
+    },
+    "concept:static-frontend": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Static frontend.",
+      "title": "Static frontend",
+      "type": "grouping"
+    },
+    "concept:task-templates": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Task templates.",
+      "title": "Task templates",
+      "type": "grouping"
+    },
+    "concept:technologies": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Technologies used by entities",
+      "summary": "Technologies used by entities. This node is part of the authored concept hierarchy.",
+      "title": "Technologies",
+      "type": "grouping"
+    },
+    "concept:test-harness": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Test harness.",
+      "title": "Test harness",
+      "type": "grouping"
+    },
+    "concept:tooling": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Automatically created classification",
+      "summary": "Groups entities classified as Tooling.",
+      "title": "Tooling",
+      "type": "grouping"
+    },
+    "concept:types": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Required intrinsic types for every ordinary entity",
+      "summary": "Required intrinsic types for every ordinary entity. This node is part of the authored concept hierarchy.",
+      "title": "Types",
+      "type": "grouping"
+    },
+    "dep_cloudflare": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "deploy",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "cf-purge-everything.ps1",
+          ""
+        ],
+        [
+          "cf-create-deploy-token.mjs",
+          ""
+        ]
+      ],
+      "subtitle": "",
+      "summary": "Cache purge and deploy token management.",
+      "title": "Cloudflare scripts",
+      "type": "interface"
+    },
+    "dep_docs": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "deploy",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "ENV_AND_SECRETS.md",
+          ""
+        ],
+        [
+          "README.md",
+          ""
+        ],
+        [
+          "vps-info.md",
+          ""
+        ]
+      ],
+      "subtitle": "",
+      "summary": "Operator documentation for secrets, VPS layout, and runbooks.",
+      "title": "Deploy docs",
+      "type": "interface"
+    },
+    "dep_env": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "deploy",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          ".env.scraper-server.example",
+          ""
+        ],
+        [
+          ".env.frontend-server.example",
+          ""
+        ],
+        [
+          ".env.tasker.example",
+          ""
+        ]
+      ],
+      "subtitle": "",
+      "summary": "Documented env var templates — see ENV_AND_SECRETS.md.",
+      "title": ".env.*.example",
+      "type": "interface"
+    },
+    "dep_nginx": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "deploy",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "nginx-scraper.conf",
+          ""
+        ],
+        [
+          "nginx-scraper-ssl.conf",
+          ""
+        ]
+      ],
+      "subtitle": "",
+      "summary": "Reverse proxy routing to :9000/:9001 and static web-app root.",
+      "title": "nginx config",
+      "type": "interface"
+    },
+    "dep_ops": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "deploy",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "patch-*-remote*.sh",
+          ""
+        ],
+        [
+          "copy-*-dev-to-prod.*",
+          ""
+        ]
+      ],
+      "subtitle": "",
+      "summary": "One-off data patches and dev→prod copy utilities.",
+      "title": "Ops patch scripts",
+      "type": "interface"
+    },
+    "dep_r2": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "deploy",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "r2-cli.ps1",
+          ""
+        ],
+        [
+          "r2-attach-custom-domain.ps1",
+          ""
+        ]
+      ],
+      "subtitle": "",
+      "summary": "Object storage domain attachment and CLI helpers.",
+      "title": "R2 scripts",
+      "type": "interface"
+    },
+    "dep_setup": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "deploy",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "setup-deps.sh",
+          ""
+        ],
+        [
+          "setup-nginx.sh",
+          ""
+        ],
+        [
+          "setup-systemd.sh",
+          ""
+        ],
+        [
+          "setup-server-releases.sh",
+          ""
+        ]
+      ],
+      "subtitle": "",
+      "summary": "VPS provisioning and release layout scripts.",
+      "title": "setup-*.sh",
+      "type": "interface"
+    },
+    "dep_systemd": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "deploy",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "scraper-server.service",
+          ""
+        ],
+        [
+          "frontend-server.service",
+          ""
+        ],
+        [
+          "scraper-tasker.service",
+          ""
+        ]
+      ],
+      "subtitle": "",
+      "summary": "Production service definitions and restart policy.",
+      "title": "systemd units",
+      "type": "interface"
+    },
+    "fs_clis": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "frontend/cmd/backfill-poi-description-from-category",
+          "operator CLI"
+        ],
+        [
+          "frontend/cmd/backfill-poi-description-from-web-enrichment",
+          "operator CLI"
+        ],
+        [
+          "frontend/cmd/check-link-markers",
+          "operator CLI"
+        ],
+        [
+          "frontend/cmd/check-poi-priority",
+          "operator CLI"
+        ],
+        [
+          "frontend/cmd/hotel-admin-upsert",
+          "operator CLI"
+        ],
+        [
+          "frontend/cmd/import-links",
+          "operator CLI"
+        ]
+      ],
+      "subtitle": "6 operator CLIs",
+      "summary": "POI backfills, link import, hotel-admin upsert, marker diagnostics.",
+      "title": "frontend/cmd/",
+      "type": "service"
+    },
+    "fs_cmd": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "cmd/frontend-server/main.go",
+          "service bootstrap"
+        ]
+      ],
+      "subtitle": "Production binary entrypoint",
+      "summary": "main.go wires config, opens SQLite + Postgres read pool, starts /api/v1.",
+      "title": "cmd/frontend-server",
+      "type": "interface"
+    },
+    "fs_contracts": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Shared media JSON contract",
+      "summary": "Same media contract shape as scraper-server — kept in sync manually.",
+      "title": "contracts/media/",
+      "type": "database"
+    },
+    "fs_migrations": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "SQLite schema for frontend.sqlite",
+      "summary": "Numbered migrations for product SQLite — links, analytics, hotel-admin cache.",
+      "title": "frontend_migrations/",
+      "type": "database"
+    },
+    "fs_pkg_api": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Public /api/v1 routes",
+      "summary": "Events, tiles, POIs, links, hotel-admin, client-config endpoints.",
+      "title": "frontend/api",
+      "type": "service"
+    },
+    "fs_pkg_config": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Environment config",
+      "summary": "Stripe keys, Mapbox tokens, feature flags, CORS origins.",
+      "title": "frontend/config",
+      "type": "service"
+    },
+    "fs_pkg_foursquare": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Foursquare API client",
+      "summary": "Venue lookup and category mapping for POI enrichment.",
+      "title": "frontend/foursquare",
+      "type": "service"
+    },
+    "fs_pkg_media": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Media URL helpers",
+      "summary": "R2/CDN URL building, contract validation for tiles and POI images.",
+      "title": "frontend/media",
+      "type": "service"
+    },
+    "fs_pkg_models": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "API response types",
+      "summary": "DTOs for events, POIs, links, hotel-admin payloads.",
+      "title": "frontend/models",
+      "type": "service"
+    },
+    "fs_pkg_poienrichment": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "POI description enrichment",
+      "summary": "Web scrape enrichment, category backfill orchestration.",
+      "title": "frontend/poienrichment",
+      "type": "service"
+    },
+    "fs_pkg_sqlitestore": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "frontend-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "frontend.sqlite access",
+      "summary": "Product SQLite: links, pageviews, hotel-admin session cache, local ops.",
+      "title": "frontend/sqlitestore",
+      "type": "database"
+    },
+    "mk_pkg_config": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "mobile-client",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Kotlin package",
+      "summary": "Server URLs, client identity, scrape settings.",
+      "title": "mobileclient/config",
+      "type": "external"
+    },
+    "mk_pkg_db": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "mobile-client",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Kotlin package",
+      "summary": "Room entities and DAOs for offline task state.",
+      "title": "mobileclient/db",
+      "type": "external"
+    },
+    "mk_pkg_network": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "mobile-client",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Kotlin package",
+      "summary": "Retrofit clients for tasker and scraper-server.",
+      "title": "mobileclient/network",
+      "type": "external"
+    },
+    "mk_pkg_scraping": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "mobile-client",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Kotlin package",
+      "summary": "WebViewScraper and HTML capture.",
+      "title": "mobileclient/scraping",
+      "type": "external"
+    },
+    "mk_pkg_sync": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "mobile-client",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Kotlin package",
+      "summary": "TaskSyncService foreground sync loop.",
+      "title": "mobileclient/sync",
+      "type": "external"
+    },
+    "mk_pkg_util": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "mobile-client",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Kotlin package",
+      "summary": "Shared Android helpers.",
+      "title": "mobileclient/util",
+      "type": "external"
+    },
+    "repo_deploy": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Infrastructure",
+      "sources": [
+        [
+          "deploy",
+          "https://github.com/scraper-system/deploy",
+          "production infra repo"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "nginx-scraper.conf",
+          "route scraper vs frontend ports"
+        ],
+        [
+          "*.service",
+          "systemd units"
+        ],
+        [
+          "setup-*.sh",
+          "VPS provisioning"
+        ],
+        [
+          ".env.*.example",
+          "env templates per service"
+        ],
+        [
+          "cf-*, r2-*",
+          "Cloudflare and R2 scripts"
+        ],
+        [
+          "patch-*, copy-*",
+          "one-off ops scripts"
+        ]
+      ],
+      "subtitle": "VPS topology and ops scripts",
+      "summary": "nginx-scraper.conf, systemd units, setup scripts, ENV_AND_SECRETS.md, Cloudflare/R2 tooling, one-off patch scripts.",
+      "title": "deploy",
+      "type": "infrastructure"
+    },
+    "repo_frontend_server": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Entry",
+          "cmd/frontend-server/main.go"
+        ],
+        [
+          "Module",
+          "frontend-server Go module"
+        ],
+        [
+          "SQLite",
+          "frontend_migrations/"
+        ],
+        [
+          "Prod port",
+          ":9001"
+        ]
+      ],
+      "group": "Backend",
+      "sources": [
+        [
+          "frontend-server",
+          "https://github.com/scraper-system/frontend-server",
+          "production frontend API"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "cmd/frontend-server/",
+          "production binary"
+        ],
+        [
+          "frontend/",
+          "7 Go packages"
+        ],
+        [
+          "frontend/cmd/",
+          "6 operator CLIs"
+        ],
+        [
+          "frontend_migrations/",
+          "SQLite schema"
+        ],
+        [
+          "contracts/media/",
+          "shared media JSON contract"
+        ]
+      ],
+      "subtitle": "Product API control plane",
+      "summary": "Map/product APIs, event tiles, POIs, links, hotel-admin, Stripe billing, pageviews.",
+      "title": "frontend-server",
+      "type": "service"
+    },
+    "repo_mobile_kotlin": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Entry",
+          "MainActivity.kt"
+        ],
+        [
+          "Package root",
+          "com.scrapersystem.mobileclient"
+        ],
+        [
+          "Branch",
+          "master"
+        ]
+      ],
+      "group": "Clients",
+      "sources": [
+        [
+          "mobile-client",
+          "https://github.com/scraper-system/mobile-client",
+          "primary Android client"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "config/",
+          "server URLs and client identity"
+        ],
+        [
+          "db/",
+          "Room entities"
+        ],
+        [
+          "network/",
+          "Retrofit APIs"
+        ],
+        [
+          "scraping/",
+          "WebView capture"
+        ],
+        [
+          "sync/",
+          "foreground sync service"
+        ],
+        [
+          "util/",
+          "shared helpers"
+        ]
+      ],
+      "subtitle": "Kotlin/Android — primary client",
+      "summary": "Foreground service, Room persistence, WebViewScraper, TaskSyncService.",
+      "title": "mobile-client",
+      "type": "client"
+    },
+    "repo_mobile_rn": {
+      "authoredStatus": "legacy",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Clients",
+      "sources": [
+        [
+          "mobile-client-scraper",
+          "https://github.com/scraper-system/mobile-client-scraper",
+          "legacy RN client"
+        ]
+      ],
+      "status": "legacy",
+      "statusReason": "Retained for history; not primary development path.",
+      "structure": [
+        [
+          "App.tsx",
+          "root component"
+        ],
+        [
+          "components/",
+          "scrape UI"
+        ],
+        [
+          "services/",
+          "tasker HTTP client"
+        ]
+      ],
+      "subtitle": "mobile-client-scraper — legacy",
+      "summary": "Legacy RN scraper. Same tasker/server HTTP contract as Kotlin client. Superseded by mobile-client.",
+      "title": "React Native Client",
+      "type": "client"
+    },
+    "repo_scraper_server": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Entry",
+          "cmd/scraper-server/main.go"
+        ],
+        [
+          "Module",
+          "scraper-server Go module"
+        ],
+        [
+          "SQLite",
+          "scraper_migrations/"
+        ],
+        [
+          "Prod port",
+          ":9000"
+        ]
+      ],
+      "group": "Backend",
+      "sources": [
+        [
+          "scraper-server",
+          "https://github.com/scraper-system/scraper-server",
+          "production scraper API"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "cmd/scraper-server/",
+          "production binary"
+        ],
+        [
+          "scraper/",
+          "11 Go packages"
+        ],
+        [
+          "scraper/cmd/",
+          "26 operator CLIs"
+        ],
+        [
+          "scraper_migrations/",
+          "SQLite schema"
+        ],
+        [
+          "task_types/",
+          "pre-injection JS + LLM prompts"
+        ],
+        [
+          "data/, overture/, scripts/",
+          "operator assets"
+        ],
+        [
+          "contracts/media/",
+          "shared media JSON contract"
+        ]
+      ],
+      "subtitle": "Acquisition control plane",
+      "summary": "Task pipeline, scraper dashboard, SQLite ops DB, Postgres migration runner, Viator sync, background loops.",
+      "title": "scraper-server",
+      "type": "service"
+    },
+    "repo_server_monorepo": {
+      "authoredStatus": "legacy",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Legacy",
+      "sources": [
+        [
+          "server (archived)",
+          "https://github.com/scraper-system/server",
+          "historical monorepo"
+        ]
+      ],
+      "status": "legacy",
+      "statusReason": "See code/server/MIGRATED.md — not day-to-day development.",
+      "structure": [
+        [
+          "scraper/, frontend/",
+          "pre-split packages"
+        ],
+        [
+          "tap-pg/",
+          "vendored copy"
+        ],
+        [
+          "cmd/",
+          "removed server entrypoint"
+        ],
+        [
+          "migrations/, *_migrations/",
+          "historical SQLite + PG"
+        ]
+      ],
+      "subtitle": "Archived monorepo",
+      "summary": "Combined scraper + frontend + vendored tap-pg before Stage 9 split. Manual rollback only.",
+      "title": "server",
+      "type": "service"
+    },
+    "repo_tap_pg": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Migration owner",
+          "scraper-server applies on boot"
+        ],
+        [
+          "Scraper import",
+          "migrate, scraper, types"
+        ],
+        [
+          "Frontend import",
+          "frontend, types"
+        ],
+        [
+          "Rule",
+          "no cross-import scraper ↔ frontend packages"
+        ],
+        [
+          "SQL files",
+          "27 numbered migrations"
+        ]
+      ],
+      "group": "Shared",
+      "sources": [
+        [
+          "tap-pg",
+          "https://github.com/scraper-system/tap-pg",
+          "shared Postgres module"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "migrations/",
+          "numbered SQL (source of truth)"
+        ],
+        [
+          "migrate/",
+          "OpenAndMigrate()"
+        ],
+        [
+          "scraper/",
+          "write-side PG helpers"
+        ],
+        [
+          "frontend/",
+          "read/admin PG helpers"
+        ],
+        [
+          "types/",
+          "shared row types"
+        ],
+        [
+          "internal/store/",
+          "low-level query helpers"
+        ]
+      ],
+      "subtitle": "Postgres migrations and DB access",
+      "summary": "No binary — shared migrations, types, and DB helpers split into migrate/, scraper/, frontend/ packages.",
+      "title": "tap-pg",
+      "type": "database"
+    },
+    "repo_tasker": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Entry",
+          "main.go (repo root)"
+        ],
+        [
+          "Module",
+          "tasker"
+        ],
+        [
+          "Queue DB",
+          "tasks.db (SQLite)"
+        ],
+        [
+          "Default port",
+          ":8080"
+        ]
+      ],
+      "group": "Backend",
+      "sources": [
+        [
+          "tasker",
+          "https://github.com/scraper-system/tasker",
+          "LLM + task relay"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "main.go, handlers.go",
+          "HTTP server"
+        ],
+        [
+          "llm.go",
+          "OpenAI extraction"
+        ],
+        [
+          "storage.go",
+          "SQLite task queue"
+        ],
+        [
+          "fbextract.go, fbpoiextract.go",
+          "Facebook parsers"
+        ],
+        [
+          "dashboard.html",
+          "operator UI"
+        ],
+        [
+          "cmd/",
+          "3 maintenance CLIs"
+        ]
+      ],
+      "subtitle": "Task relay and LLM extraction",
+      "summary": "Standalone module — pulls tasks from scraper-server, serves mobile clients, runs LLM, forwards results. No tap-pg import.",
+      "title": "tasker",
+      "type": "service"
+    },
+    "repo_web_app": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Entry",
+          "index.html → app.js"
+        ],
+        [
+          "API client",
+          "api.js"
+        ],
+        [
+          "Map engine",
+          "Mapbox GL JS (CDN)"
+        ]
+      ],
+      "group": "Product",
+      "sources": [
+        [
+          "web-app",
+          "https://github.com/scraper-system/web-app",
+          "public map UI"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          "app.js",
+          "map state, drawers, filters"
+        ],
+        [
+          "api.js",
+          "/api/v1 client"
+        ],
+        [
+          "hotel-admin.js",
+          "credentialed hotel UI"
+        ],
+        [
+          "workers/",
+          "cluster sprite worker"
+        ],
+        [
+          "icons/",
+          "marker and UI SVG assets"
+        ]
+      ],
+      "subtitle": "Events Globe — timeandplace.me",
+      "summary": "Vanilla HTML/CSS/JS Mapbox SPA. No bundler. Calls frontend-server /api/v1 (and scraper paths via gateway).",
+      "title": "web-app",
+      "type": "interface"
+    },
+    "repo_web_app_mem_lab": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Product",
+      "sources": [
+        [
+          "web-app-mem-lab",
+          "https://github.com/scraper-system/web-app-mem-lab",
+          "perf lab fork"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Dev-only fork — not deployed to production.",
+      "structure": [
+        [
+          "scripts/",
+          "heap, FPS, worker stress probes"
+        ],
+        [
+          ".mem-lab/",
+          "benchmark run artifacts"
+        ],
+        [
+          "tools/",
+          "deep-map diagnose utilities"
+        ]
+      ],
+      "subtitle": "Performance lab fork",
+      "summary": "Fork of web-app for memory/perf experiments — heap probes, cluster worker benchmarks, .mem-lab runs.",
+      "title": "web-app-mem-lab",
+      "type": "interface"
+    },
+    "repo_workspace": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Path",
+          "Scraper System/ (workspace root)"
+        ],
+        [
+          "Remote",
+          "scraper-system/workspace"
+        ]
+      ],
+      "group": "Workspace",
+      "sources": [
+        [
+          "workspace",
+          "https://github.com/scraper-system/workspace",
+          "meta repository"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [
+        [
+          ".cursor/",
+          "skills, rules, MCP config"
+        ],
+        [
+          "tests/",
+          "dev gateway, E2E harnesses"
+        ],
+        [
+          "Sales/",
+          "ambassador ops scripts"
+        ],
+        [
+          "scripts/",
+          "atlas build, operator utilities"
+        ],
+        [
+          "clone-all.ps1",
+          "clone code/* repos"
+        ]
+      ],
+      "subtitle": "scraper-system/workspace",
+      "summary": ".cursor/, skills, Sales/, tests/, clone-all.ps1, push-all.ps1. Does not contain app trees (code/ is gitignored).",
+      "title": "workspace",
+      "type": "infrastructure"
+    },
+    "ss_clis": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "scraper/cmd/backfill-event-images-r2",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/backfill-events-attendance",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/backfill-host-city-memberships",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/check-viator-thumb-dims",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/copy-events",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/delete-to-tasker",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/event-count-before",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/event-ingested",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/events-low-res-thumbnails",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/events-missing-thumbnails",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/fail-llm-to-created",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/queue-fb-poi-backfill",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/recreate-tasks",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/rename-client",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/retry-viator-failed",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/run-eventstore-migration",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/run-migration",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/split-sqlite-ownership",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/sync-host-city-keys",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/task-column-sizes",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/to-tasker-to-created",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/upload-event-hero-image",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/viator-filter-compare",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/viator-requeue-city-sync",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/viator-runtime-check",
+          "operator CLI"
+        ],
+        [
+          "scraper/cmd/viator-top-level-tags",
+          "operator CLI"
+        ]
+      ],
+      "subtitle": "26 operator CLIs",
+      "summary": "One-off maintenance, backfill, Viator, and task-queue tools. Built as separate main packages under scraper/cmd/.",
+      "title": "scraper/cmd/",
+      "type": "service"
+    },
+    "ss_cmd": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "cmd/scraper-server/main.go",
+          "service bootstrap"
+        ]
+      ],
+      "subtitle": "Production binary entrypoint",
+      "summary": "main.go wires config, opens SQLite + Postgres, starts API and background runtime.",
+      "title": "cmd/scraper-server",
+      "type": "interface"
+    },
+    "ss_contracts": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Shared media JSON contract",
+      "summary": "JSON schema for event/POI media objects — mirrored in frontend-server for validation.",
+      "title": "contracts/media/",
+      "type": "database"
+    },
+    "ss_data": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Operator data assets",
+      "summary": "Static JSON/CSV and seed files used by scraper CLIs and backfills.",
+      "title": "data/",
+      "type": "interface"
+    },
+    "ss_migrations": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "SQLite schema for scraper.sqlite",
+      "summary": "Numbered migrations for operational SQLite — tasks, cities, Viator caches, pipeline state.",
+      "title": "scraper_migrations/",
+      "type": "database"
+    },
+    "ss_overture": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Overture map data scripts",
+      "summary": "Import and transform scripts for Overture POI experiments.",
+      "title": "overture/",
+      "type": "interface"
+    },
+    "ss_pkg_api": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "HTTP routes and handlers",
+      "summary": "REST API for tasks, clients, dashboard, pipeline control, Viator admin.",
+      "title": "scraper/api",
+      "type": "service"
+    },
+    "ss_pkg_clientmanager": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Mobile client registry",
+      "summary": "Client registration, heartbeat, capability tracking.",
+      "title": "scraper/clientmanager",
+      "type": "service"
+    },
+    "ss_pkg_config": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Environment config",
+      "summary": "Feature flags, ports, DSNs, operator toggles.",
+      "title": "scraper/config",
+      "type": "service"
+    },
+    "ss_pkg_geo": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Geospatial helpers",
+      "summary": "City keys, bbox utilities, host-city membership helpers.",
+      "title": "scraper/geo",
+      "type": "service"
+    },
+    "ss_pkg_logging": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Structured logging",
+      "summary": "Request and pipeline log wrappers.",
+      "title": "scraper/logging",
+      "type": "service"
+    },
+    "ss_pkg_media": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Media helpers",
+      "summary": "Upload paths, R2 integration, contract validation for event images.",
+      "title": "scraper/media",
+      "type": "service"
+    },
+    "ss_pkg_models": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Domain types",
+      "summary": "Shared structs for tasks, events, clients, pipeline metadata.",
+      "title": "scraper/models",
+      "type": "service"
+    },
+    "ss_pkg_runtime": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Background loops",
+      "summary": "Startup wiring, periodic sync, graceful shutdown hooks.",
+      "title": "scraper/runtime",
+      "type": "service"
+    },
+    "ss_pkg_sqlitestore": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "scraper.sqlite access",
+      "summary": "Operational SQLite: task queue state, cities, Viator caches, pipeline logs.",
+      "title": "scraper/sqlitestore",
+      "type": "database"
+    },
+    "ss_pkg_taskmanager": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Task lifecycle and pipeline",
+      "summary": "Creates tasks, pushes to tasker, ingests results, writes Postgres via tap-pg/scraper.",
+      "title": "scraper/taskmanager",
+      "type": "service"
+    },
+    "ss_pkg_viator": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Viator partner sync",
+      "summary": "City sync, tag filters, thumbnail backfills, runtime checks.",
+      "title": "scraper/viator",
+      "type": "service"
+    },
+    "ss_scripts": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Repo-local operator scripts",
+      "summary": "Shell/Node helpers not compiled into the main binary.",
+      "title": "scripts/",
+      "type": "interface"
+    },
+    "ss_task_types": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "scraper-server",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "*.js",
+          "pre-injection scripts"
+        ],
+        [
+          "prompts/",
+          "LLM extraction prompts"
+        ]
+      ],
+      "subtitle": "Task injection templates",
+      "summary": "Per-host JS snippets and LLM prompt files loaded when creating scrape tasks.",
+      "title": "task_types/",
+      "type": "interface"
+    },
+    "tap_codebase": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [
+        [
+          "Layout",
+          "workspace repo + code/* git repos"
+        ],
+        [
+          "Org",
+          "scraper-system on GitHub"
+        ],
+        [
+          "Split model",
+          "Stage 9 — scraper-server + frontend-server"
+        ],
+        [
+          "Repos mapped",
+          "10 application repos + workspace"
+        ]
+      ],
+      "group": "Codebase",
+      "sources": [
+        [
+          "code/README.md",
+          "https://github.com/scraper-system/workspace/blob/main/code/README.md",
+          "repository map"
+        ]
+      ],
+      "status": "built",
+      "statusReason": "Root of the codebase atlas — not a production digital twin. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Git repos, packages and import boundaries",
+      "summary": "Source-code map of the TAP platform: workspace meta repo, application repos under code/, shared libraries, clients, and deploy config. Excludes runtime data stores, external APIs, and production topology.",
+      "title": "Scraper System Codebase",
+      "type": "system"
+    },
+    "tech:android": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Android device technology",
+      "summary": "Android device technology. This node is part of the authored concept hierarchy.",
+      "title": "Android",
+      "type": "grouping"
+    },
+    "tech:go": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Go implementation technology",
+      "summary": "Go implementation technology. This node is part of the authored concept hierarchy.",
+      "title": "Go",
+      "type": "grouping"
+    },
+    "tech:postgresql": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "PostgreSQL and PostGIS",
+      "summary": "PostgreSQL and PostGIS. This node is part of the authored concept hierarchy.",
+      "title": "PostgreSQL",
+      "type": "grouping"
+    },
+    "tech:sqlite": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "SQLite persistence",
+      "summary": "SQLite persistence. This node is part of the authored concept hierarchy.",
+      "title": "SQLite",
+      "type": "grouping"
+    },
+    "tk_clis": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tasker",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "cmd/delete-except-to-server-fail-client",
+          "maintenance CLI"
+        ],
+        [
+          "cmd/delete-pending",
+          "maintenance CLI"
+        ],
+        [
+          "cmd/print_system_msg",
+          "maintenance CLI"
+        ]
+      ],
+      "subtitle": "3 maintenance CLIs",
+      "summary": "Task queue cleanup and debug utilities.",
+      "title": "cmd/",
+      "type": "service"
+    },
+    "tk_core": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tasker",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "main.go",
+          "server bootstrap"
+        ],
+        [
+          "handlers.go",
+          "/v1/tasks routes"
+        ],
+        [
+          "llm.go",
+          "OpenAI structured extraction"
+        ],
+        [
+          "storage.go",
+          "SQLite queue"
+        ],
+        [
+          "models.go",
+          "task DTOs"
+        ]
+      ],
+      "subtitle": "",
+      "summary": "HTTP handlers, task queue persistence, LLM extraction pipeline.",
+      "title": "tasker core (main, handlers, llm, storage)",
+      "type": "module"
+    },
+    "tk_dashboard": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tasker",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "",
+      "summary": "Static operator dashboard served by tasker for queue inspection.",
+      "title": "dashboard.html",
+      "type": "interface"
+    },
+    "tk_fb": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tasker",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [
+        [
+          "fbextract.go",
+          "event page parser"
+        ],
+        [
+          "fbpoiextract.go",
+          "POI page parser"
+        ]
+      ],
+      "subtitle": "",
+      "summary": "HTML parsers for Facebook events and POI pages.",
+      "title": "Facebook extractors",
+      "type": "module"
+    },
+    "tp_frontend": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tap-pg",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Read/admin Postgres helpers",
+      "summary": "Product queries, hotel-admin, links — imported only by frontend-server packages.",
+      "title": "tap-pg/frontend",
+      "type": "database"
+    },
+    "tp_internal": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tap-pg",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Low-level query layer",
+      "summary": "Internal store helpers — not imported directly by app repos.",
+      "title": "tap-pg/internal/store",
+      "type": "database"
+    },
+    "tp_migrate": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tap-pg",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Migration runner",
+      "summary": "OpenAndMigrate() — applied by scraper-server on startup.",
+      "title": "tap-pg/migrate",
+      "type": "database"
+    },
+    "tp_migrations": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tap-pg",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "27 numbered SQL files",
+      "summary": "Canonical Postgres schema — events, POIs, hosts, availability, enrichments. Individual files not modeled as separate nodes.",
+      "title": "migrations/",
+      "type": "database"
+    },
+    "tp_scraper": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tap-pg",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Write-side Postgres helpers",
+      "summary": "Ingest paths for events, POIs, hosts — imported only by scraper-server packages.",
+      "title": "tap-pg/scraper",
+      "type": "database"
+    },
+    "tp_types": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "tap-pg",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Shared row types",
+      "summary": "Structs shared across scraper and frontend import paths.",
+      "title": "tap-pg/types",
+      "type": "database"
+    },
+    "type:client": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Distributed and device clients",
+      "summary": "Distributed and device clients. This node is part of the authored concept hierarchy.",
+      "title": "Client",
+      "type": "client"
+    },
+    "type:database": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Persistent databases",
+      "summary": "Persistent databases. This node is part of the authored concept hierarchy.",
+      "title": "Database",
+      "type": "database"
+    },
+    "type:external": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Systems outside the TAP boundary",
+      "summary": "Systems outside the TAP boundary. This node is part of the authored concept hierarchy.",
+      "title": "External System",
+      "type": "external"
+    },
+    "type:grouping": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Structural and classification entities",
+      "summary": "Structural and classification entities. This node is part of the authored concept hierarchy.",
+      "title": "Grouping",
+      "type": "grouping"
+    },
+    "type:infrastructure": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Runtime, delivery and repository infrastructure",
+      "summary": "Runtime, delivery and repository infrastructure. This node is part of the authored concept hierarchy.",
+      "title": "Infrastructure",
+      "type": "infrastructure"
+    },
+    "type:interface": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Human-facing product and operating surfaces",
+      "summary": "Human-facing product and operating surfaces. This node is part of the authored concept hierarchy.",
+      "title": "Interface",
+      "type": "interface"
+    },
+    "type:module": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Reusable software modules",
+      "summary": "Reusable software modules. This node is part of the authored concept hierarchy.",
+      "title": "Module",
+      "type": "module"
+    },
+    "type:service": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children. Status is inherited from immediate children by majority; exact ties resolve built, then planned, then legacy.",
+      "structure": [],
+      "subtitle": "Runtime and application services",
+      "summary": "Runtime and application services. This node is part of the authored concept hierarchy.",
+      "title": "Service",
+      "type": "service"
+    },
+    "type:system": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "System roots and system-scale entities",
+      "summary": "System roots and system-scale entities. This node is part of the authored concept hierarchy.",
+      "title": "System",
+      "type": "system"
+    },
+    "type:table": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "Classification",
+      "sources": [],
+      "status": "built",
+      "statusReason": "Status is inherited from immediate children.",
+      "structure": [],
+      "subtitle": "Logical database tables",
+      "summary": "Logical database tables. This node is part of the authored concept hierarchy.",
+      "title": "Table",
+      "type": "table"
+    },
+    "wa_accommodation": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Accommodation demo page",
+      "summary": "Standalone accommodation landing experiment.",
+      "title": "accommodation-page.js",
+      "type": "module"
+    },
+    "wa_api": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "/api/v1 client",
+      "summary": "Fetch wrappers for events, tiles, POIs, links, config.",
+      "title": "api.js",
+      "type": "module"
+    },
+    "wa_app": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Map SPA core",
+      "summary": "Map state, event layers, filters, drawers, navigation.",
+      "title": "app.js",
+      "type": "module"
+    },
+    "wa_docs": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Frontend docs",
+      "summary": "Cluster worker, perf notes, implementation guides.",
+      "title": "docs/",
+      "type": "module"
+    },
+    "wa_hotel_admin": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Hotel admin UI",
+      "summary": "Credentialed flows for hotel operators — billing, links, home marker.",
+      "title": "hotel-admin.js",
+      "type": "module"
+    },
+    "wa_icons": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "SVG and PNG assets",
+      "summary": "Event markers, nav controls, category pins.",
+      "title": "icons/",
+      "type": "module"
+    },
+    "wa_scripts": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Build and perf scripts",
+      "summary": "Asset verification, perf probes, style JSON.",
+      "title": "scripts/",
+      "type": "module"
+    },
+    "wa_tests": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Node test harnesses",
+      "summary": "Contract tests for API client and hotel-admin flows.",
+      "title": "test/, tests/",
+      "type": "module"
+    },
+    "wa_vendor": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Vendored JS",
+      "summary": "fastdom and other pinned third-party snippets.",
+      "title": "vendor/",
+      "type": "module"
+    },
+    "wa_workers": {
+      "authoredStatus": "built",
+      "columns": [],
+      "endpoints": [],
+      "facts": [],
+      "group": "web-app",
+      "sources": [],
+      "status": "built",
+      "statusReason": "",
+      "structure": [],
+      "subtitle": "Web workers",
+      "summary": "cluster-sprites.worker.js bakes marker sprites off main thread.",
+      "title": "workers/",
+      "type": "module"
+    }
+  },
+  "parentLinks": [
+    {
+      "child": "concept:types",
+      "id": "concept:types@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "type:system",
+      "id": "type:system@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:grouping",
+      "id": "type:grouping@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:service",
+      "id": "type:service@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:module",
+      "id": "type:module@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:database",
+      "id": "type:database@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:table",
+      "id": "type:table@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:interface",
+      "id": "type:interface@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:client",
+      "id": "type:client@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:external",
+      "id": "type:external@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "type:infrastructure",
+      "id": "type:infrastructure@concept:types",
+      "order": 0,
+      "parent": "concept:types"
+    },
+    {
+      "child": "concept:technologies",
+      "id": "concept:technologies@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "concept:gateway",
+      "id": "concept:gateway@type:service",
+      "order": 0,
+      "parent": "type:service"
+    },
+    {
+      "child": "concept:configuration",
+      "id": "concept:configuration@type:module",
+      "order": 0,
+      "parent": "type:module"
+    },
+    {
+      "child": "concept:product-interface",
+      "id": "concept:product-interface@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "concept:operations-interface",
+      "id": "concept:operations-interface@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "concept:repository",
+      "id": "concept:repository@type:infrastructure",
+      "order": 0,
+      "parent": "type:infrastructure"
+    },
+    {
+      "child": "concept:documentation-repository",
+      "id": "concept:documentation-repository@concept:repository",
+      "order": 0,
+      "parent": "concept:repository"
+    },
+    {
+      "child": "concept:infrastructure-repository",
+      "id": "concept:infrastructure-repository@concept:repository",
+      "order": 0,
+      "parent": "concept:repository"
+    },
+    {
+      "child": "concept:hosting",
+      "id": "concept:hosting@type:infrastructure",
+      "order": 0,
+      "parent": "type:infrastructure"
+    },
+    {
+      "child": "concept:object-storage",
+      "id": "concept:object-storage@type:infrastructure",
+      "order": 0,
+      "parent": "type:infrastructure"
+    },
+    {
+      "child": "concept:external-source",
+      "id": "concept:external-source@type:external",
+      "order": 0,
+      "parent": "type:external"
+    },
+    {
+      "child": "concept:external-provider",
+      "id": "concept:external-provider@type:external",
+      "order": 0,
+      "parent": "type:external"
+    },
+    {
+      "child": "concept:external-integration",
+      "id": "concept:external-integration@type:external",
+      "order": 0,
+      "parent": "type:external"
+    },
+    {
+      "child": "concept:external-platform",
+      "id": "concept:external-platform@type:external",
+      "order": 0,
+      "parent": "type:external"
+    },
+    {
+      "child": "concept:external-dataset",
+      "id": "concept:external-dataset@type:external",
+      "order": 0,
+      "parent": "type:external"
+    },
+    {
+      "child": "concept:external-processing",
+      "id": "concept:external-processing@type:external",
+      "order": 0,
+      "parent": "type:external"
+    },
+    {
+      "child": "concept:capability",
+      "id": "concept:capability@type:module",
+      "order": 0,
+      "parent": "type:module"
+    },
+    {
+      "child": "tech:go",
+      "id": "tech:go@concept:technologies",
+      "order": 0,
+      "parent": "concept:technologies"
+    },
+    {
+      "child": "tech:postgresql",
+      "id": "tech:postgresql@concept:technologies",
+      "order": 0,
+      "parent": "concept:technologies"
+    },
+    {
+      "child": "tech:sqlite",
+      "id": "tech:sqlite@concept:technologies",
+      "order": 0,
+      "parent": "concept:technologies"
+    },
+    {
+      "child": "tech:android",
+      "id": "tech:android@concept:technologies",
+      "order": 0,
+      "parent": "concept:technologies"
+    },
+    {
+      "child": "branch_workspace",
+      "id": "branch_workspace@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "concept:branch",
+      "id": "concept:branch@type:grouping",
+      "order": 0,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "branch_workspace",
+      "id": "branch_workspace@concept:branch",
+      "order": 1,
+      "parent": "concept:branch"
+    },
+    {
+      "child": "repo_workspace",
+      "id": "repo_workspace@branch_workspace",
+      "order": 0,
+      "parent": "branch_workspace"
+    },
+    {
+      "child": "concept:meta",
+      "id": "concept:meta@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "repo_workspace",
+      "id": "repo_workspace@concept:meta",
+      "order": 1,
+      "parent": "concept:meta"
+    },
+    {
+      "child": "concept:git-repository",
+      "id": "concept:git-repository@type:infrastructure",
+      "order": 0,
+      "parent": "type:infrastructure"
+    },
+    {
+      "child": "repo_workspace",
+      "id": "repo_workspace@concept:git-repository",
+      "order": 2,
+      "parent": "concept:git-repository"
+    },
+    {
+      "child": "area_tests",
+      "id": "area_tests@repo_workspace",
+      "order": 0,
+      "parent": "repo_workspace"
+    },
+    {
+      "child": "concept:test-harness",
+      "id": "concept:test-harness@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "area_tests",
+      "id": "area_tests@concept:test-harness",
+      "order": 1,
+      "parent": "concept:test-harness"
+    },
+    {
+      "child": "area_cursor",
+      "id": "area_cursor@repo_workspace",
+      "order": 0,
+      "parent": "repo_workspace"
+    },
+    {
+      "child": "concept:tooling",
+      "id": "concept:tooling@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "area_cursor",
+      "id": "area_cursor@concept:tooling",
+      "order": 1,
+      "parent": "concept:tooling"
+    },
+    {
+      "child": "branch_repos",
+      "id": "branch_repos@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "branch_repos",
+      "id": "branch_repos@concept:branch",
+      "order": 1,
+      "parent": "concept:branch"
+    },
+    {
+      "child": "branch_backend",
+      "id": "branch_backend@branch_repos",
+      "order": 0,
+      "parent": "branch_repos"
+    },
+    {
+      "child": "concept:backend",
+      "id": "concept:backend@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "branch_backend",
+      "id": "branch_backend@concept:backend",
+      "order": 1,
+      "parent": "concept:backend"
+    },
+    {
+      "child": "branch_backend",
+      "id": "branch_backend@concept:branch",
+      "order": 2,
+      "parent": "concept:branch"
+    },
+    {
+      "child": "repo_scraper_server",
+      "id": "repo_scraper_server@branch_backend",
+      "order": 0,
+      "parent": "branch_backend"
+    },
+    {
+      "child": "repo_scraper_server",
+      "id": "repo_scraper_server@tech:go",
+      "order": 1,
+      "parent": "tech:go"
+    },
+    {
+      "child": "ss_cmd",
+      "id": "ss_cmd@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "concept:directory",
+      "id": "concept:directory@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "ss_cmd",
+      "id": "ss_cmd@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "concept:binary-entrypoint",
+      "id": "concept:binary-entrypoint@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "ss_cmd",
+      "id": "ss_cmd@concept:binary-entrypoint",
+      "order": 2,
+      "parent": "concept:binary-entrypoint"
+    },
+    {
+      "child": "ss_pkg_api",
+      "id": "ss_pkg_api@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "concept:package",
+      "id": "concept:package@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "ss_pkg_api",
+      "id": "ss_pkg_api@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "concept:go-package",
+      "id": "concept:go-package@type:service",
+      "order": 0,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_api",
+      "id": "ss_pkg_api@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_taskmanager",
+      "id": "ss_pkg_taskmanager@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_taskmanager",
+      "id": "ss_pkg_taskmanager@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_taskmanager",
+      "id": "ss_pkg_taskmanager@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_sqlitestore",
+      "id": "ss_pkg_sqlitestore@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_sqlitestore",
+      "id": "ss_pkg_sqlitestore@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_sqlitestore",
+      "id": "ss_pkg_sqlitestore@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_models",
+      "id": "ss_pkg_models@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_models",
+      "id": "ss_pkg_models@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_models",
+      "id": "ss_pkg_models@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_media",
+      "id": "ss_pkg_media@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_media",
+      "id": "ss_pkg_media@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_media",
+      "id": "ss_pkg_media@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_viator",
+      "id": "ss_pkg_viator@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_viator",
+      "id": "ss_pkg_viator@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_viator",
+      "id": "ss_pkg_viator@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_clientmanager",
+      "id": "ss_pkg_clientmanager@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_clientmanager",
+      "id": "ss_pkg_clientmanager@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_clientmanager",
+      "id": "ss_pkg_clientmanager@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_config",
+      "id": "ss_pkg_config@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_config",
+      "id": "ss_pkg_config@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_config",
+      "id": "ss_pkg_config@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_geo",
+      "id": "ss_pkg_geo@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_geo",
+      "id": "ss_pkg_geo@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_geo",
+      "id": "ss_pkg_geo@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_logging",
+      "id": "ss_pkg_logging@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_logging",
+      "id": "ss_pkg_logging@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_logging",
+      "id": "ss_pkg_logging@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_pkg_runtime",
+      "id": "ss_pkg_runtime@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_pkg_runtime",
+      "id": "ss_pkg_runtime@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "ss_pkg_runtime",
+      "id": "ss_pkg_runtime@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "ss_clis",
+      "id": "ss_clis@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_clis",
+      "id": "ss_clis@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "concept:cli-group",
+      "id": "concept:cli-group@type:service",
+      "order": 0,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_clis",
+      "id": "ss_clis@concept:cli-group",
+      "order": 2,
+      "parent": "concept:cli-group"
+    },
+    {
+      "child": "ss_migrations",
+      "id": "ss_migrations@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_migrations",
+      "id": "ss_migrations@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "concept:sql-migrations",
+      "id": "concept:sql-migrations@type:database",
+      "order": 0,
+      "parent": "type:database"
+    },
+    {
+      "child": "ss_migrations",
+      "id": "ss_migrations@concept:sql-migrations",
+      "order": 2,
+      "parent": "concept:sql-migrations"
+    },
+    {
+      "child": "ss_task_types",
+      "id": "ss_task_types@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_task_types",
+      "id": "ss_task_types@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "concept:task-templates",
+      "id": "concept:task-templates@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "ss_task_types",
+      "id": "ss_task_types@concept:task-templates",
+      "order": 2,
+      "parent": "concept:task-templates"
+    },
+    {
+      "child": "ss_data",
+      "id": "ss_data@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_data",
+      "id": "ss_data@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "ss_overture",
+      "id": "ss_overture@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_overture",
+      "id": "ss_overture@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "ss_scripts",
+      "id": "ss_scripts@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_scripts",
+      "id": "ss_scripts@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "ss_contracts",
+      "id": "ss_contracts@repo_scraper_server",
+      "order": 0,
+      "parent": "repo_scraper_server"
+    },
+    {
+      "child": "ss_contracts",
+      "id": "ss_contracts@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "concept:contract",
+      "id": "concept:contract@type:database",
+      "order": 0,
+      "parent": "type:database"
+    },
+    {
+      "child": "ss_contracts",
+      "id": "ss_contracts@concept:contract",
+      "order": 2,
+      "parent": "concept:contract"
+    },
+    {
+      "child": "repo_frontend_server",
+      "id": "repo_frontend_server@branch_backend",
+      "order": 0,
+      "parent": "branch_backend"
+    },
+    {
+      "child": "repo_frontend_server",
+      "id": "repo_frontend_server@tech:go",
+      "order": 1,
+      "parent": "tech:go"
+    },
+    {
+      "child": "fs_cmd",
+      "id": "fs_cmd@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_cmd",
+      "id": "fs_cmd@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "fs_cmd",
+      "id": "fs_cmd@concept:binary-entrypoint",
+      "order": 2,
+      "parent": "concept:binary-entrypoint"
+    },
+    {
+      "child": "fs_pkg_api",
+      "id": "fs_pkg_api@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_pkg_api",
+      "id": "fs_pkg_api@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "fs_pkg_api",
+      "id": "fs_pkg_api@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "fs_pkg_sqlitestore",
+      "id": "fs_pkg_sqlitestore@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_pkg_sqlitestore",
+      "id": "fs_pkg_sqlitestore@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "fs_pkg_sqlitestore",
+      "id": "fs_pkg_sqlitestore@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "fs_pkg_models",
+      "id": "fs_pkg_models@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_pkg_models",
+      "id": "fs_pkg_models@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "fs_pkg_models",
+      "id": "fs_pkg_models@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "fs_pkg_media",
+      "id": "fs_pkg_media@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_pkg_media",
+      "id": "fs_pkg_media@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "fs_pkg_media",
+      "id": "fs_pkg_media@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "fs_pkg_config",
+      "id": "fs_pkg_config@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_pkg_config",
+      "id": "fs_pkg_config@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "fs_pkg_config",
+      "id": "fs_pkg_config@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "fs_pkg_poienrichment",
+      "id": "fs_pkg_poienrichment@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_pkg_poienrichment",
+      "id": "fs_pkg_poienrichment@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "fs_pkg_poienrichment",
+      "id": "fs_pkg_poienrichment@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "fs_pkg_foursquare",
+      "id": "fs_pkg_foursquare@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_pkg_foursquare",
+      "id": "fs_pkg_foursquare@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "fs_pkg_foursquare",
+      "id": "fs_pkg_foursquare@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "fs_clis",
+      "id": "fs_clis@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_clis",
+      "id": "fs_clis@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "fs_clis",
+      "id": "fs_clis@concept:cli-group",
+      "order": 2,
+      "parent": "concept:cli-group"
+    },
+    {
+      "child": "fs_migrations",
+      "id": "fs_migrations@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_migrations",
+      "id": "fs_migrations@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "fs_migrations",
+      "id": "fs_migrations@concept:sql-migrations",
+      "order": 2,
+      "parent": "concept:sql-migrations"
+    },
+    {
+      "child": "fs_contracts",
+      "id": "fs_contracts@repo_frontend_server",
+      "order": 0,
+      "parent": "repo_frontend_server"
+    },
+    {
+      "child": "fs_contracts",
+      "id": "fs_contracts@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "fs_contracts",
+      "id": "fs_contracts@concept:contract",
+      "order": 2,
+      "parent": "concept:contract"
+    },
+    {
+      "child": "repo_tasker",
+      "id": "repo_tasker@branch_backend",
+      "order": 0,
+      "parent": "branch_backend"
+    },
+    {
+      "child": "repo_tasker",
+      "id": "repo_tasker@tech:go",
+      "order": 1,
+      "parent": "tech:go"
+    },
+    {
+      "child": "tk_core",
+      "id": "tk_core@repo_tasker",
+      "order": 0,
+      "parent": "repo_tasker"
+    },
+    {
+      "child": "tk_core",
+      "id": "tk_core@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "concept:go-module-group",
+      "id": "concept:go-module-group@type:module",
+      "order": 0,
+      "parent": "type:module"
+    },
+    {
+      "child": "tk_core",
+      "id": "tk_core@concept:go-module-group",
+      "order": 1,
+      "parent": "concept:go-module-group"
+    },
+    {
+      "child": "tk_fb",
+      "id": "tk_fb@repo_tasker",
+      "order": 0,
+      "parent": "repo_tasker"
+    },
+    {
+      "child": "tk_fb",
+      "id": "tk_fb@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "tk_fb",
+      "id": "tk_fb@concept:go-module-group",
+      "order": 1,
+      "parent": "concept:go-module-group"
+    },
+    {
+      "child": "tk_dashboard",
+      "id": "tk_dashboard@repo_tasker",
+      "order": 0,
+      "parent": "repo_tasker"
+    },
+    {
+      "child": "tk_dashboard",
+      "id": "tk_dashboard@type:module",
+      "order": 1,
+      "parent": "type:module"
+    },
+    {
+      "child": "concept:operator-ui",
+      "id": "concept:operator-ui@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "tk_dashboard",
+      "id": "tk_dashboard@concept:operator-ui",
+      "order": 2,
+      "parent": "concept:operator-ui"
+    },
+    {
+      "child": "tk_clis",
+      "id": "tk_clis@repo_tasker",
+      "order": 0,
+      "parent": "repo_tasker"
+    },
+    {
+      "child": "tk_clis",
+      "id": "tk_clis@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "tk_clis",
+      "id": "tk_clis@concept:cli-group",
+      "order": 2,
+      "parent": "concept:cli-group"
+    },
+    {
+      "child": "branch_shared",
+      "id": "branch_shared@branch_repos",
+      "order": 0,
+      "parent": "branch_repos"
+    },
+    {
+      "child": "concept:shared",
+      "id": "concept:shared@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "branch_shared",
+      "id": "branch_shared@concept:shared",
+      "order": 1,
+      "parent": "concept:shared"
+    },
+    {
+      "child": "branch_shared",
+      "id": "branch_shared@concept:branch",
+      "order": 2,
+      "parent": "concept:branch"
+    },
+    {
+      "child": "repo_tap_pg",
+      "id": "repo_tap_pg@branch_shared",
+      "order": 0,
+      "parent": "branch_shared"
+    },
+    {
+      "child": "concept:go-library",
+      "id": "concept:go-library@type:database",
+      "order": 0,
+      "parent": "type:database"
+    },
+    {
+      "child": "repo_tap_pg",
+      "id": "repo_tap_pg@concept:go-library",
+      "order": 1,
+      "parent": "concept:go-library"
+    },
+    {
+      "child": "tp_migrations",
+      "id": "tp_migrations@repo_tap_pg",
+      "order": 0,
+      "parent": "repo_tap_pg"
+    },
+    {
+      "child": "tp_migrations",
+      "id": "tp_migrations@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "tp_migrations",
+      "id": "tp_migrations@concept:sql-migrations",
+      "order": 2,
+      "parent": "concept:sql-migrations"
+    },
+    {
+      "child": "tp_migrate",
+      "id": "tp_migrate@repo_tap_pg",
+      "order": 0,
+      "parent": "repo_tap_pg"
+    },
+    {
+      "child": "tp_migrate",
+      "id": "tp_migrate@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "tp_migrate",
+      "id": "tp_migrate@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "tp_scraper",
+      "id": "tp_scraper@repo_tap_pg",
+      "order": 0,
+      "parent": "repo_tap_pg"
+    },
+    {
+      "child": "tp_scraper",
+      "id": "tp_scraper@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "tp_scraper",
+      "id": "tp_scraper@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "tp_frontend",
+      "id": "tp_frontend@repo_tap_pg",
+      "order": 0,
+      "parent": "repo_tap_pg"
+    },
+    {
+      "child": "tp_frontend",
+      "id": "tp_frontend@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "tp_frontend",
+      "id": "tp_frontend@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "tp_types",
+      "id": "tp_types@repo_tap_pg",
+      "order": 0,
+      "parent": "repo_tap_pg"
+    },
+    {
+      "child": "tp_types",
+      "id": "tp_types@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "tp_types",
+      "id": "tp_types@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "tp_internal",
+      "id": "tp_internal@repo_tap_pg",
+      "order": 0,
+      "parent": "repo_tap_pg"
+    },
+    {
+      "child": "tp_internal",
+      "id": "tp_internal@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "tp_internal",
+      "id": "tp_internal@concept:go-package",
+      "order": 2,
+      "parent": "concept:go-package"
+    },
+    {
+      "child": "branch_product",
+      "id": "branch_product@branch_repos",
+      "order": 0,
+      "parent": "branch_repos"
+    },
+    {
+      "child": "concept:product",
+      "id": "concept:product@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "branch_product",
+      "id": "branch_product@concept:product",
+      "order": 1,
+      "parent": "concept:product"
+    },
+    {
+      "child": "branch_product",
+      "id": "branch_product@concept:branch",
+      "order": 2,
+      "parent": "concept:branch"
+    },
+    {
+      "child": "repo_web_app",
+      "id": "repo_web_app@branch_product",
+      "order": 0,
+      "parent": "branch_product"
+    },
+    {
+      "child": "concept:static-frontend",
+      "id": "concept:static-frontend@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "repo_web_app",
+      "id": "repo_web_app@concept:static-frontend",
+      "order": 1,
+      "parent": "concept:static-frontend"
+    },
+    {
+      "child": "wa_app",
+      "id": "wa_app@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_app",
+      "id": "wa_app@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "concept:js-module",
+      "id": "concept:js-module@type:module",
+      "order": 0,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_app",
+      "id": "wa_app@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_api",
+      "id": "wa_api@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_api",
+      "id": "wa_api@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_api",
+      "id": "wa_api@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_hotel_admin",
+      "id": "wa_hotel_admin@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_hotel_admin",
+      "id": "wa_hotel_admin@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_hotel_admin",
+      "id": "wa_hotel_admin@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_accommodation",
+      "id": "wa_accommodation@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_accommodation",
+      "id": "wa_accommodation@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_accommodation",
+      "id": "wa_accommodation@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_workers",
+      "id": "wa_workers@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_workers",
+      "id": "wa_workers@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_workers",
+      "id": "wa_workers@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_icons",
+      "id": "wa_icons@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_icons",
+      "id": "wa_icons@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_icons",
+      "id": "wa_icons@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_scripts",
+      "id": "wa_scripts@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_scripts",
+      "id": "wa_scripts@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_scripts",
+      "id": "wa_scripts@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_vendor",
+      "id": "wa_vendor@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_vendor",
+      "id": "wa_vendor@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_vendor",
+      "id": "wa_vendor@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_docs",
+      "id": "wa_docs@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_docs",
+      "id": "wa_docs@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_docs",
+      "id": "wa_docs@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "wa_tests",
+      "id": "wa_tests@repo_web_app",
+      "order": 0,
+      "parent": "repo_web_app"
+    },
+    {
+      "child": "wa_tests",
+      "id": "wa_tests@type:module",
+      "order": 2,
+      "parent": "type:module"
+    },
+    {
+      "child": "wa_tests",
+      "id": "wa_tests@concept:js-module",
+      "order": 1,
+      "parent": "concept:js-module"
+    },
+    {
+      "child": "repo_web_app_mem_lab",
+      "id": "repo_web_app_mem_lab@branch_product",
+      "order": 0,
+      "parent": "branch_product"
+    },
+    {
+      "child": "concept:dev-fork",
+      "id": "concept:dev-fork@type:interface",
+      "order": 0,
+      "parent": "type:interface"
+    },
+    {
+      "child": "repo_web_app_mem_lab",
+      "id": "repo_web_app_mem_lab@concept:dev-fork",
+      "order": 1,
+      "parent": "concept:dev-fork"
+    },
+    {
+      "child": "branch_clients",
+      "id": "branch_clients@branch_repos",
+      "order": 0,
+      "parent": "branch_repos"
+    },
+    {
+      "child": "concept:clients",
+      "id": "concept:clients@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "branch_clients",
+      "id": "branch_clients@concept:clients",
+      "order": 1,
+      "parent": "concept:clients"
+    },
+    {
+      "child": "branch_clients",
+      "id": "branch_clients@concept:branch",
+      "order": 2,
+      "parent": "concept:branch"
+    },
+    {
+      "child": "repo_mobile_kotlin",
+      "id": "repo_mobile_kotlin@branch_clients",
+      "order": 0,
+      "parent": "branch_clients"
+    },
+    {
+      "child": "mk_pkg_config",
+      "id": "mk_pkg_config@repo_mobile_kotlin",
+      "order": 0,
+      "parent": "repo_mobile_kotlin"
+    },
+    {
+      "child": "mk_pkg_config",
+      "id": "mk_pkg_config@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "concept:kotlin-package",
+      "id": "concept:kotlin-package@type:external",
+      "order": 0,
+      "parent": "type:external"
+    },
+    {
+      "child": "mk_pkg_config",
+      "id": "mk_pkg_config@concept:kotlin-package",
+      "order": 2,
+      "parent": "concept:kotlin-package"
+    },
+    {
+      "child": "mk_pkg_db",
+      "id": "mk_pkg_db@repo_mobile_kotlin",
+      "order": 0,
+      "parent": "repo_mobile_kotlin"
+    },
+    {
+      "child": "mk_pkg_db",
+      "id": "mk_pkg_db@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "mk_pkg_db",
+      "id": "mk_pkg_db@concept:kotlin-package",
+      "order": 2,
+      "parent": "concept:kotlin-package"
+    },
+    {
+      "child": "mk_pkg_network",
+      "id": "mk_pkg_network@repo_mobile_kotlin",
+      "order": 0,
+      "parent": "repo_mobile_kotlin"
+    },
+    {
+      "child": "mk_pkg_network",
+      "id": "mk_pkg_network@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "mk_pkg_network",
+      "id": "mk_pkg_network@concept:kotlin-package",
+      "order": 2,
+      "parent": "concept:kotlin-package"
+    },
+    {
+      "child": "mk_pkg_scraping",
+      "id": "mk_pkg_scraping@repo_mobile_kotlin",
+      "order": 0,
+      "parent": "repo_mobile_kotlin"
+    },
+    {
+      "child": "mk_pkg_scraping",
+      "id": "mk_pkg_scraping@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "mk_pkg_scraping",
+      "id": "mk_pkg_scraping@concept:kotlin-package",
+      "order": 2,
+      "parent": "concept:kotlin-package"
+    },
+    {
+      "child": "mk_pkg_sync",
+      "id": "mk_pkg_sync@repo_mobile_kotlin",
+      "order": 0,
+      "parent": "repo_mobile_kotlin"
+    },
+    {
+      "child": "mk_pkg_sync",
+      "id": "mk_pkg_sync@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "mk_pkg_sync",
+      "id": "mk_pkg_sync@concept:kotlin-package",
+      "order": 2,
+      "parent": "concept:kotlin-package"
+    },
+    {
+      "child": "mk_pkg_util",
+      "id": "mk_pkg_util@repo_mobile_kotlin",
+      "order": 0,
+      "parent": "repo_mobile_kotlin"
+    },
+    {
+      "child": "mk_pkg_util",
+      "id": "mk_pkg_util@concept:package",
+      "order": 1,
+      "parent": "concept:package"
+    },
+    {
+      "child": "mk_pkg_util",
+      "id": "mk_pkg_util@concept:kotlin-package",
+      "order": 2,
+      "parent": "concept:kotlin-package"
+    },
+    {
+      "child": "repo_mobile_rn",
+      "id": "repo_mobile_rn@branch_clients",
+      "order": 0,
+      "parent": "branch_clients"
+    },
+    {
+      "child": "branch_infra",
+      "id": "branch_infra@branch_repos",
+      "order": 0,
+      "parent": "branch_repos"
+    },
+    {
+      "child": "branch_infra",
+      "id": "branch_infra@type:infrastructure",
+      "order": 1,
+      "parent": "type:infrastructure"
+    },
+    {
+      "child": "branch_infra",
+      "id": "branch_infra@concept:branch",
+      "order": 2,
+      "parent": "concept:branch"
+    },
+    {
+      "child": "repo_deploy",
+      "id": "repo_deploy@branch_infra",
+      "order": 0,
+      "parent": "branch_infra"
+    },
+    {
+      "child": "concept:ops-repository",
+      "id": "concept:ops-repository@type:infrastructure",
+      "order": 0,
+      "parent": "type:infrastructure"
+    },
+    {
+      "child": "repo_deploy",
+      "id": "repo_deploy@concept:ops-repository",
+      "order": 1,
+      "parent": "concept:ops-repository"
+    },
+    {
+      "child": "dep_nginx",
+      "id": "dep_nginx@repo_deploy",
+      "order": 0,
+      "parent": "repo_deploy"
+    },
+    {
+      "child": "dep_nginx",
+      "id": "dep_nginx@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "dep_systemd",
+      "id": "dep_systemd@repo_deploy",
+      "order": 0,
+      "parent": "repo_deploy"
+    },
+    {
+      "child": "dep_systemd",
+      "id": "dep_systemd@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "dep_setup",
+      "id": "dep_setup@repo_deploy",
+      "order": 0,
+      "parent": "repo_deploy"
+    },
+    {
+      "child": "dep_setup",
+      "id": "dep_setup@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "dep_env",
+      "id": "dep_env@repo_deploy",
+      "order": 0,
+      "parent": "repo_deploy"
+    },
+    {
+      "child": "dep_env",
+      "id": "dep_env@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "dep_cloudflare",
+      "id": "dep_cloudflare@repo_deploy",
+      "order": 0,
+      "parent": "repo_deploy"
+    },
+    {
+      "child": "dep_cloudflare",
+      "id": "dep_cloudflare@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "dep_r2",
+      "id": "dep_r2@repo_deploy",
+      "order": 0,
+      "parent": "repo_deploy"
+    },
+    {
+      "child": "dep_r2",
+      "id": "dep_r2@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "dep_ops",
+      "id": "dep_ops@repo_deploy",
+      "order": 0,
+      "parent": "repo_deploy"
+    },
+    {
+      "child": "dep_ops",
+      "id": "dep_ops@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "dep_docs",
+      "id": "dep_docs@repo_deploy",
+      "order": 0,
+      "parent": "repo_deploy"
+    },
+    {
+      "child": "dep_docs",
+      "id": "dep_docs@concept:directory",
+      "order": 1,
+      "parent": "concept:directory"
+    },
+    {
+      "child": "branch_legacy",
+      "id": "branch_legacy@tap_codebase",
+      "order": 0,
+      "parent": "tap_codebase"
+    },
+    {
+      "child": "branch_legacy",
+      "id": "branch_legacy@concept:branch",
+      "order": 1,
+      "parent": "concept:branch"
+    },
+    {
+      "child": "repo_server_monorepo",
+      "id": "repo_server_monorepo@branch_legacy",
+      "order": 0,
+      "parent": "branch_legacy"
+    },
+    {
+      "child": "repo_server_monorepo",
+      "id": "repo_server_monorepo@tech:go",
+      "order": 1,
+      "parent": "tech:go"
+    },
+    {
+      "child": "branch_workspace",
+      "id": "branch_workspace@type:grouping",
+      "order": 2,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "repo_workspace",
+      "id": "repo_workspace@type:infrastructure",
+      "order": 3,
+      "parent": "type:infrastructure"
+    },
+    {
+      "child": "area_tests",
+      "id": "area_tests@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "area_cursor",
+      "id": "area_cursor@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "branch_repos",
+      "id": "branch_repos@type:grouping",
+      "order": 2,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "branch_backend",
+      "id": "branch_backend@type:grouping",
+      "order": 3,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "repo_scraper_server",
+      "id": "repo_scraper_server@type:service",
+      "order": 2,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_cmd",
+      "id": "ss_cmd@type:interface",
+      "order": 3,
+      "parent": "type:interface"
+    },
+    {
+      "child": "ss_pkg_api",
+      "id": "ss_pkg_api@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_taskmanager",
+      "id": "ss_pkg_taskmanager@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_sqlitestore",
+      "id": "ss_pkg_sqlitestore@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "ss_pkg_models",
+      "id": "ss_pkg_models@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_media",
+      "id": "ss_pkg_media@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_viator",
+      "id": "ss_pkg_viator@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_clientmanager",
+      "id": "ss_pkg_clientmanager@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_config",
+      "id": "ss_pkg_config@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_geo",
+      "id": "ss_pkg_geo@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_logging",
+      "id": "ss_pkg_logging@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_pkg_runtime",
+      "id": "ss_pkg_runtime@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_clis",
+      "id": "ss_clis@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "ss_migrations",
+      "id": "ss_migrations@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "ss_task_types",
+      "id": "ss_task_types@type:interface",
+      "order": 3,
+      "parent": "type:interface"
+    },
+    {
+      "child": "ss_data",
+      "id": "ss_data@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "ss_overture",
+      "id": "ss_overture@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "ss_scripts",
+      "id": "ss_scripts@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "ss_contracts",
+      "id": "ss_contracts@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "repo_frontend_server",
+      "id": "repo_frontend_server@type:service",
+      "order": 2,
+      "parent": "type:service"
+    },
+    {
+      "child": "fs_cmd",
+      "id": "fs_cmd@type:interface",
+      "order": 3,
+      "parent": "type:interface"
+    },
+    {
+      "child": "fs_pkg_api",
+      "id": "fs_pkg_api@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "fs_pkg_sqlitestore",
+      "id": "fs_pkg_sqlitestore@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "fs_pkg_models",
+      "id": "fs_pkg_models@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "fs_pkg_media",
+      "id": "fs_pkg_media@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "fs_pkg_config",
+      "id": "fs_pkg_config@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "fs_pkg_poienrichment",
+      "id": "fs_pkg_poienrichment@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "fs_pkg_foursquare",
+      "id": "fs_pkg_foursquare@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "fs_clis",
+      "id": "fs_clis@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "fs_migrations",
+      "id": "fs_migrations@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "fs_contracts",
+      "id": "fs_contracts@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "repo_tasker",
+      "id": "repo_tasker@type:service",
+      "order": 2,
+      "parent": "type:service"
+    },
+    {
+      "child": "tk_dashboard",
+      "id": "tk_dashboard@type:interface",
+      "order": 3,
+      "parent": "type:interface"
+    },
+    {
+      "child": "tk_clis",
+      "id": "tk_clis@type:service",
+      "order": 3,
+      "parent": "type:service"
+    },
+    {
+      "child": "branch_shared",
+      "id": "branch_shared@type:grouping",
+      "order": 3,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "repo_tap_pg",
+      "id": "repo_tap_pg@type:database",
+      "order": 2,
+      "parent": "type:database"
+    },
+    {
+      "child": "tp_migrations",
+      "id": "tp_migrations@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "tp_migrate",
+      "id": "tp_migrate@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "tp_scraper",
+      "id": "tp_scraper@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "tp_frontend",
+      "id": "tp_frontend@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "tp_types",
+      "id": "tp_types@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "tp_internal",
+      "id": "tp_internal@type:database",
+      "order": 3,
+      "parent": "type:database"
+    },
+    {
+      "child": "branch_product",
+      "id": "branch_product@type:grouping",
+      "order": 3,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "repo_web_app",
+      "id": "repo_web_app@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "repo_web_app_mem_lab",
+      "id": "repo_web_app_mem_lab@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "branch_clients",
+      "id": "branch_clients@type:grouping",
+      "order": 3,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "repo_mobile_kotlin",
+      "id": "repo_mobile_kotlin@type:client",
+      "order": 1,
+      "parent": "type:client"
+    },
+    {
+      "child": "mk_pkg_config",
+      "id": "mk_pkg_config@type:external",
+      "order": 3,
+      "parent": "type:external"
+    },
+    {
+      "child": "mk_pkg_db",
+      "id": "mk_pkg_db@type:external",
+      "order": 3,
+      "parent": "type:external"
+    },
+    {
+      "child": "mk_pkg_network",
+      "id": "mk_pkg_network@type:external",
+      "order": 3,
+      "parent": "type:external"
+    },
+    {
+      "child": "mk_pkg_scraping",
+      "id": "mk_pkg_scraping@type:external",
+      "order": 3,
+      "parent": "type:external"
+    },
+    {
+      "child": "mk_pkg_sync",
+      "id": "mk_pkg_sync@type:external",
+      "order": 3,
+      "parent": "type:external"
+    },
+    {
+      "child": "mk_pkg_util",
+      "id": "mk_pkg_util@type:external",
+      "order": 3,
+      "parent": "type:external"
+    },
+    {
+      "child": "repo_mobile_rn",
+      "id": "repo_mobile_rn@type:client",
+      "order": 1,
+      "parent": "type:client"
+    },
+    {
+      "child": "branch_infra",
+      "id": "branch_infra@type:grouping",
+      "order": 3,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "repo_deploy",
+      "id": "repo_deploy@type:infrastructure",
+      "order": 2,
+      "parent": "type:infrastructure"
+    },
+    {
+      "child": "dep_nginx",
+      "id": "dep_nginx@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "dep_systemd",
+      "id": "dep_systemd@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "dep_setup",
+      "id": "dep_setup@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "dep_env",
+      "id": "dep_env@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "dep_cloudflare",
+      "id": "dep_cloudflare@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "dep_r2",
+      "id": "dep_r2@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "dep_ops",
+      "id": "dep_ops@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "dep_docs",
+      "id": "dep_docs@type:interface",
+      "order": 2,
+      "parent": "type:interface"
+    },
+    {
+      "child": "branch_legacy",
+      "id": "branch_legacy@type:grouping",
+      "order": 2,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "repo_server_monorepo",
+      "id": "repo_server_monorepo@type:service",
+      "order": 2,
+      "parent": "type:service"
+    },
+    {
+      "child": "concept:technologies",
+      "id": "concept:technologies@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:gateway",
+      "id": "concept:gateway@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:configuration",
+      "id": "concept:configuration@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:product-interface",
+      "id": "concept:product-interface@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:operations-interface",
+      "id": "concept:operations-interface@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:repository",
+      "id": "concept:repository@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:documentation-repository",
+      "id": "concept:documentation-repository@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:infrastructure-repository",
+      "id": "concept:infrastructure-repository@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:hosting",
+      "id": "concept:hosting@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:object-storage",
+      "id": "concept:object-storage@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:external-source",
+      "id": "concept:external-source@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:external-provider",
+      "id": "concept:external-provider@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:external-integration",
+      "id": "concept:external-integration@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:external-platform",
+      "id": "concept:external-platform@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:external-dataset",
+      "id": "concept:external-dataset@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:external-processing",
+      "id": "concept:external-processing@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:capability",
+      "id": "concept:capability@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "tech:go",
+      "id": "tech:go@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "tech:postgresql",
+      "id": "tech:postgresql@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "tech:sqlite",
+      "id": "tech:sqlite@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "tech:android",
+      "id": "tech:android@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:meta",
+      "id": "concept:meta@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:git-repository",
+      "id": "concept:git-repository@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:test-harness",
+      "id": "concept:test-harness@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:tooling",
+      "id": "concept:tooling@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:backend",
+      "id": "concept:backend@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:directory",
+      "id": "concept:directory@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:binary-entrypoint",
+      "id": "concept:binary-entrypoint@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:package",
+      "id": "concept:package@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:go-package",
+      "id": "concept:go-package@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:cli-group",
+      "id": "concept:cli-group@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:sql-migrations",
+      "id": "concept:sql-migrations@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:task-templates",
+      "id": "concept:task-templates@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:contract",
+      "id": "concept:contract@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:go-module-group",
+      "id": "concept:go-module-group@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:operator-ui",
+      "id": "concept:operator-ui@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:shared",
+      "id": "concept:shared@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:go-library",
+      "id": "concept:go-library@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:product",
+      "id": "concept:product@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:static-frontend",
+      "id": "concept:static-frontend@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:js-module",
+      "id": "concept:js-module@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:dev-fork",
+      "id": "concept:dev-fork@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:clients",
+      "id": "concept:clients@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:kotlin-package",
+      "id": "concept:kotlin-package@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    },
+    {
+      "child": "concept:ops-repository",
+      "id": "concept:ops-repository@type:grouping",
+      "order": 1,
+      "parent": "type:grouping"
+    }
+  ],
+  "presentation": {
+    "radiusStep": 162,
+    "stackHeight": 165
+  },
+  "relationships": [
+    {
+      "contexts": [
+        "import"
+      ],
+      "descriptions": [
+        "go mod: migrate, scraper, types"
+      ],
+      "from": "repo_scraper_server",
+      "id": "dep_scraper_tap_pg",
+      "kind": "dependency",
+      "label": "go mod: migrate, scraper, types",
+      "to": "repo_tap_pg"
+    },
+    {
+      "contexts": [
+        "import"
+      ],
+      "descriptions": [
+        "go mod: frontend, types"
+      ],
+      "from": "repo_frontend_server",
+      "id": "dep_frontend_tap_pg",
+      "kind": "dependency",
+      "label": "go mod: frontend, types",
+      "to": "repo_tap_pg"
+    },
+    {
+      "contexts": [
+        "import"
+      ],
+      "descriptions": [
+        "writes ingested events/POIs"
+      ],
+      "from": "ss_pkg_taskmanager",
+      "id": "dep_ss_taskmanager_tp",
+      "kind": "dependency",
+      "label": "writes ingested events/POIs",
+      "to": "tp_scraper"
+    },
+    {
+      "contexts": [
+        "import"
+      ],
+      "descriptions": [
+        "reads product Postgres"
+      ],
+      "from": "fs_pkg_api",
+      "id": "dep_fs_api_tp",
+      "kind": "dependency",
+      "label": "reads product Postgres",
+      "to": "tp_frontend"
+    },
+    {
+      "contexts": [
+        "import"
+      ],
+      "descriptions": [
+        "venue lookup for enrichment"
+      ],
+      "from": "fs_pkg_poienrichment",
+      "id": "dep_fs_poi_fsq",
+      "kind": "dependency",
+      "label": "venue lookup for enrichment",
+      "to": "fs_pkg_foursquare"
+    },
+    {
+      "contexts": [
+        "code"
+      ],
+      "descriptions": [
+        "loads JS/prompt templates"
+      ],
+      "from": "ss_pkg_taskmanager",
+      "id": "uses_ss_task_types",
+      "kind": "ownership",
+      "label": "loads JS/prompt templates",
+      "to": "ss_task_types"
+    },
+    {
+      "contexts": [
+        "code"
+      ],
+      "descriptions": [
+        "applies SQLite migrations"
+      ],
+      "from": "ss_pkg_sqlitestore",
+      "id": "uses_ss_sqlite",
+      "kind": "ownership",
+      "label": "applies SQLite migrations",
+      "to": "ss_migrations"
+    },
+    {
+      "contexts": [
+        "code"
+      ],
+      "descriptions": [
+        "applies SQLite migrations"
+      ],
+      "from": "fs_pkg_sqlitestore",
+      "id": "uses_fs_sqlite",
+      "kind": "ownership",
+      "label": "applies SQLite migrations",
+      "to": "fs_migrations"
+    },
+    {
+      "contexts": [
+        "code"
+      ],
+      "descriptions": [
+        "validates media JSON shape"
+      ],
+      "from": "ss_pkg_media",
+      "id": "contract_media_ss",
+      "kind": "contract",
+      "label": "validates media JSON shape",
+      "to": "ss_contracts"
+    },
+    {
+      "contexts": [
+        "code"
+      ],
+      "descriptions": [
+        "validates media JSON shape"
+      ],
+      "from": "fs_pkg_media",
+      "id": "contract_media_fs",
+      "kind": "contract",
+      "label": "validates media JSON shape",
+      "to": "fs_contracts"
+    },
+    {
+      "contexts": [
+        "code"
+      ],
+      "descriptions": [
+        "duplicated contract — keep in sync"
+      ],
+      "from": "ss_contracts",
+      "id": "contract_media_cross",
+      "kind": "contract",
+      "label": "duplicated contract — keep in sync",
+      "to": "fs_contracts"
+    },
+    {
+      "contexts": [
+        "http"
+      ],
+      "descriptions": [
+        "POST /v1/tasks/from-server"
+      ],
+      "from": "repo_scraper_server",
+      "id": "flow_scraper_tasker",
+      "kind": "flow",
+      "label": "POST /v1/tasks/from-server",
+      "to": "repo_tasker"
+    },
+    {
+      "contexts": [
+        "http"
+      ],
+      "descriptions": [
+        "forward structured results"
+      ],
+      "from": "repo_tasker",
+      "id": "flow_tasker_scraper",
+      "kind": "flow",
+      "label": "forward structured results",
+      "to": "repo_scraper_server"
+    },
+    {
+      "contexts": [
+        "http"
+      ],
+      "descriptions": [
+        "/api/v1/* product APIs"
+      ],
+      "from": "repo_web_app",
+      "id": "flow_web_frontend",
+      "kind": "flow",
+      "label": "/api/v1/* product APIs",
+      "to": "repo_frontend_server"
+    },
+    {
+      "contexts": [
+        "http"
+      ],
+      "descriptions": [
+        "subset of /api via dev gateway / nginx"
+      ],
+      "from": "repo_web_app",
+      "id": "flow_web_scraper",
+      "kind": "flow",
+      "label": "subset of /api via dev gateway / nginx",
+      "to": "repo_scraper_server"
+    },
+    {
+      "contexts": [
+        "http"
+      ],
+      "descriptions": [
+        "browser fetch to /api/v1"
+      ],
+      "from": "wa_api",
+      "id": "flow_wa_api_frontend",
+      "kind": "flow",
+      "label": "browser fetch to /api/v1",
+      "to": "fs_pkg_api"
+    },
+    {
+      "contexts": [
+        "http"
+      ],
+      "descriptions": [
+        "GET /v1/tasks/batch, POST result"
+      ],
+      "from": "repo_mobile_kotlin",
+      "id": "flow_kotlin_tasker",
+      "kind": "flow",
+      "label": "GET /v1/tasks/batch, POST result",
+      "to": "repo_tasker"
+    },
+    {
+      "contexts": [
+        "http"
+      ],
+      "descriptions": [
+        "POST /api/v1/clients/register"
+      ],
+      "from": "repo_mobile_kotlin",
+      "id": "flow_kotlin_scraper",
+      "kind": "flow",
+      "label": "POST /api/v1/clients/register",
+      "to": "repo_scraper_server"
+    },
+    {
+      "contexts": [
+        "http"
+      ],
+      "descriptions": [
+        "same contract as Kotlin client"
+      ],
+      "from": "repo_mobile_rn",
+      "id": "flow_rn_tasker",
+      "kind": "flow",
+      "label": "same contract as Kotlin client",
+      "to": "repo_tasker"
+    },
+    {
+      "contexts": [
+        "deploy"
+      ],
+      "descriptions": [
+        "systemd unit, env template"
+      ],
+      "from": "repo_deploy",
+      "id": "config_deploy_scraper",
+      "kind": "ownership",
+      "label": "systemd unit, env template",
+      "to": "repo_scraper_server"
+    },
+    {
+      "contexts": [
+        "deploy"
+      ],
+      "descriptions": [
+        "systemd unit, env template"
+      ],
+      "from": "repo_deploy",
+      "id": "config_deploy_frontend",
+      "kind": "ownership",
+      "label": "systemd unit, env template",
+      "to": "repo_frontend_server"
+    },
+    {
+      "contexts": [
+        "deploy"
+      ],
+      "descriptions": [
+        "systemd unit"
+      ],
+      "from": "repo_deploy",
+      "id": "config_deploy_tasker",
+      "kind": "ownership",
+      "label": "systemd unit",
+      "to": "repo_tasker"
+    },
+    {
+      "contexts": [
+        "deploy"
+      ],
+      "descriptions": [
+        "static root rsync target"
+      ],
+      "from": "repo_deploy",
+      "id": "config_deploy_web",
+      "kind": "ownership",
+      "label": "static root rsync target",
+      "to": "repo_web_app"
+    },
+    {
+      "contexts": [
+        "deploy"
+      ],
+      "descriptions": [
+        "nginx config files"
+      ],
+      "from": "dep_nginx",
+      "id": "config_dep_nginx",
+      "kind": "ownership",
+      "label": "nginx config files",
+      "to": "repo_deploy"
+    },
+    {
+      "contexts": [
+        "dev"
+      ],
+      "descriptions": [
+        "dev-api-gateway.mjs :8082"
+      ],
+      "from": "area_tests",
+      "id": "tests_gateway",
+      "kind": "flow",
+      "label": "dev-api-gateway.mjs :8082",
+      "to": "repo_web_app"
+    },
+    {
+      "contexts": [
+        "dev"
+      ],
+      "descriptions": [
+        "forked from web-app for perf work"
+      ],
+      "from": "repo_web_app_mem_lab",
+      "id": "mem_lab_fork",
+      "kind": "dependency",
+      "label": "forked from web-app for perf work",
+      "to": "repo_web_app"
+    }
+  ],
+  "schemaVersion": 5,
+  "view": {
+    "contextPath": [
+      "tap_codebase",
+      "concept:types",
+      "type:grouping",
+      "concept:branch",
+      "branch_repos",
+      "branch_backend",
+      "repo_scraper_server"
+    ],
+    "contextRoot": "repo_scraper_server",
+    "leftCollapsed": false,
+    "popupExpanded": false,
+    "rightCollapsed": false,
+    "selectedEntity": "repo_scraper_server",
+    "selectedPlacement": "p:tap_codebase>concept:types>type:grouping>concept:branch>branch_repos>branch_backend>repo_scraper_server",
+    "zoom": 1.75
+  }
+}
